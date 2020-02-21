@@ -3,15 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Kuplung_DX"
+    xmlns:models="using:Kuplung_DX.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:xamlui="using:Microsoft.UI.Xaml.Controls">
 
+    <Page.Resources>
+        <DataTemplate x:Key="ModelsListViewTemplate" x:DataType="models:Model3D">
+            <TextBlock Text="{x:Bind Title}" x:Phase="1" Margin="0,5,0,5"/>
+        </DataTemplate>
+    </Page.Resources>
+
     <SwapChainPanel x:Name="swapChainPanel">
-        <xamlui:MenuBar HorizontalAlignment="Left" VerticalAlignment="Top">
-            <xamlui:MenuBarItem Title="File">
+        <xamlui:MenuBar HorizontalAlignment="Left" VerticalAlignment="Top" Background="{ThemeResource AppBarBorderThemeBrush}">
+            <xamlui:MenuBarItem Title="File" Foreground="White">
                 <MenuFlyoutItem Text="New">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE1DA;" />
@@ -136,12 +143,12 @@
             </xamlui:MenuBarItem>
 
             <xamlui:MenuBarItem Title="View">
-                <MenuFlyoutItem Text="GUI Controls">
+                <MenuFlyoutItem Text="GUI Controls" Click="MenuGUIControls_Click">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE7B3;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem Text="Scene Controls">
+                <MenuFlyoutItem Text="Scene Controls" Click="MenuSceneControls_Click">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE7B3;" />
                     </MenuFlyoutItem.Icon>
@@ -199,6 +206,22 @@
                 <MenuFlyoutItem Text="About Kuplung"/>
             </xamlui:MenuBarItem>
         </xamlui:MenuBar>
+
+        <Grid x:Name="panelModels" Visibility="Visible" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 50, 0, 0" Background="White" CornerRadius="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="400"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Models" Grid.Row="0" x:Name="headerModels" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
+            <ListView Grid.Row="1" x:Name="lvModels" ItemTemplate="{StaticResource ModelsListViewTemplate}" SelectionChanged="lvModels_SelectionChanged" />
+        </Grid>
+
+        <Grid x:Name="panelGUI" Visibility="Visible" Width="400" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 50, 10, 0" Background="White" CornerRadius="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Scene" Grid.Row="1" x:Name="headerGUI" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
+        </Grid>
     </SwapChainPanel>
 
     <!--

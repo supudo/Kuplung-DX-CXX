@@ -44,6 +44,9 @@
     <FxCompile Include="Content\SampleVertexShader.hlsl">
       <Filter>Content</Filter>
     </FxCompile>
+    <Filter Include="Models">
+      <UniqueIdentifier>{5b5c6e54-91dc-4f33-ae43-8da76a7d1514}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -51,10 +54,16 @@
   <ItemGroup>
     <ClCompile Include="Kuplung_DXMain.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Models\Model3D.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Models\Model3D.h">
+      <Filter>Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -63,10 +72,10 @@
     <Page Include="DirectXPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="LICENSE.md" />
     <None Include="README.md" />
     <None Include=".gitignore" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\kuplung-1024.png">

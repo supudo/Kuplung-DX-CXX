@@ -8,9 +8,7 @@ using namespace Windows::System::Threading;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
-	m_deviceResources(deviceResources), m_pointerLocationX(0.0f)
-{
+Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources), m_pointerLocationX(0.0f) {
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 
@@ -27,39 +25,30 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 	*/
 }
 
-Kuplung_DXMain::~Kuplung_DXMain()
-{
+Kuplung_DXMain::~Kuplung_DXMain() {
 	// Deregister device notification
 	m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
-void Kuplung_DXMain::CreateWindowSizeDependentResources() 
-{
+void Kuplung_DXMain::CreateWindowSizeDependentResources()  {
 	// TODO: Replace this with the size-dependent initialization of your app's content.
 	m_sceneRenderer->CreateWindowSizeDependentResources();
 }
 
-void Kuplung_DXMain::StartRenderLoop()
-{
+void Kuplung_DXMain::StartRenderLoop() {
 	// If the animation render loop is already running then do not start another thread.
 	if (m_renderLoopWorker != nullptr && m_renderLoopWorker->Status == AsyncStatus::Started)
-	{
 		return;
-	}
 
 	// Create a task that will be run on a background thread.
-	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction ^ action)
-	{
+	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction ^ action) {
 		// Calculate the updated frame and render once per vertical blanking interval.
-		while (action->Status == AsyncStatus::Started)
-		{
+		while (action->Status == AsyncStatus::Started) {
 			critical_section::scoped_lock lock(m_criticalSection);
 			Update();
 			if (Render())
-			{
 				m_deviceResources->Present();
-			}
 		}
 	});
 
@@ -67,19 +56,16 @@ void Kuplung_DXMain::StartRenderLoop()
 	m_renderLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
 }
 
-void Kuplung_DXMain::StopRenderLoop()
-{
+void Kuplung_DXMain::StopRenderLoop() {
 	m_renderLoopWorker->Cancel();
 }
 
 // Updates the application state once per frame.
-void Kuplung_DXMain::Update() 
-{
+void Kuplung_DXMain::Update()  {
 	ProcessInput();
 
 	// Update scene objects.
-	m_timer.Tick([&]()
-	{
+	m_timer.Tick([&]() {
 		// TODO: Replace this with your app's content update functions.
 		m_sceneRenderer->Update(m_timer);
 		m_fpsTextRenderer->Update(m_timer);
@@ -87,21 +73,17 @@ void Kuplung_DXMain::Update()
 }
 
 // Process all input from the user before updating game state
-void Kuplung_DXMain::ProcessInput()
-{
+void Kuplung_DXMain::ProcessInput() {
 	// TODO: Add per frame input handling here.
 	m_sceneRenderer->TrackingUpdate(m_pointerLocationX);
 }
 
 // Renders the current frame according to the current application state.
 // Returns true if the frame was rendered and is ready to be displayed.
-bool Kuplung_DXMain::Render() 
-{
+bool Kuplung_DXMain::Render()  {
 	// Don't try to render anything before the first Update.
 	if (m_timer.GetFrameCount() == 0)
-	{
 		return false;
-	}
 
 	auto context = m_deviceResources->GetD3DDeviceContext();
 
@@ -127,15 +109,13 @@ bool Kuplung_DXMain::Render()
 }
 
 // Notifies renderers that device resources need to be released.
-void Kuplung_DXMain::OnDeviceLost()
-{
+void Kuplung_DXMain::OnDeviceLost() {
 	m_sceneRenderer->ReleaseDeviceDependentResources();
 	m_fpsTextRenderer->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
-void Kuplung_DXMain::OnDeviceRestored()
-{
+void Kuplung_DXMain::OnDeviceRestored() {
 	m_sceneRenderer->CreateDeviceDependentResources();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();

@@ -24,34 +24,21 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 using namespace concurrency;
 
-DirectXPage::DirectXPage():
-	m_windowVisible(true),
-	m_coreInput(nullptr)
-{
+DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	InitializeComponent();
 
 	// Register event handlers for page lifecycle.
 	CoreWindow^ window = Window::Current->CoreWindow;
 
-	window->VisibilityChanged +=
-		ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXPage::OnVisibilityChanged);
+	window->VisibilityChanged += ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXPage::OnVisibilityChanged);
 
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
-	currentDisplayInformation->DpiChanged +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDpiChanged);
-
-	currentDisplayInformation->OrientationChanged +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnOrientationChanged);
-
-	DisplayInformation::DisplayContentsInvalidated +=
-		ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDisplayContentsInvalidated);
-
-	swapChainPanel->CompositionScaleChanged += 
-		ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
-
-	swapChainPanel->SizeChanged +=
-		ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
+	currentDisplayInformation->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDpiChanged);
+	currentDisplayInformation->OrientationChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnOrientationChanged);
+	DisplayInformation::DisplayContentsInvalidated += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDisplayContentsInvalidated);
+	swapChainPanel->CompositionScaleChanged +=  ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
+	swapChainPanel->SizeChanged += ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
 
 	// At this point we have access to the device. 
 	// We can create the device-dependent resources.
@@ -59,8 +46,7 @@ DirectXPage::DirectXPage():
 	m_deviceResources->SetSwapChainPanel(swapChainPanel);
 
 	// Register our SwapChainPanel to get independent input pointer events
-	auto workItemHandler = ref new WorkItemHandler([this] (IAsyncAction ^)
-	{
+	auto workItemHandler = ref new WorkItemHandler([this] (IAsyncAction ^) {
 		// The CoreIndependentInputSource will raise pointer events for the specified device types on whichever thread it's created on.
 		m_coreInput = swapChainPanel->CreateCoreIndependentInputSource(
 			Windows::UI::Core::CoreInputDeviceTypes::Mouse |
@@ -82,18 +68,36 @@ DirectXPage::DirectXPage():
 
 	m_main = std::unique_ptr<Kuplung_DXMain>(new Kuplung_DXMain(m_deviceResources));
 	m_main->StartRenderLoop();
+
+	this->availableModels = ref new Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>();
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Triangle", "triangle.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Cone", "cone.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Cube", "cube.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Cylinder", "cylinder.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Grid", "grid.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Ico Sphere", "ico_sphere.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Plane", "plane.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Torus", "torus.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Tube", "tube.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "UV Sphere", "uv_sphere.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Monkey Head", "monkey_head.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Epcot", "epcot.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Brick Wall", "brick_wall.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Plane Objects", "plane_objects.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Plane Objects - Large Plane", "plane_objects_large.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Material Ball", "MaterialBall.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Material Ball - Blender", "MaterialBallBlender.obj" });
+	lvModels->ItemsSource = this->availableModels;
 }
 
-DirectXPage::~DirectXPage()
-{
+DirectXPage::~DirectXPage() {
 	// Stop rendering and processing events on destruction.
 	m_main->StopRenderLoop();
 	m_coreInput->Dispatcher->StopProcessEvents();
 }
 
 // Saves the current state of the app for suspend and terminate events.
-void DirectXPage::SaveInternalState(IPropertySet^ state)
-{
+void DirectXPage::SaveInternalState(IPropertySet^ state) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->Trim();
 
@@ -104,8 +108,7 @@ void DirectXPage::SaveInternalState(IPropertySet^ state)
 }
 
 // Loads the current state of the app for resume events.
-void DirectXPage::LoadInternalState(IPropertySet^ state)
-{
+void DirectXPage::LoadInternalState(IPropertySet^ state) {
 	// Put code to load app state here.
 
 	// Start rendering when the app is resumed.
@@ -114,23 +117,17 @@ void DirectXPage::LoadInternalState(IPropertySet^ state)
 
 // Window event handlers.
 
-void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args)
-{
+void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args) {
 	m_windowVisible = args->Visible;
 	if (m_windowVisible)
-	{
 		m_main->StartRenderLoop();
-	}
 	else
-	{
 		m_main->StopRenderLoop();
-	}
 }
 
 // DisplayInformation event handlers.
 
-void DirectXPage::OnDpiChanged(DisplayInformation^ sender, Object^ args)
-{
+void DirectXPage::OnDpiChanged(DisplayInformation^ sender, Object^ args) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
 	// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
@@ -140,57 +137,59 @@ void DirectXPage::OnDpiChanged(DisplayInformation^ sender, Object^ args)
 	m_main->CreateWindowSizeDependentResources();
 }
 
-void DirectXPage::OnOrientationChanged(DisplayInformation^ sender, Object^ args)
-{
+void DirectXPage::OnOrientationChanged(DisplayInformation^ sender, Object^ args) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
 	m_main->CreateWindowSizeDependentResources();
 }
 
-void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args)
-{
+void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->ValidateDevice();
 }
 
 // Called when the app bar button is clicked.
-void DirectXPage::AppBarButton_Click(Object^ sender, RoutedEventArgs^ e)
-{
+void DirectXPage::AppBarButton_Click(Object^ sender, RoutedEventArgs^ e) {
 	// Use the app bar if it is appropriate for your app. Design the app bar, 
 	// then fill in event handlers (like this one).
 }
 
-void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e)
-{
+void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e) {
 	// When the pointer is pressed begin tracking the pointer movement.
 	m_main->StartTracking();
 }
 
-void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e)
-{
+void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 	// Update the pointer tracking code.
 	if (m_main->IsTracking())
-	{
 		m_main->TrackingUpdate(e->CurrentPoint->Position.X);
-	}
 }
 
-void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e)
-{
+void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
 	// Stop tracking pointer movement when the pointer is released.
 	m_main->StopTracking();
 }
 
-void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args)
-{
+void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->SetCompositionScale(sender->CompositionScaleX, sender->CompositionScaleY);
 	m_main->CreateWindowSizeDependentResources();
 }
 
-void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventArgs^ e)
-{
+void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventArgs^ e) {
 	critical_section::scoped_lock lock(m_main->GetCriticalSection());
 	m_deviceResources->SetLogicalSize(e->NewSize);
 	m_main->CreateWindowSizeDependentResources();
+}
+
+void Kuplung_DX::DirectXPage::MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	panelGUI->Visibility = panelGUI->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
+}
+
+void Kuplung_DX::DirectXPage::MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	panelModels->Visibility = panelModels->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
+}
+
+void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+	//Kuplung_DX::Models::Model3D m = this->availableModels[lvModels->SelectedIndex];
 }

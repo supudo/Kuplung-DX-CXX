@@ -9,6 +9,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Kuplung_DXMain.h"
+#include "Models\Model3D.h"
 
 namespace Kuplung_DX
 {
@@ -25,6 +26,8 @@ namespace Kuplung_DX
 		void LoadInternalState(Windows::Foundation::Collections::IPropertySet^ state);
 
 	private:
+		Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>^ availableModels;
+
 		// XAML low-level rendering event handler.
 		void OnRendering(Platform::Object^ sender, Platform::Object^ args);
 
@@ -54,6 +57,10 @@ namespace Kuplung_DX
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
+
+		void MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
 	};
 }
 

@@ -45,6 +45,8 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 		DebugSettings->EnableFrameRateCounter = true;
 #endif
 
+	KuplungInitializeSettings();
+
 	auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 
 	// Do not repeat app initialization when the Window already has content,
@@ -112,3 +114,19 @@ void App::OnNavigationFailed(Platform::Object ^sender, Windows::UI::Xaml::Naviga
 	throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
 }
 
+void App::KuplungInitializeSettings() {
+	this->ApplicationPath = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
+	this->ApplicationPath += "\\Assets";
+
+	this->LogMessage = "";
+
+	this->ViewSampleScene = true;
+	this->ViewFPSCounter = true;
+}
+
+void App::LogInfo(Object^ parameter) {
+	auto paraString = parameter->ToString();
+	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
+	OutputDebugString(formattedText.c_str());
+	Kuplung_DX::App::LogMessage += parameter;
+}

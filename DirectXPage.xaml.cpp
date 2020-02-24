@@ -87,7 +87,9 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Plane Objects - Large Plane", "plane_objects_large.obj" });
 	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Material Ball", "MaterialBall.obj" });
 	this->availableModels->Append(ref new Kuplung_DX::Models::Model3D{ "Material Ball - Blender", "MaterialBallBlender.obj" });
-	lvModels->ItemsSource = this->availableModels;
+	this->lvModels->ItemsSource = this->availableModels;
+
+	this->showLogWindow = true;
 }
 
 DirectXPage::~DirectXPage() {
@@ -148,12 +150,6 @@ void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Objec
 	m_deviceResources->ValidateDevice();
 }
 
-// Called when the app bar button is clicked.
-void DirectXPage::AppBarButton_Click(Object^ sender, RoutedEventArgs^ e) {
-	// Use the app bar if it is appropriate for your app. Design the app bar, 
-	// then fill in event handlers (like this one).
-}
-
 void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e) {
 	// When the pointer is pressed begin tracking the pointer movement.
 	m_main->StartTracking();
@@ -182,6 +178,7 @@ void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventAr
 	m_main->CreateWindowSizeDependentResources();
 }
 
+#pragma region MainMenu
 void Kuplung_DX::DirectXPage::MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	panelGUI->Visibility = panelGUI->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
 }
@@ -190,6 +187,27 @@ void Kuplung_DX::DirectXPage::MenuSceneControls_Click(Platform::Object^ sender, 
 	panelModels->Visibility = panelModels->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
 }
 
+void Kuplung_DX::DirectXPage::MenuCube_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::ViewSampleScene = !Kuplung_DX::App::ViewSampleScene;
+}
+
+void Kuplung_DX::DirectXPage::MenuFPSCounter_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::ViewFPSCounter = !Kuplung_DX::App::ViewFPSCounter;
+}
+
+void Kuplung_DX::DirectXPage::MenuShowLogWindow_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	this->showLogWindow = !this->showLogWindow;
+	this->panelLog->Visibility = this->showLogWindow ? Windows::UI::Xaml::Visibility::Visible : Windows::UI::Xaml::Visibility::Collapsed;
+}
+#pragma endregion
+
+
+void DirectXPage::UpdateLogWindow(Platform::String^ log) {
+	this->txtLog->Text = log;
+}
+
 void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
-	//Kuplung_DX::Models::Model3D m = this->availableModels[lvModels->SelectedIndex];
+	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
+	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
+	Kuplung_DX::App::LogInfo(modelFile);
 }

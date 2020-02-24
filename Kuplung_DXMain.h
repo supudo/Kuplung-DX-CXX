@@ -14,10 +14,10 @@ namespace Kuplung_DX
 		Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& deviceResources);
 		~Kuplung_DXMain();
 		void CreateWindowSizeDependentResources();
-		void StartTracking() { m_sceneRenderer->StartTracking(); }
+		void StartTracking() { m_sampleSceneRenderer->StartTracking(); }
 		void TrackingUpdate(float positionX) { m_pointerLocationX = positionX; }
-		void StopTracking() { m_sceneRenderer->StopTracking(); }
-		bool IsTracking() { return m_sceneRenderer->IsTracking(); }
+		void StopTracking() { m_sampleSceneRenderer->StopTracking(); }
+		bool IsTracking() { return m_sampleSceneRenderer->IsTracking(); }
 		void StartRenderLoop();
 		void StopRenderLoop();
 		Concurrency::critical_section& GetCriticalSection() { return m_criticalSection; }
@@ -35,7 +35,7 @@ namespace Kuplung_DX
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
 		// TODO: Replace with your own content renderers.
-		std::unique_ptr<Sample3DSceneRenderer> m_sceneRenderer;
+		std::unique_ptr<Sample3DSceneRenderer> m_sampleSceneRenderer;
 		std::unique_ptr<SampleFpsTextRenderer> m_fpsTextRenderer;
 
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;

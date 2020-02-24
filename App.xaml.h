@@ -8,21 +8,28 @@
 #include "App.g.h"
 #include "DirectXPage.xaml.h"
 
-namespace Kuplung_DX
-{
-		/// <summary>
+namespace Kuplung_DX {
+	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.
 	/// </summary>
-	ref class App sealed
-	{
+	ref class App sealed {
 	public:
 		App();
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e) override;
+
+		static property Platform::String^ LogMessage;
+		static void LogInfo(Object^ parameter);
+
+		static property Platform::String^ ApplicationPath;
+		static property Platform::Boolean ViewSampleScene;
+		static property Platform::Boolean ViewFPSCounter;
 
 	private:
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^args);
 		void OnNavigationFailed(Platform::Object ^sender, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs ^e);
 		DirectXPage^ m_directXPage;
+
+		void KuplungInitializeSettings();
 	};
 }

@@ -13,7 +13,7 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 	m_deviceResources->RegisterDeviceNotify(this);
 
 	// TODO: Replace this with your app's content initialization.
-	m_sceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
+	m_sampleSceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
 
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
 
@@ -33,7 +33,7 @@ Kuplung_DXMain::~Kuplung_DXMain() {
 // Updates application state when the window size changes (e.g. device orientation change)
 void Kuplung_DXMain::CreateWindowSizeDependentResources()  {
 	// TODO: Replace this with the size-dependent initialization of your app's content.
-	m_sceneRenderer->CreateWindowSizeDependentResources();
+	m_sampleSceneRenderer->CreateWindowSizeDependentResources();
 }
 
 void Kuplung_DXMain::StartRenderLoop() {
@@ -67,15 +67,18 @@ void Kuplung_DXMain::Update()  {
 	// Update scene objects.
 	m_timer.Tick([&]() {
 		// TODO: Replace this with your app's content update functions.
-		m_sceneRenderer->Update(m_timer);
-		m_fpsTextRenderer->Update(m_timer);
+		if (Kuplung_DX::App::ViewSampleScene)
+			m_sampleSceneRenderer->Update(m_timer);
+		if (Kuplung_DX::App::ViewFPSCounter)
+			m_fpsTextRenderer->Update(m_timer);
 	});
 }
 
 // Process all input from the user before updating game state
 void Kuplung_DXMain::ProcessInput() {
 	// TODO: Add per frame input handling here.
-	m_sceneRenderer->TrackingUpdate(m_pointerLocationX);
+	if (Kuplung_DX::App::ViewSampleScene)
+		m_sampleSceneRenderer->TrackingUpdate(m_pointerLocationX);
 }
 
 // Renders the current frame according to the current application state.
@@ -102,21 +105,23 @@ bool Kuplung_DXMain::Render()  {
 
 	// Render the scene objects.
 	// TODO: Replace this with your app's content rendering functions.
-	m_sceneRenderer->Render();
-	m_fpsTextRenderer->Render();
+	if (Kuplung_DX::App::ViewSampleScene)
+		m_sampleSceneRenderer->Render();
+	if (Kuplung_DX::App::ViewFPSCounter)
+		m_fpsTextRenderer->Render();
 
 	return true;
 }
 
 // Notifies renderers that device resources need to be released.
 void Kuplung_DXMain::OnDeviceLost() {
-	m_sceneRenderer->ReleaseDeviceDependentResources();
+	m_sampleSceneRenderer->ReleaseDeviceDependentResources();
 	m_fpsTextRenderer->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
 void Kuplung_DXMain::OnDeviceRestored() {
-	m_sceneRenderer->CreateDeviceDependentResources();
+	m_sampleSceneRenderer->CreateDeviceDependentResources();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
 }

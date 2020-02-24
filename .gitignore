@@ -161,3 +161,6 @@ Debug/
 Desktop - Release/
 ipch/
 Generated Files/
+
+# Customs
+Objects/

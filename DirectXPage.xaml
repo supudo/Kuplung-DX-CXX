@@ -159,7 +159,18 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
-                <MenuFlyoutItem Text="Show Log Window">
+                <MenuFlyoutItem Text="Cube" Click="MenuCube_Click">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE759;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="FPS Counter" Click="MenuFPSCounter_Click">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xEC49;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem Text="Show Log Window" Click="MenuShowLogWindow_Click">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xEDE3;" />
                     </MenuFlyoutItem.Icon>
@@ -221,6 +232,24 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Scene" Grid.Row="1" x:Name="headerGUI" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
+        </Grid>
+
+        <Grid x:Name="panelLog" Width="600" Height="200" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20" Background="White" CornerRadius="2" Opacity="0.9">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Background="Silver">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Log" Margin="10,0,10,0" Style="{StaticResource BaseTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="Clear" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" />
+            </Grid>
+            <StackPanel Grid.Row="1">
+                <TextBlock x:Name="txtLog" />
+            </StackPanel>
         </Grid>
     </SwapChainPanel>
 

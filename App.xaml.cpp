@@ -74,6 +74,8 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 
 	if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
 		m_directXPage->LoadInternalState(ApplicationData::Current->LocalSettings->Values);
+
+	m_directXPage->LogMessage = "";
 	
 	// Ensure the current window is active
 	Window::Current->Activate();
@@ -118,15 +120,6 @@ void App::KuplungInitializeSettings() {
 	this->ApplicationPath = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 	this->ApplicationPath += "\\Assets";
 
-	this->LogMessage = "";
-
 	this->ViewSampleScene = true;
 	this->ViewFPSCounter = true;
-}
-
-void App::LogInfo(Object^ parameter) {
-	auto paraString = parameter->ToString();
-	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
-	OutputDebugString(formattedText.c_str());
-	Kuplung_DX::App::LogMessage += parameter;
 }

@@ -17,9 +17,6 @@ namespace Kuplung_DX {
 		App();
 		virtual void OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e) override;
 
-		static property Platform::String^ LogMessage;
-		static void LogInfo(Object^ parameter);
-
 		static property Platform::String^ ApplicationPath;
 		static property Platform::Boolean ViewSampleScene;
 		static property Platform::Boolean ViewFPSCounter;

@@ -201,13 +201,16 @@ void Kuplung_DX::DirectXPage::MenuShowLogWindow_Click(Platform::Object^ sender, 
 }
 #pragma endregion
 
-
-void DirectXPage::UpdateLogWindow(Platform::String^ log) {
-	this->txtLog->Text = log;
+void DirectXPage::LogInfo(Object^ parameter) {
+	auto paraString = parameter->ToString();
+	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
+	OutputDebugString(formattedText.c_str());
+	this->LogMessage += parameter->ToString() + L"\r\n";
+	this->txtLog->Text = this->LogMessage;
 }
 
 void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
 	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
 	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
-	Kuplung_DX::App::LogInfo(modelFile);
+	this->LogInfo(modelFile);
 }

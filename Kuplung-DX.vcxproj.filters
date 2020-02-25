@@ -8,9 +8,6 @@
       <UniqueIdentifier>3f2661a3-7a77-404f-8f9e-80d732f3ad7b</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <Filter Include="Content">
-      <UniqueIdentifier>074445b5-f4ce-484e-adaf-6200bdf9baeb</UniqueIdentifier>
-    </Filter>
     <ClInclude Include="Common\DirectXHelper.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -23,32 +20,14 @@
     <ClCompile Include="Common\DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClInclude Include="Content\Sample3DSceneRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\SampleFpsTextRenderer.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClInclude Include="Content\ShaderStructures.h">
-      <Filter>Content</Filter>
-    </ClInclude>
-    <ClCompile Include="Content\Sample3DSceneRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <ClCompile Include="Content\SampleFpsTextRenderer.cpp">
-      <Filter>Content</Filter>
-    </ClCompile>
-    <FxCompile Include="Content\SamplePixelShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
-    <FxCompile Include="Content\SampleVertexShader.hlsl">
-      <Filter>Content</Filter>
-    </FxCompile>
     <Filter Include="Models">
       <UniqueIdentifier>{5b5c6e54-91dc-4f33-ae43-8da76a7d1514}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utilities">
       <UniqueIdentifier>{378424a7-df8d-432e-bd00-d3a733f451de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sample">
+      <UniqueIdentifier>{78fc4ee4-0a5d-4778-b8fe-ff35b0e20ed6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +42,12 @@
     <ClCompile Include="Utilities\CXXUtils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Sample\Sample3DSceneRenderer.cpp">
+      <Filter>Sample</Filter>
+    </ClCompile>
+    <ClCompile Include="Sample\SampleFpsTextRenderer.cpp">
+      <Filter>Sample</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -72,6 +57,15 @@
     </ClInclude>
     <ClInclude Include="Utilities\CXXUtils.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample\ShaderStructures.h">
+      <Filter>Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample\Sample3DSceneRenderer.h">
+      <Filter>Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample\SampleFpsTextRenderer.h">
+      <Filter>Sample</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -255,5 +249,13 @@
     <Image Include="Assets\BadgeLogo.scale-400.png">
       <Filter>Assets</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Sample\SamplePixelShader.hlsl">
+      <Filter>Sample</Filter>
+    </FxCompile>
+    <FxCompile Include="Sample\SampleVertexShader.hlsl">
+      <Filter>Sample</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

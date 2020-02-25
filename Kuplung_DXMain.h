@@ -2,8 +2,8 @@
 
 #include "Common\StepTimer.h"
 #include "Common\DeviceResources.h"
-#include "Content\Sample3DSceneRenderer.h"
-#include "Content\SampleFpsTextRenderer.h"
+#include "Sample\Sample3DSceneRenderer.h"
+#include "Sample\SampleFpsTextRenderer.h"
 
 // Renders Direct2D and 3D content on the screen.
 namespace Kuplung_DX

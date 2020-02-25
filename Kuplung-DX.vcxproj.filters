@@ -29,6 +29,9 @@
     <Filter Include="Sample">
       <UniqueIdentifier>{78fc4ee4-0a5d-4778-b8fe-ff35b0e20ed6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Importers">
+      <UniqueIdentifier>{643530bd-d1fe-4a7e-84df-e2e2757966e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -48,6 +51,12 @@
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp">
       <Filter>Sample</Filter>
     </ClCompile>
+    <ClCompile Include="Importers\FileModelManager.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\ObjParser.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -66,6 +75,15 @@
     </ClInclude>
     <ClInclude Include="Sample\SampleFpsTextRenderer.h">
       <Filter>Sample</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\ModelObject.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\FileModelManager.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ObjParser.h">
+      <Filter>Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

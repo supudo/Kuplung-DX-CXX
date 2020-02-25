@@ -126,3 +126,14 @@ void App::KuplungInitializeSettings() {
 	this->LogWindowWidth = 800;
 	this->LogWindowHeight = 200;
 }
+
+void App::LogInfo(Object^ parameter) {
+	auto paraString = parameter->ToString();
+	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
+	OutputDebugString(formattedText.c_str());
+	m_directXPage->AddToLog(parameter->ToString());
+}
+
+void App::LogError(std::string parameter) {
+	//OutputDebugString(parameter);
+}

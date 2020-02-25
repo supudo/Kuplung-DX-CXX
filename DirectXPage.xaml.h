@@ -26,6 +26,8 @@ namespace Kuplung_DX
 		void SaveInternalState(Windows::Foundation::Collections::IPropertySet^ state);
 		void LoadInternalState(Windows::Foundation::Collections::IPropertySet^ state);
 
+		void AddToLog(Platform::String^ message);
+
 		property Platform::String^ LogMessage;
 
 	private:

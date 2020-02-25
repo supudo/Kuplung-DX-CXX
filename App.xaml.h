@@ -23,6 +23,11 @@ namespace Kuplung_DX {
 		static property int LogWindowWidth;
 		static property int LogWindowHeight;
 
+		void LogInfo(Object^ parameter);
+	
+	internal:
+		void LogError(std::string msg);
+
 	private:
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^args);

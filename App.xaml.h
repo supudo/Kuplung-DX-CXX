@@ -20,6 +20,8 @@ namespace Kuplung_DX {
 		static property Platform::String^ ApplicationPath;
 		static property Platform::Boolean ViewSampleScene;
 		static property Platform::Boolean ViewFPSCounter;
+		static property int LogWindowWidth;
+		static property int LogWindowHeight;
 
 	private:
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);

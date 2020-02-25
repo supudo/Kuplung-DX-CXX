@@ -122,4 +122,7 @@ void App::KuplungInitializeSettings() {
 
 	this->ViewSampleScene = true;
 	this->ViewFPSCounter = true;
+
+	this->LogWindowWidth = 800;
+	this->LogWindowHeight = 200;
 }

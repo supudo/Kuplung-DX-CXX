@@ -47,6 +47,9 @@
     <Filter Include="Models">
       <UniqueIdentifier>{5b5c6e54-91dc-4f33-ae43-8da76a7d1514}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{378424a7-df8d-432e-bd00-d3a733f451de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -57,12 +60,18 @@
     <ClCompile Include="Models\Model3D.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\CXXUtils.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Models\Model3D.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CXXUtils.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -245,11 +245,16 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Log" Margin="10,0,10,0" Style="{StaticResource BaseTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                <Button Grid.Column="1" Content="Clear" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" />
+                <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 10, 0" Orientation="Horizontal">
+                    <xamlui:NumberBox Name="nbLogWidth" Text="200" KeyDown="logSize_KeyDown" Margin="0, 0, 4, 0" />
+                    <xamlui:NumberBox Name="nbLogHeight" Text="200" KeyDown="logSize_KeyDown" Margin="0, 0, 4, 0" />
+                    <Button Content="Resize" Click="LogWindowResize_Click" Margin="0, 0, 4, 0" />
+                    <Button Content="Clear" />
+                </StackPanel>
             </Grid>
-            <StackPanel Grid.Row="1" Orientation="Vertical">
-                <TextBlock x:Name="txtLog" />
-            </StackPanel>
+            <ScrollViewer x:Name="svLog" Grid.Row="1" Width="600" Height="160">
+                <TextBlock x:Name="txtLog" Padding="8" TextWrapping="Wrap" />
+            </ScrollViewer>
         </Grid>
     </SwapChainPanel>
 

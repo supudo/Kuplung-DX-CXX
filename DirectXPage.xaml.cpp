@@ -90,6 +90,13 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	this->lvModels->ItemsSource = this->availableModels;
 
 	this->showLogWindow = true;
+
+	this->panelLog->Width = Kuplung_DX::App::LogWindowWidth;
+	this->panelLog->Height = Kuplung_DX::App::LogWindowHeight;
+	this->svLog->Width = Kuplung_DX::App::LogWindowWidth;
+	this->svLog->Height = Kuplung_DX::App::LogWindowHeight - 40;
+	this->nbLogWidth->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowWidth);
+	this->nbLogHeight->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowHeight);
 }
 
 DirectXPage::~DirectXPage() {
@@ -212,5 +219,21 @@ void DirectXPage::LogInfo(Object^ parameter) {
 void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
 	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
 	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
-	this->LogInfo(modelFile);
+	this->LogInfo("Opening " + modelFile + " ... ");
+}
+
+void Kuplung_DX::DirectXPage::LogWindowResize_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	int32 w = Kuplung_DX::Utilities::CXXUtils::ConvertPlatformStringToInt32(this->nbLogWidth->Text);
+	int32 h = Kuplung_DX::Utilities::CXXUtils::ConvertPlatformStringToInt32(this->nbLogHeight->Text);
+
+	this->panelLog->Width = w;
+	this->panelLog->Height = h;
+	this->svLog->Width = w;
+	this->svLog->Height = h - 40;
+}
+
+void Kuplung_DX::DirectXPage::logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
+	if (e->Key == Windows::System::VirtualKey::Enter) {
+		this->LogWindowResize_Click(nullptr, nullptr);
+	}
 }

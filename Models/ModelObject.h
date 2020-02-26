@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pch.h"
+//#include "pch.h"
 #include <vector>
 #include "Utilities\CXXUtils.h"
 
@@ -56,9 +56,9 @@ namespace Kuplung_DX
 
 			MeshModelMaterial ModelMaterial;
 			std::vector<DirectX::XMFLOAT3> vertices;
-			std::vector<DirectX::XMFLOAT3> texture_coordinates;
+			std::vector<DirectX::XMFLOAT2> texture_coordinates;
 			std::vector<DirectX::XMFLOAT3> normals;
-			std::vector<unsigned int> indices;
+			std::vector<UINT> indices;
 
 			const unsigned int dataCountVertices() const noexcept {
 				return countVertices * sizeof(DirectX::XMFLOAT3);

@@ -134,6 +134,8 @@ void App::LogInfo(Object^ parameter) {
 	m_directXPage->AddToLog(parameter->ToString());
 }
 
-void App::LogError(std::string parameter) {
-	//OutputDebugString(parameter);
+void App::LogError(Object^ parameter) {
+	auto paraString = parameter->ToString();
+	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
+	OutputDebugString(formattedText.c_str());
 }

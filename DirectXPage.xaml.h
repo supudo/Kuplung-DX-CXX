@@ -11,6 +11,7 @@
 #include "Kuplung_DXMain.h"
 #include "Models\Model3D.h"
 #include "Utilities\CXXUtils.h"
+#include "Importers\FileModelManager.h"
 
 namespace Kuplung_DX
 {
@@ -63,7 +64,11 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
 
+		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
+		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
+
 		void LogInfo(Object^ parameter);
+		void DoProgress(float progress);
 
 		void MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);

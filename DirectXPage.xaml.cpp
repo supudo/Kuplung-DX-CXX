@@ -97,12 +97,20 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	this->svLog->Height = Kuplung_DX::App::LogWindowHeight - 40;
 	this->nbLogWidth->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowWidth);
 	this->nbLogHeight->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowHeight);
+
+	this->managerParsers = std::make_unique<Kuplung_DX::Importers::FileModelManager>();
+	this->managerParsers->init(
+		[this](float progress) {
+			this->DoProgress(progress);
+		}
+	);
 }
 
 DirectXPage::~DirectXPage() {
 	// Stop rendering and processing events on destruction.
 	m_main->StopRenderLoop();
 	m_coreInput->Dispatcher->StopProcessEvents();
+	this->managerParsers.reset();
 }
 
 // Saves the current state of the app for suspend and terminate events.
@@ -224,6 +232,8 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
 	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
 	this->LogInfo("Opening " + modelFile + " ... ");
+	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
+	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
 }
 
 void Kuplung_DX::DirectXPage::LogWindowResize_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -240,4 +250,8 @@ void Kuplung_DX::DirectXPage::logSize_KeyDown(Platform::Object^ sender, Windows:
 	if (e->Key == Windows::System::VirtualKey::Enter) {
 		this->LogWindowResize_Click(nullptr, nullptr);
 	}
+}
+
+void Kuplung_DX::DirectXPage::DoProgress(float progress) {
+	this->LogInfo(Kuplung_DX::Utilities::CXXUtils::StringToPlatformString("Parsing ... " + std::to_string(progress)));
 }

@@ -13,7 +13,7 @@ namespace Kuplung_DX
             ~FileModelManager();
             FileModelManager();
             void init(const std::function<void(float)>& doProgress);
-            std::vector<Kuplung_DX::Models::MeshModel> parse(std::string file, std::vector<std::string> settings);
+            std::vector<Kuplung_DX::Models::MeshModel> parse(const std::string& file, const std::vector<std::string>& settings);
 
         private:
             std::function<void(float)> funcProgress;

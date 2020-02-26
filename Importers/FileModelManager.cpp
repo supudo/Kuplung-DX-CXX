@@ -14,7 +14,7 @@ void Kuplung_DX::Importers::FileModelManager::init(const std::function<void(floa
     this->parserOBJ->init(std::bind(&FileModelManager::doProgress, this, std::placeholders::_1));
 }
 
-std::vector<Kuplung_DX::Models::MeshModel> Kuplung_DX::Importers::FileModelManager::parse(std::string file, std::vector<std::string> settings) {
+std::vector<Kuplung_DX::Models::MeshModel> Kuplung_DX::Importers::FileModelManager::parse(const std::string& file, const std::vector<std::string>& settings) {
     std::vector<Kuplung_DX::Models::MeshModel> meshModels;
     meshModels = this->parserOBJ->parse(file, settings);
     return meshModels;

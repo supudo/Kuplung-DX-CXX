@@ -57,6 +57,9 @@
     <ClCompile Include="Importers\ObjParser.cpp">
       <Filter>Importers</Filter>
     </ClCompile>
+    <ClCompile Include="Importers\ParserUtils.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -83,6 +86,9 @@
       <Filter>Importers</Filter>
     </ClInclude>
     <ClInclude Include="Importers\ObjParser.h">
+      <Filter>Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ParserUtils.h">
       <Filter>Importers</Filter>
     </ClInclude>
   </ItemGroup>

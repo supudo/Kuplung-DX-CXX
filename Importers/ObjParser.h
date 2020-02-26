@@ -2,6 +2,8 @@
 
 #include "Models\ModelObject.h"
 
+// https://www.braynzarsoft.net/viewtutorial/q16390-obj-model-loader
+
 namespace Kuplung_DX
 {
     namespace Importers

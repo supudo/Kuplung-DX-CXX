@@ -3,7 +3,7 @@
 
 #include "..\Common\DirectXHelper.h"
 
-using namespace Kuplung_DX;
+using namespace Kuplung_DX::Sample;
 
 using namespace DirectX;
 using namespace Windows::Foundation;

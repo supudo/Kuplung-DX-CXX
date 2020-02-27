@@ -2,7 +2,7 @@
 
 namespace Kuplung_DX
 {
-	namespace Sample
+	namespace Rendering
 	{
 		// Constant buffer used to send MVP matrices to the vertex shader.
 		struct ModelViewProjectionConstantBuffer

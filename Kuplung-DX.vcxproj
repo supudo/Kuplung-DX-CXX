@@ -259,6 +259,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rendering\RenderingManager.h" />
     <ClInclude Include="Rendering\RenderingSimple.h" />
+    <ClInclude Include="Rendering\ShaderStructures.h" />
     <ClInclude Include="Sample\Sample3DSceneRenderer.h" />
     <ClInclude Include="Sample\SampleFpsTextRenderer.h" />
     <ClInclude Include="Sample\ShaderStructures.h" />

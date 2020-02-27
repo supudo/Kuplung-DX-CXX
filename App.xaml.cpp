@@ -120,11 +120,13 @@ void App::KuplungInitializeSettings() {
 	this->ApplicationPath = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 	this->ApplicationPath += "\\Assets";
 
-	this->ViewSampleScene = true;
-	this->ViewFPSCounter = true;
+	this->ViewSampleScene = false;
+	this->ViewFPSCounter = false;
 
 	this->LogWindowWidth = 800;
 	this->LogWindowHeight = 200;
+
+	this->RenderingMethod = 1;
 }
 
 void App::LogInfo(Object^ parameter) {

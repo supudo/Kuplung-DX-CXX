@@ -26,6 +26,8 @@ namespace Kuplung_DX {
 		void LogInfo(Object^ parameter);
 		static void LogError(Object^ parameter);
 
+		static property uint32 RenderingMethod;
+
 	private:
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^args);

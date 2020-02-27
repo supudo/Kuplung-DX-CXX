@@ -38,6 +38,12 @@
     <Filter Include="Rendering\Models">
       <UniqueIdentifier>{c6d9a521-cdd5-48de-a06c-992d9856a348}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{c79a9e18-fc31-49b5-9dd9-47e102f39700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Shaders">
+      <UniqueIdentifier>{4b247e85-7624-4039-a597-73405b8a5098}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -314,11 +320,21 @@
     <FxCompile Include="Sample\SampleVertexShader.hlsl">
       <Filter>Sample</Filter>
     </FxCompile>
-    <FxCompile Include="RenderingSimplePixelShader.hlsl">
-      <Filter>Rendering</Filter>
+    <FxCompile Include="Rendering\Shaders\RenderingSimpleVertexShader.hlsl">
+      <Filter>Rendering\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="RenderingSimpleVertexShader.hlsl">
-      <Filter>Rendering</Filter>
+    <FxCompile Include="Rendering\Shaders\RenderingSimplePixelShader.hlsl">
+      <Filter>Rendering\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Resources\Scene.fbx">
+      <Filter>Resources</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <ShaderGraphContentTask Include="Resources\Shader.dgsl">
+      <Filter>Resources</Filter>
+    </ShaderGraphContentTask>
   </ItemGroup>
 </Project>

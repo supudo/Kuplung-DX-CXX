@@ -100,6 +100,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->nbLogHeight->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowHeight);
 
 	this->managerRendering = std::make_unique<Rendering::RenderingManager>();
+	this->managerRendering->Init();
 
 	this->managerParsers = std::make_unique<Importers::FileModelManager>();
 	this->managerParsers->init(

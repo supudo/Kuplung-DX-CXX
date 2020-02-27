@@ -12,6 +12,7 @@ namespace Kuplung_DX
 			RenderingSimple();
 			~RenderingSimple();
 
+			void Init();
 			void Render(const std::vector<Kuplung_DX::Models::MeshModel>& models);
 		};
 	}

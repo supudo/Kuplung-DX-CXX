@@ -13,6 +13,7 @@ namespace Kuplung_DX
 			RenderingManager();
 			~RenderingManager();
 
+			void Init();
 			void Render(const std::vector<Kuplung_DX::Models::MeshModel>& models);
 
 		private:

@@ -99,9 +99,6 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->nbLogWidth->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowWidth);
 	this->nbLogHeight->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowHeight);
 
-	this->managerRendering = std::make_unique<Rendering::RenderingManager>();
-	this->managerRendering->Init();
-
 	this->managerParsers = std::make_unique<Importers::FileModelManager>();
 	this->managerParsers->init(
 		[this](float progress) {
@@ -115,7 +112,6 @@ DirectXPage::~DirectXPage() {
 	m_main->StopRenderLoop();
 	m_coreInput->Dispatcher->StopProcessEvents();
 	this->managerParsers.reset();
-	this->managerRendering.reset();
 }
 
 // Saves the current state of the app for suspend and terminate events.
@@ -260,10 +256,10 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 	this->grdLoading->Width = Window::Current->CoreWindow->Bounds.Width;
 	this->grdLoading->Height = Window::Current->CoreWindow->Bounds.Height;
 	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
-	this->CurrentModelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
-	this->LogInfo("Opening " + this->CurrentModelFile + " ... ", true);
-	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction^) {
-			this->ParseModelAsync(this->CurrentModelFile);
+	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
+	this->LogInfo("Opening " + modelFile + " ... ", true);
+	auto workItemHandler = ref new WorkItemHandler([this, modelFile](IAsyncAction^) {
+			this->ParseModelAsync(modelFile);
 		});
 	auto r = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
 
@@ -271,10 +267,10 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 
 void Kuplung_DX::DirectXPage::ParseModelAsync(Platform::String^ modelFile) {
 	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
-	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
-	this->pnlLoading->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this]
+	this->pnlLoading->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, mms]
 		{
 			this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			this->m_main->AddModels(mms);
 		}));
 }
 

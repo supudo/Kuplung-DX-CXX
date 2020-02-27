@@ -296,5 +296,11 @@
     <FxCompile Include="Sample\SampleVertexShader.hlsl">
       <Filter>Sample</Filter>
     </FxCompile>
+    <FxCompile Include="RenderingSimplePixelShader.hlsl">
+      <Filter>Rendering</Filter>
+    </FxCompile>
+    <FxCompile Include="RenderingSimpleVertexShader.hlsl">
+      <Filter>Rendering</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,6 @@
 #include "Kuplung_DXMain.h"
 #include "Models\Model3D.h"
 #include "Utilities\CXXUtils.h"
-#include "Rendering\RenderingManager.h"
 #include "Importers\FileModelManager.h"
 
 namespace Kuplung_DX
@@ -62,11 +61,8 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
 
-		std::unique_ptr<Kuplung_DX::Rendering::RenderingManager> managerRendering;
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 
-		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
-		Platform::String^ CurrentModelFile;
 		Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>^ availableModels;
 		Platform::Boolean showLogWindow;
 

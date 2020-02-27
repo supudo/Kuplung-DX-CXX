@@ -1,7 +1,8 @@
 ﻿#include "pch.h"
 #include "RenderingManager.h"
 
-Kuplung_DX::Rendering::RenderingManager::RenderingManager() {
+Kuplung_DX::Rendering::RenderingManager::RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+	m_deviceResources(deviceResources) {
 	this->renderingSimple = std::make_unique<Kuplung_DX::Rendering::RenderingSimple>();
 }
 

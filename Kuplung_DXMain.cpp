@@ -12,10 +12,13 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 	// Register to be notified if the Device is lost or recreated
 	m_deviceResources->RegisterDeviceNotify(this);
 
-	// TODO: Replace this with your app's content initialization.
+	// Samples
 	m_sampleSceneRenderer = std::unique_ptr<Sample3DSceneRenderer>(new Sample3DSceneRenderer(m_deviceResources));
-
 	m_fpsTextRenderer = std::unique_ptr<SampleFpsTextRenderer>(new SampleFpsTextRenderer(m_deviceResources));
+
+	// Rendering
+	m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(m_deviceResources));
+	m_renderingManager->Init();
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -27,12 +30,12 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 Kuplung_DXMain::~Kuplung_DXMain() {
 	// Deregister device notification
+	m_renderingManager.reset();
 	m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
 // Updates application state when the window size changes (e.g. device orientation change)
 void Kuplung_DXMain::CreateWindowSizeDependentResources()  {
-	// TODO: Replace this with the size-dependent initialization of your app's content.
 	m_sampleSceneRenderer->CreateWindowSizeDependentResources();
 }
 
@@ -124,4 +127,8 @@ void Kuplung_DXMain::OnDeviceRestored() {
 	m_sampleSceneRenderer->CreateDeviceDependentResources();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
+}
+
+void Kuplung_DXMain::AddModels(std::vector<Kuplung_DX::Models::MeshModel> mms) {
+	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
 }

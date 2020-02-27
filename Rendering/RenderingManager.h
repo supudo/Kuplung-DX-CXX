@@ -10,7 +10,7 @@ namespace Kuplung_DX
 		class RenderingManager
 		{
 		public:
-			RenderingManager();
+			RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources);
 			~RenderingManager();
 
 			void Init();
@@ -18,6 +18,9 @@ namespace Kuplung_DX
 
 		private:
 			std::unique_ptr<Kuplung_DX::Rendering::RenderingSimple> renderingSimple;
+
+			// Cached pointer to device resources.
+			std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		};
 	}
 }

@@ -4,6 +4,8 @@
 #include "Common\DeviceResources.h"
 #include "Sample\Sample3DSceneRenderer.h"
 #include "Sample\SampleFpsTextRenderer.h"
+#include "Rendering\RenderingManager.h"
+#include "Models\Model3D.h"
 
 // Renders Direct2D and 3D content on the screen.
 namespace Kuplung_DX
@@ -26,6 +28,8 @@ namespace Kuplung_DX
 		virtual void OnDeviceLost();
 		virtual void OnDeviceRestored();
 
+		void AddModels(std::vector<Kuplung_DX::Models::MeshModel> mms);
+
 	private:
 		void ProcessInput();
 		void Update();
@@ -37,6 +41,7 @@ namespace Kuplung_DX
 		// TODO: Replace with your own content renderers.
 		std::unique_ptr<Sample3DSceneRenderer> m_sampleSceneRenderer;
 		std::unique_ptr<SampleFpsTextRenderer> m_fpsTextRenderer;
+		std::unique_ptr<Rendering::RenderingManager> m_renderingManager;
 
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;
 		Concurrency::critical_section m_criticalSection;
@@ -46,5 +51,7 @@ namespace Kuplung_DX
 
 		// Track current input pointer position.
 		float m_pointerLocationX;
+
+		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
 	};
 }

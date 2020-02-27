@@ -5,7 +5,7 @@
 #include "Sample\Sample3DSceneRenderer.h"
 #include "Sample\SampleFpsTextRenderer.h"
 #include "Rendering\RenderingManager.h"
-#include "Models\Model3D.h"
+#include "Models\Shape.h"
 
 // Renders Direct2D and 3D content on the screen.
 namespace Kuplung_DX

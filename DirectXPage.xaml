@@ -11,7 +11,7 @@
     xmlns:xamlui="using:Microsoft.UI.Xaml.Controls">
 
     <Page.Resources>
-        <DataTemplate x:Key="ModelsListViewTemplate" x:DataType="models:Model3D">
+        <DataTemplate x:Key="ModelsListViewTemplate" x:DataType="models:Shape">
             <TextBlock Text="{x:Bind Title}" x:Phase="1" Margin="0,5,0,5"/>
         </DataTemplate>
     </Page.Resources>

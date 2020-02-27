@@ -4,10 +4,10 @@ namespace Kuplung_DX
 {
     namespace Models
     {
-        public ref class Model3D sealed
+        public ref class Shape sealed
         {
         public:
-            Model3D(Platform::String^ Title, Platform::String^ filename);
+            Shape(Platform::String^ Title, Platform::String^ filename);
             Platform::String^ getTitle();
             Platform::String^ getFilename();
 

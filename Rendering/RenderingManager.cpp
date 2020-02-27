@@ -93,6 +93,7 @@ bool Kuplung_DX::Rendering::RenderingManager::IsTracking() {
 		return this->renderingSimple->IsTracking();
 		break;
 	default:
+		return false;
 		break;
 	}
 }

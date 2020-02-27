@@ -9,7 +9,7 @@
 
 #include "Common\DeviceResources.h"
 #include "Kuplung_DXMain.h"
-#include "Models\Model3D.h"
+#include "Models\Shape.h"
 #include "Utilities\CXXUtils.h"
 #include "Importers\FileModelManager.h"
 
@@ -63,7 +63,7 @@ namespace Kuplung_DX
 
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 
-		Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>^ availableModels;
+		Platform::Collections::Vector<Kuplung_DX::Models::Shape^>^ availableModels;
 		Platform::Boolean showLogWindow;
 
 		void LogInfo(Object^ parameter, bool addToLog);

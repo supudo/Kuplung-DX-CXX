@@ -35,6 +35,9 @@
     <Filter Include="Rendering">
       <UniqueIdentifier>{fd52cbe8-7ab5-40e2-afb9-8e262c26838a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Models">
+      <UniqueIdentifier>{c6d9a521-cdd5-48de-a06c-992d9856a348}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -42,9 +45,6 @@
   <ItemGroup>
     <ClCompile Include="Kuplung_DXMain.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Models\Model3D.cpp">
-      <Filter>Models</Filter>
-    </ClCompile>
     <ClCompile Include="Utilities\CXXUtils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
@@ -69,13 +69,19 @@
     <ClCompile Include="Rendering\RenderingSimple.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="Models\Shape.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Models\Model3D.cpp">
+      <Filter>Rendering\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Importers\ObjModelLoader.cpp">
+      <Filter>Importers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Models\Model3D.h">
-      <Filter>Models</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities\CXXUtils.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -108,6 +114,15 @@
     </ClInclude>
     <ClInclude Include="Rendering\ShaderStructures.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Shape.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Models\Model3D.h">
+      <Filter>Rendering\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Importers\ObjModelLoader.h">
+      <Filter>Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

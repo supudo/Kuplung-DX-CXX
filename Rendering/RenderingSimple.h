@@ -5,6 +5,7 @@
 #include "Common\StepTimer.h"
 
 #include <Models\ModelObject.h>
+#include <Rendering\Models\Model3D.h>
 
 namespace Kuplung_DX
 {

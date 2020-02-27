@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Models\ModelObject.h"
-#include "Importers\ObjParser.h"
+#include <Models/ModelObject.h>
+#include <Importers/ObjParser.h>
 #include <functional>
 
 namespace Kuplung_DX

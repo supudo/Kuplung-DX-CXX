@@ -5,6 +5,7 @@
 
 #include "pch.h"
 #include "DirectXPage.xaml.h"
+#include <ppltasks.h>
 
 using namespace Kuplung_DX;
 
@@ -24,7 +25,7 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Navigation;
 using namespace concurrency;
 
-DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
+DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	InitializeComponent();
 
 	// Register event handlers for page lifecycle.
@@ -37,7 +38,7 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	currentDisplayInformation->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDpiChanged);
 	currentDisplayInformation->OrientationChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnOrientationChanged);
 	DisplayInformation::DisplayContentsInvalidated += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDisplayContentsInvalidated);
-	swapChainPanel->CompositionScaleChanged +=  ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
+	swapChainPanel->CompositionScaleChanged += ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
 	swapChainPanel->SizeChanged += ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
 
 	// At this point we have access to the device. 
@@ -46,13 +47,13 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	m_deviceResources->SetSwapChainPanel(swapChainPanel);
 
 	// Register our SwapChainPanel to get independent input pointer events
-	auto workItemHandler = ref new WorkItemHandler([this] (IAsyncAction ^) {
+	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction^) {
 		// The CoreIndependentInputSource will raise pointer events for the specified device types on whichever thread it's created on.
 		m_coreInput = swapChainPanel->CreateCoreIndependentInputSource(
 			Windows::UI::Core::CoreInputDeviceTypes::Mouse |
 			Windows::UI::Core::CoreInputDeviceTypes::Touch |
 			Windows::UI::Core::CoreInputDeviceTypes::Pen
-			);
+		);
 
 		// Register for pointer events, which will be raised on the background thread.
 		m_coreInput->PointerPressed += ref new TypedEventHandler<Object^, PointerEventArgs^>(this, &DirectXPage::OnPointerPressed);
@@ -61,7 +62,7 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 
 		// Begin processing input messages as they're delivered.
 		m_coreInput->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessUntilQuit);
-	});
+		});
 
 	// Run task on a dedicated high priority background thread.
 	m_inputLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
@@ -98,7 +99,9 @@ DirectXPage::DirectXPage(): m_windowVisible(true), m_coreInput(nullptr) {
 	this->nbLogWidth->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowWidth);
 	this->nbLogHeight->Text = Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(Kuplung_DX::App::LogWindowHeight);
 
-	this->managerParsers = std::make_unique<Kuplung_DX::Importers::FileModelManager>();
+	this->managerRendering = std::make_unique<Rendering::RenderingManager>();
+
+	this->managerParsers = std::make_unique<Importers::FileModelManager>();
 	this->managerParsers->init(
 		[this](float progress) {
 			this->DoProgress(progress);
@@ -111,6 +114,7 @@ DirectXPage::~DirectXPage() {
 	m_main->StopRenderLoop();
 	m_coreInput->Dispatcher->StopProcessEvents();
 	this->managerParsers.reset();
+	this->managerRendering.reset();
 }
 
 // Saves the current state of the app for suspend and terminate events.
@@ -220,20 +224,24 @@ void Kuplung_DX::DirectXPage::MenuShowLogWindow_Click(Platform::Object^ sender, 
 }
 #pragma endregion
 
-void DirectXPage::LogInfo(Object^ parameter) {
+void DirectXPage::LogInfo(Object^ parameter, bool addToLog) {
 	auto paraString = parameter->ToString();
 	auto formattedText = std::wstring(paraString->Data()).append(L"\r\n");
 	OutputDebugString(formattedText.c_str());
-	this->LogMessage += parameter->ToString() + L"\r\n";
-	this->txtLog->Text = this->LogMessage;
+	if (addToLog) {
+		this->LogMessage = parameter->ToString() + L"\r\n" + this->LogMessage;
+		this->txtLog->Text = this->LogMessage;
+	}
 }
 
-void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
-	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
-	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
-	this->LogInfo("Opening " + modelFile + " ... ");
-	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
-	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
+void Kuplung_DX::DirectXPage::LogWindowClear_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	this->LogMessage = "";
+	this->txtLog->Text = "";
+}
+
+void Kuplung_DX::DirectXPage::logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
+	if (e->Key == Windows::System::VirtualKey::Enter)
+		this->LogWindowResize_Click(nullptr, nullptr);
 }
 
 void Kuplung_DX::DirectXPage::LogWindowResize_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -246,12 +254,35 @@ void Kuplung_DX::DirectXPage::LogWindowResize_Click(Platform::Object^ sender, Wi
 	this->svLog->Height = h - 40;
 }
 
-void Kuplung_DX::DirectXPage::logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e) {
-	if (e->Key == Windows::System::VirtualKey::Enter) {
-		this->LogWindowResize_Click(nullptr, nullptr);
-	}
+void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
+	this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Visible;
+	this->grdLoading->Width = Window::Current->CoreWindow->Bounds.Width;
+	this->grdLoading->Height = Window::Current->CoreWindow->Bounds.Height;
+	Kuplung_DX::Models::Model3D^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
+	this->CurrentModelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
+	this->LogInfo("Opening " + this->CurrentModelFile + " ... ", true);
+	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction^) {
+			this->ParseModelAsync(this->CurrentModelFile);
+		});
+	auto r = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
+
+}
+
+void Kuplung_DX::DirectXPage::ParseModelAsync(Platform::String^ modelFile) {
+	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
+	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
+	this->pnlLoading->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this]
+		{
+			this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		}));
 }
 
 void Kuplung_DX::DirectXPage::DoProgress(float progress) {
-	this->LogInfo(Kuplung_DX::Utilities::CXXUtils::StringToPlatformString("Parsing ... " + std::to_string(progress)));
+	Kuplung_DX::DirectXPage^ ctx = this;
+	Platform::String^ p = Kuplung_DX::Utilities::CXXUtils::StringToPlatformString(Kuplung_DX::Utilities::CXXUtils::StringFormat("Processing ... %0.2f%%", progress));
+	Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([ctx, p]()
+		{
+			//ctx->LogInfo(p, true);
+			ctx->txtLoading->Text = p;
+		}));
 }

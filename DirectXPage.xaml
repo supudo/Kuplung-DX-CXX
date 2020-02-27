@@ -249,13 +249,18 @@
                     <xamlui:NumberBox Name="nbLogWidth" Text="200" KeyDown="logSize_KeyDown" Margin="0, 0, 4, 0" />
                     <xamlui:NumberBox Name="nbLogHeight" Text="200" KeyDown="logSize_KeyDown" Margin="0, 0, 4, 0" />
                     <Button Content="Resize" Click="LogWindowResize_Click" Margin="0, 0, 4, 0" />
-                    <Button Content="Clear" />
+                    <Button Content="Clear" Click="LogWindowClear_Click" />
                 </StackPanel>
             </Grid>
             <ScrollViewer x:Name="svLog" Grid.Row="1" Width="600" Height="160">
                 <TextBlock x:Name="txtLog" Padding="8" TextWrapping="Wrap" />
             </ScrollViewer>
         </Grid>
+        <Canvas x:Name="pnlLoading" Background="Black" Opacity=".5" Visibility="Collapsed">
+            <Grid x:Name="grdLoading" Width="{Binding ActualWidth, ElementName=pnlLoading}" Height="{Binding ActualHeight, ElementName=pnlLoading}">
+                <TextBlock x:Name="txtLoading" Text="Loading ..." HorizontalTextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="22" />
+            </Grid>
+        </Canvas>
     </SwapChainPanel>
 
     <!--

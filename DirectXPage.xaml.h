@@ -11,6 +11,7 @@
 #include "Kuplung_DXMain.h"
 #include "Models\Model3D.h"
 #include "Utilities\CXXUtils.h"
+#include "Rendering\RenderingManager.h"
 #include "Importers\FileModelManager.h"
 
 namespace Kuplung_DX
@@ -32,9 +33,6 @@ namespace Kuplung_DX
 		property Platform::String^ LogMessage;
 
 	private:
-		Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>^ availableModels;
-		Platform::Boolean showLogWindow;
-
 		// XAML low-level rendering event handler.
 		void OnRendering(Platform::Object^ sender, Platform::Object^ args);
 
@@ -64,11 +62,17 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
 
+		std::unique_ptr<Kuplung_DX::Rendering::RenderingManager> managerRendering;
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
-		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
 
-		void LogInfo(Object^ parameter);
+		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
+		Platform::String^ CurrentModelFile;
+		Platform::Collections::Vector<Kuplung_DX::Models::Model3D^>^ availableModels;
+		Platform::Boolean showLogWindow;
+
+		void LogInfo(Object^ parameter, bool addToLog);
 		void DoProgress(float progress);
+		void ParseModelAsync(Platform::String^ modelFile);
 
 		void MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
@@ -76,6 +80,7 @@ namespace Kuplung_DX
 		void MenuFPSCounter_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuShowLogWindow_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void LogWindowResize_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void LogWindowClear_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
 
 		void lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);

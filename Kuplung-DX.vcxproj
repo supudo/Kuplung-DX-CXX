@@ -257,6 +257,8 @@
     <ClInclude Include="Models\Model3D.h" />
     <ClInclude Include="Models\ModelObject.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Rendering\RenderingManager.h" />
+    <ClInclude Include="Rendering\RenderingSimple.h" />
     <ClInclude Include="Sample\Sample3DSceneRenderer.h" />
     <ClInclude Include="Sample\SampleFpsTextRenderer.h" />
     <ClInclude Include="Sample\ShaderStructures.h" />
@@ -285,6 +287,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Rendering\RenderingManager.cpp" />
+    <ClCompile Include="Rendering\RenderingSimple.cpp" />
     <ClCompile Include="Sample\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Utilities\CXXUtils.cpp" />

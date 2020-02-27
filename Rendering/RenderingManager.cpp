@@ -10,4 +10,5 @@ Kuplung_DX::Rendering::RenderingManager::~RenderingManager() {
 }
 
 void Kuplung_DX::Rendering::RenderingManager::Render(const std::vector<Kuplung_DX::Models::MeshModel>& models) {
+	this->renderingSimple->Render(models);
 }

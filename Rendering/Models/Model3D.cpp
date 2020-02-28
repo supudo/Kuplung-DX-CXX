@@ -129,10 +129,11 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		}
 
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-		vertexBufferData.pSysMem = &modelVertices[0];
+		vertexBufferData.pSysMem = modelVertices.data();
 		vertexBufferData.SysMemPitch = 0;
 		vertexBufferData.SysMemSlicePitch = 0;
-		CD3D11_BUFFER_DESC vertexBufferDesc(this->MeshModel.dataCountVertices() * 2, D3D11_BIND_VERTEX_BUFFER);
+		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelVertices.size());
+		CD3D11_BUFFER_DESC vertexBufferDesc(s, D3D11_BIND_VERTEX_BUFFER);
 		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&vertexBufferDesc,
@@ -149,10 +150,10 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		m_indexCount = this->MeshModel.countIndices;
 
 		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = &modelIndices[0];
+		indexBufferData.pSysMem = modelIndices.data();
 		indexBufferData.SysMemPitch = 0;
 		indexBufferData.SysMemSlicePitch = 0;
-		CD3D11_BUFFER_DESC indexBufferDesc(m_indexCount * sizeof(unsigned int), D3D11_BIND_INDEX_BUFFER);
+		CD3D11_BUFFER_DESC indexBufferDesc(sizeof(unsigned int) * static_cast<UINT>(modelIndices.size()), D3D11_BIND_INDEX_BUFFER);
 		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&indexBufferDesc,

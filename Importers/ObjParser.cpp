@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "Importers\ObjParser.h"
 #include <fstream>
 #include <numeric>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/replace.hpp>
-#include "Importers/ParserUtils.h"
+#include <Importers\ObjParser.h>
+#include <Importers\ParserUtils.h>
 
 using namespace Windows::Storage;
 
@@ -268,9 +268,6 @@ std::vector<Kuplung_DX::Models::MeshModel> Kuplung_DX::Importers::ObjParser::par
 			this->models[i].normals = std::move(outNormals);
 			this->models[i].indices = m.indices;
 			this->models[i].countIndices = int(m.indices.size());
-			this->models[i].countVertices = int(this->models[i].vertices.size());
-			this->models[i].countNormals = int(this->models[i].normals.size());
-			this->models[i].countTextureCoordinates = int(this->models[i].texture_coordinates.size());
 
 			progressStageCounter += 1;
 			float progress = (float(progressStageCounter) / float(progressStageTotal)) * 100.0f;
@@ -280,7 +277,7 @@ std::vector<Kuplung_DX::Models::MeshModel> Kuplung_DX::Importers::ObjParser::par
 
 	ifs.close();
 
-	// Kuplung_printObjModels(this->models, false);
+	Models::Kuplung_printObjModels(this->models, false);
 
 	return this->models;
 }

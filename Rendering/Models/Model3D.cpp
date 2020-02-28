@@ -120,7 +120,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		};
 
 		static std::vector<VertexPositionColor> modelVertices;
-		for (int i = 0; i < this->MeshModel.countVertices; i++) {
+		for (int i = 0; i < (int)this->MeshModel.vertices.size(); i++) {
 			XMFLOAT3 v = this->MeshModel.vertices[i];
 			XMFLOAT3 c = this->MeshModel.ModelMaterial.DiffuseColor;
 			int ri = rand() % 8;

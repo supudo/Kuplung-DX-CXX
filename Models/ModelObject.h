@@ -86,8 +86,8 @@ namespace Kuplung_DX
 			std::string output("");
 			for (size_t i = 0; i < models.size(); i++) {
 				MeshModel m = models[i];
-				output += Utilities::CXXUtils::StringFormat("model.ID = %i\r\r\n", m.ID);
-				output += Utilities::CXXUtils::StringFormat("model.countIndices = %i (%i)\r\r\n", m.countIndices, ((*std::max_element(m.indices.begin(), m.indices.end())) + 1));
+				output += Utilities::CXXUtils::StringFormat("model.ID = %i\r\n", m.ID);
+				output += Utilities::CXXUtils::StringFormat("model.countIndices = %i (%i)\r\n", m.countIndices, ((*std::max_element(m.indices.begin(), m.indices.end())) + 1));
 				output += Utilities::CXXUtils::StringFormat("model.countNormals = %i (%i)\r\n", m.countNormals, (m.countNormals * 3));
 				output += Utilities::CXXUtils::StringFormat("model.countTextureCoordinates = %i (%i)\r\n", m.countTextureCoordinates, (m.countTextureCoordinates * 2));
 				output += Utilities::CXXUtils::StringFormat("model.countVertices = %i (%i)\r\n", m.countVertices, (m.countVertices * 3));
@@ -105,7 +105,7 @@ namespace Kuplung_DX
 						geom += Utilities::CXXUtils::StringFormat("vertex = [%g, %g, %g]", vert.x, vert.y, vert.z);
 						geom += Utilities::CXXUtils::StringFormat(", uv = [%g, %g]", tc.x, tc.y);
 						geom += Utilities::CXXUtils::StringFormat(", normal = [%g, %g, %g]", n.x, n.y, n.z);
-						//printf("%s\r\n", geom.c_str());
+						//output += Utilities::CXXUtils::StringFormat("%s\r\n", geom.c_str());
 					}
 				}
 				else {
@@ -114,20 +114,20 @@ namespace Kuplung_DX
 						const XMFLOAT3 v = m.vertices[j];
 						verts += Utilities::CXXUtils::StringFormat("[%g, %g, %g], ", v.x, v.y, v.z);
 					}
-					printf("m.vertices : %s\r\n", verts.c_str());
+					output += Utilities::CXXUtils::StringFormat("m.vertices : %s\r\n", verts.c_str());
 
 					std::string uvs;
 					for (size_t j = 0; j < m.texture_coordinates.size(); j++) {
 						uvs += Utilities::CXXUtils::StringFormat("[%g, %g], ", m.texture_coordinates[j].x, m.texture_coordinates[j].y);
 					}
-					printf("m.texture_coordinates : %s\r\n", uvs.c_str());
+					output += Utilities::CXXUtils::StringFormat("m.texture_coordinates : %s\r\n", uvs.c_str());
 
 					std::string normals;
 					for (size_t j = 0; j < m.normals.size(); j++) {
 						const XMFLOAT3 n = m.normals[j];
 						normals += Utilities::CXXUtils::StringFormat("[%f, %f, %f], ", n.x, n.y, n.z);
 					}
-					printf("m.normals : %s\r\n", normals.c_str());
+					output += Utilities::CXXUtils::StringFormat("m.normals : %s\r\n", normals.c_str());
 
 					std::string indices;
 					for (size_t j = 0; j < m.indices.size(); j++) {

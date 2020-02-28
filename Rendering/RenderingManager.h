@@ -20,7 +20,7 @@ namespace Kuplung_DX
 			void CreateWindowSizeDependentResources();
 			void ReleaseDeviceDependentResources();
 			void Update(DX::StepTimer const& timer);
-			void Render(const std::vector<Kuplung_DX::Models::MeshModel>& models);
+			void Render(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models);
 			void StartTracking();
 			void TrackingUpdate(float positionX);
 			void StopTracking();

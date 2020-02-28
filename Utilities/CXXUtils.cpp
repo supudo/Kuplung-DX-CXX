@@ -17,10 +17,14 @@ Platform::String^ Kuplung_DX::Utilities::CXXUtils::ConvertInt32ToPlatformString(
     return ref new Platform::String(w_char);
 }
 
+// TODO: fix that warning
+#pragma warning(push)
+#pragma warning(disable : 4244)
 std::string Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(Platform::String^ ms) {
 	std::wstring w_str(ms->Begin());
 	return std::string(w_str.begin(), w_str.end());
 }
+#pragma warning(pop) 
 
 Platform::String^ Kuplung_DX::Utilities::CXXUtils::StringToPlatformString(const std::string& input) {
 	std::wstring w_str = std::wstring(input.begin(), input.end());

@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include <Models\ModelObject.h>
+#include <Rendering\ShaderStructures.h>
+
 namespace Kuplung_DX
 {
     namespace Rendering
@@ -9,15 +12,32 @@ namespace Kuplung_DX
             class Model3D
             {
             public:
-                Model3D();
+                Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResources);
+
+                void InitModel3D(const Kuplung_DX::Models::MeshModel& model);
+
+                void CreateDeviceDependentResources();
+                void CreateWindowSizeDependentResources();
+                void ReleaseDeviceDependentResources();
+                void Render();
+
+                Kuplung_DX::Models::MeshModel MeshModel;
 
             private:
-                //ID3D11Buffer *VertexBuffer, *IndiceBuffer;
-                //ID3D11PixelShader *pixelShader;
-                //ID3D11VertexShader *vertexShader;
-                //ID3D11InputLayout *inputLayout;
-                //XMMATRIX WorldMatrix, TransformMatrix, ScaleMatrix, RotationMatrix;
-                //ID3D11ShaderResourceVIew *textureResource;
+                std::shared_ptr<DX::DeviceResources> m_deviceResources;
+
+                Microsoft::WRL::ComPtr<ID3D11VertexShader> m_vertexShader;
+                Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pixelShader;
+
+                Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
+                Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+                Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
+
+                Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
+
+                Kuplung_DX::Rendering::ModelViewProjectionConstantBuffer m_constantBufferData;
+                uint32 m_indexCount;
+                bool m_loadingComplete;
             };
         }
     }

@@ -2,10 +2,11 @@
 
 #include "Common\StepTimer.h"
 #include "Common\DeviceResources.h"
-#include "Sample\Sample3DSceneRenderer.h"
-#include "Sample\SampleFpsTextRenderer.h"
-#include "Rendering\RenderingManager.h"
-#include "Models\Shape.h"
+#include <Sample\Sample3DSceneRenderer.h>
+#include <Sample\SampleFpsTextRenderer.h>
+#include <Rendering\RenderingManager.h>
+#include <Models\Shape.h>
+#include <Rendering\Models\Model3D.h>
 
 // Renders Direct2D and 3D content on the screen.
 namespace Kuplung_DX
@@ -52,6 +53,7 @@ namespace Kuplung_DX
 		// Track current input pointer position.
 		float m_pointerLocationX;
 
-		std::vector<Kuplung_DX::Models::MeshModel> meshModels;
+		std::vector<Models::MeshModel> meshModels;
+		std::vector<std::unique_ptr<Rendering::Models::Model3D>> models3D;
 	};
 }

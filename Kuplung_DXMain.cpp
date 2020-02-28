@@ -28,7 +28,6 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 }
 
 Kuplung_DXMain::~Kuplung_DXMain() {
-	// Deregister device notification
 	m_renderingManager.reset();
 	m_deviceResources->RegisterDeviceNotify(nullptr);
 }
@@ -135,7 +134,7 @@ bool Kuplung_DXMain::Render()  {
 	if (Kuplung_DX::App::ViewFPSCounter)
 		m_fpsTextRenderer->Render();
 
-	m_renderingManager->Render(this->meshModels);
+	m_renderingManager->Render(this->models3D);
 
 	return true;
 }
@@ -157,4 +156,10 @@ void Kuplung_DXMain::OnDeviceRestored() {
 
 void Kuplung_DXMain::AddModels(std::vector<Kuplung_DX::Models::MeshModel> mms) {
 	this->meshModels.insert(end(this->meshModels), begin(mms), end(mms));
+
+	for each (Kuplung_DX::Models::MeshModel m in mms) {
+		auto m3d = std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>(new Kuplung_DX::Rendering::Models::Model3D(m_deviceResources));
+		m3d->InitModel3D(m);
+		this->models3D.push_back(std::move(m3d));
+	}
 }

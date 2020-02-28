@@ -219,6 +219,10 @@ void Kuplung_DX::DirectXPage::MenuShowLogWindow_Click(Platform::Object^ sender, 
 	this->showLogWindow = !this->showLogWindow;
 	this->panelLog->Visibility = this->showLogWindow ? Windows::UI::Xaml::Visibility::Visible : Windows::UI::Xaml::Visibility::Collapsed;
 }
+
+void Kuplung_DX::DirectXPage::MenuNew_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	this->m_main->ClearModels();
+}
 #pragma endregion
 
 void DirectXPage::LogInfo(Object^ parameter, bool addToLog) {

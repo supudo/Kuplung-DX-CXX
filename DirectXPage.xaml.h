@@ -75,6 +75,8 @@ namespace Kuplung_DX
 		void MenuCube_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuFPSCounter_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuShowLogWindow_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void MenuNew_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+
 		void LogWindowResize_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void LogWindowClear_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);

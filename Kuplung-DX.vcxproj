@@ -246,7 +246,6 @@
     </ClInclude>
     <ClInclude Include="Common\DeviceResources.h" />
     <ClInclude Include="Importers\FileModelManager.h" />
-    <ClInclude Include="Importers\ObjModelLoader.h" />
     <ClInclude Include="Importers\ObjParser.h" />
     <ClInclude Include="Importers\ParserUtils.h" />
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -273,7 +272,6 @@
     </ClCompile>
     <ClCompile Include="Common\DeviceResources.cpp" />
     <ClCompile Include="Importers\FileModelManager.cpp" />
-    <ClCompile Include="Importers\ObjModelLoader.cpp" />
     <ClCompile Include="Importers\ObjParser.cpp" />
     <ClCompile Include="Importers\ParserUtils.cpp" />
     <ClCompile Include="Kuplung_DXMain.cpp" />

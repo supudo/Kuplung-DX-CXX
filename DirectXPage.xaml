@@ -19,7 +19,7 @@
     <SwapChainPanel x:Name="swapChainPanel">
         <xamlui:MenuBar HorizontalAlignment="Left" VerticalAlignment="Top" Background="{ThemeResource AppBarBorderThemeBrush}">
             <xamlui:MenuBarItem Title="File" Foreground="White">
-                <MenuFlyoutItem Text="New">
+                <MenuFlyoutItem Text="New" Click="MenuNew_Click">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE1DA;" />
                     </MenuFlyoutItem.Icon>

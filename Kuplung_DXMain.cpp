@@ -163,3 +163,11 @@ void Kuplung_DXMain::AddModels(std::vector<Kuplung_DX::Models::MeshModel> mms) {
 		this->models3D.push_back(std::move(m3d));
 	}
 }
+
+void Kuplung_DXMain::ClearModels() {
+	for each (auto& m in this->models3D) {
+		m->ReleaseDeviceDependentResources();
+	}
+	this->meshModels.clear();
+	this->models3D.clear();
+}

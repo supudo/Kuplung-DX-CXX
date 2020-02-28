@@ -30,6 +30,7 @@ namespace Kuplung_DX
 		virtual void OnDeviceRestored();
 
 		void AddModels(std::vector<Kuplung_DX::Models::MeshModel> mms);
+		void ClearModels();
 
 	private:
 		void ProcessInput();

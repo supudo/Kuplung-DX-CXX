@@ -81,9 +81,6 @@
     <ClCompile Include="Rendering\Models\Model3D.cpp">
       <Filter>Rendering\Models</Filter>
     </ClCompile>
-    <ClCompile Include="Importers\ObjModelLoader.cpp">
-      <Filter>Importers</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -126,9 +123,6 @@
     </ClInclude>
     <ClInclude Include="Rendering\Models\Model3D.h">
       <Filter>Rendering\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Importers\ObjModelLoader.h">
-      <Filter>Importers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

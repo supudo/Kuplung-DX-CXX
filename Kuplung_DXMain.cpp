@@ -35,28 +35,27 @@ Kuplung_DXMain::~Kuplung_DXMain() {
 // Updates application state when the window size changes (e.g. device orientation change)
 void Kuplung_DXMain::CreateWindowSizeDependentResources()  {
 	m_sampleSceneRenderer->CreateWindowSizeDependentResources();
-	m_renderingManager->CreateWindowSizeDependentResources();
 }
 
 void Kuplung_DXMain::StartTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		m_sampleSceneRenderer->StartTracking();
 
-	m_renderingManager->StartTracking();
+	m_renderingManager->StartTracking(this->models3D);
 }
 
 void Kuplung_DXMain::StopTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		m_sampleSceneRenderer->StopTracking();
 
-	m_renderingManager->StopTracking();
+	m_renderingManager->StopTracking(this->models3D);
 }
 
 bool Kuplung_DXMain::IsTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		return m_sampleSceneRenderer->IsTracking();
 
-	return m_renderingManager->IsTracking();
+	return m_renderingManager->IsTracking(this->models3D);
 }
 
 void Kuplung_DXMain::StartRenderLoop() {
@@ -94,7 +93,7 @@ void Kuplung_DXMain::Update()  {
 		if (Kuplung_DX::App::ViewFPSCounter)
 			m_fpsTextRenderer->Update(m_timer);
 
-		m_renderingManager->Update(m_timer);
+		m_renderingManager->Update(this->models3D, m_timer);
 	});
 }
 
@@ -103,7 +102,7 @@ void Kuplung_DXMain::ProcessInput() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		m_sampleSceneRenderer->TrackingUpdate(m_pointerLocationX);
 
-	m_renderingManager->TrackingUpdate(m_pointerLocationX);
+	m_renderingManager->TrackingUpdate(this->models3D, m_pointerLocationX);
 }
 
 // Renders the current frame according to the current application state.
@@ -143,14 +142,12 @@ bool Kuplung_DXMain::Render()  {
 void Kuplung_DXMain::OnDeviceLost() {
 	m_sampleSceneRenderer->ReleaseDeviceDependentResources();
 	m_fpsTextRenderer->ReleaseDeviceDependentResources();
-	m_renderingManager->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
 void Kuplung_DXMain::OnDeviceRestored() {
 	m_sampleSceneRenderer->CreateDeviceDependentResources();
 	m_fpsTextRenderer->CreateDeviceDependentResources();
-	m_renderingManager->CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
 }
 

@@ -6,7 +6,12 @@ using namespace Kuplung_DX::Rendering;
 using namespace DirectX;
 using namespace Windows::Foundation;
 
-Models::Model3D::Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources) {
+Models::Model3D::Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+	m_deviceResources(deviceResources),
+	m_loadingComplete(false),
+	m_degreesPerSecond(45),
+	m_indexCount(0),
+	m_tracking(false) {
 }
 
 void Models::Model3D::InitModel3D(const Kuplung_DX::Models::MeshModel& model) {
@@ -45,7 +50,7 @@ void Models::Model3D::CreateWindowSizeDependentResources() {
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
 	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
+	//XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
 }
 
 void Models::Model3D::CreateDeviceDependentResources() {
@@ -207,3 +212,31 @@ void Models::Model3D::Render() {
 	context->DrawIndexed(m_indexCount, 0, 0);
 }
 
+void Models::Model3D::Update(DX::StepTimer const& timer) {
+	if (!m_tracking) {
+		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
+		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
+		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
+
+		this->Rotate(radians);
+	}
+}
+
+void Models::Model3D::Rotate(float radians) {
+	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
+}
+
+void Models::Model3D::StartTracking() {
+	m_tracking = true;
+}
+
+void Models::Model3D::TrackingUpdate(float positionX) {
+	if (m_tracking) {
+		float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
+		this->Rotate(radians);
+	}
+}
+
+void Models::Model3D::StopTracking() {
+	m_tracking = false;
+}

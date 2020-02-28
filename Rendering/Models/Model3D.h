@@ -21,6 +21,13 @@ namespace Kuplung_DX
                 void ReleaseDeviceDependentResources();
                 void Render();
 
+                void Update(DX::StepTimer const& timer);
+                void StartTracking();
+                void TrackingUpdate(float positionX);
+                void StopTracking();
+                bool IsTracking() { return m_tracking; }
+                void Rotate(float radians);
+
                 Kuplung_DX::Models::MeshModel MeshModel;
 
             private:
@@ -38,6 +45,9 @@ namespace Kuplung_DX
                 Kuplung_DX::Rendering::ModelViewProjectionConstantBuffer m_constantBufferData;
                 uint32 m_indexCount;
                 bool m_loadingComplete;
+
+                float m_degreesPerSecond;
+                bool m_tracking;
             };
         }
     }

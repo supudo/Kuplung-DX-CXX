@@ -16,16 +16,13 @@ namespace Kuplung_DX
 		public:
 			RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources);
 
-			void CreateDeviceDependentResources();
-			void CreateWindowSizeDependentResources();
-			void ReleaseDeviceDependentResources();
-			void Update(DX::StepTimer const& timer);
+			void Update(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, DX::StepTimer const& timer);
 			void Render(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models);
-			void StartTracking();
-			void TrackingUpdate(float positionX);
-			void StopTracking();
-			bool IsTracking();
-			void Rotate(float radians);
+			void StartTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models);
+			void TrackingUpdate(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, float positionX);
+			void StopTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models);
+			bool IsTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models);
+			void Rotate(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, float radians);
 
 		private:
 			std::unique_ptr<Kuplung_DX::Rendering::RenderingSimple> renderingSimple;

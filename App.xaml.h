@@ -28,6 +28,15 @@ namespace Kuplung_DX {
 
 		static property uint32 RenderingMethod;
 
+		static property float Setting_FOV;
+		static property float Setting_RatioWidth;
+		static property float Setting_RatioHeight;
+		static property float Setting_PlaneClose;
+		static property float Setting_PlaneFar;
+		static property int GridSize;
+		static property float GridUnitSize;
+		static property bool ShowZAxis;
+
 	private:
 		void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ e);
 		void OnResuming(Platform::Object ^sender, Platform::Object ^args);

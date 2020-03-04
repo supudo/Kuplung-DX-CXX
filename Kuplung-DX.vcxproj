@@ -254,16 +254,21 @@
     </ClInclude>
     <ClInclude Include="Common\DirectXHelper.h" />
     <ClInclude Include="Common\StepTimer.h" />
+    <ClInclude Include="Models\Camera.h" />
+    <ClInclude Include="Models\GUI\Grid.h" />
+    <ClInclude Include="Models\ShaderStructures.h" />
     <ClInclude Include="Models\Shape.h" />
     <ClInclude Include="Models\ModelObject.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rendering\Models\Model3D.h" />
     <ClInclude Include="Rendering\RenderingManager.h" />
     <ClInclude Include="Rendering\RenderingSimple.h" />
+    <ClInclude Include="Rendering\ObjectsManager.h" />
     <ClInclude Include="Rendering\ShaderStructures.h" />
     <ClInclude Include="Sample\Sample3DSceneRenderer.h" />
     <ClInclude Include="Sample\SampleFpsTextRenderer.h" />
     <ClInclude Include="Sample\ShaderStructures.h" />
+    <ClInclude Include="Types\Types.h" />
     <ClInclude Include="Utilities\CXXUtils.h" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +283,8 @@
     <ClCompile Include="DirectXPage.xaml.cpp">
       <DependentUpon>DirectXPage.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="Models\Camera.cpp" />
+    <ClCompile Include="Models\GUI\Grid.cpp" />
     <ClCompile Include="Models\Shape.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -292,6 +299,7 @@
     <ClCompile Include="Rendering\Models\Model3D.cpp" />
     <ClCompile Include="Rendering\RenderingManager.cpp" />
     <ClCompile Include="Rendering\RenderingSimple.cpp" />
+    <ClCompile Include="Rendering\ObjectsManager.cpp" />
     <ClCompile Include="Sample\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Utilities\CXXUtils.cpp" />
@@ -302,6 +310,12 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Models\Shaders\GridPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Models\Shaders\GridVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Rendering\Shaders\RenderingSimplePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
     </FxCompile>
@@ -386,12 +400,6 @@
     <Image Include="Assets\Wide310x150Logo.scale-150.png" />
     <Image Include="Assets\Wide310x150Logo.scale-200.png" />
     <Image Include="Assets\Wide310x150Logo.scale-400.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Resources\Scene.fbx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ShaderGraphContentTask Include="Resources\Shader.dgsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

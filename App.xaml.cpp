@@ -127,6 +127,15 @@ void App::KuplungInitializeSettings() {
 	this->LogWindowHeight = 200;
 
 	this->RenderingMethod = 1;
+
+	this->Setting_FOV = 45.0;
+	this->Setting_RatioWidth = 4.0f;
+	this->Setting_RatioHeight = 3.0f;
+	this->Setting_PlaneClose = 0.1f;
+	this->Setting_PlaneFar = 100.0f;
+	this->GridSize = 10;
+	this->GridUnitSize = 10;
+	this->ShowZAxis = true;
 }
 
 void App::LogInfo(Object^ parameter) {

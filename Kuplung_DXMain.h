@@ -5,6 +5,7 @@
 #include <Sample\Sample3DSceneRenderer.h>
 #include <Sample\SampleFpsTextRenderer.h>
 #include <Rendering\RenderingManager.h>
+#include <Rendering\ObjectsManager.h>
 #include <Models\Shape.h>
 #include <Rendering\Models\Model3D.h>
 
@@ -44,6 +45,7 @@ namespace Kuplung_DX
 		std::unique_ptr<Sample::Sample3DSceneRenderer> m_sampleSceneRenderer;
 		std::unique_ptr<Sample::SampleFpsTextRenderer> m_fpsTextRenderer;
 		std::unique_ptr<Rendering::RenderingManager> m_renderingManager;
+		std::unique_ptr<Rendering::ObjectsManager> m_objectsManager;
 
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;
 		Concurrency::critical_section m_criticalSection;

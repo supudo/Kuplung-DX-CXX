@@ -18,6 +18,7 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 	// Rendering
 	m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(m_deviceResources));
+	m_objectsManager = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(m_deviceResources));
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -29,6 +30,7 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 Kuplung_DXMain::~Kuplung_DXMain() {
 	m_renderingManager.reset();
+	m_objectsManager.reset();
 	m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
@@ -133,6 +135,7 @@ bool Kuplung_DXMain::Render()  {
 	if (Kuplung_DX::App::ViewFPSCounter)
 		m_fpsTextRenderer->Render();
 
+	m_objectsManager->Render();
 	m_renderingManager->Render(this->models3D);
 
 	return true;

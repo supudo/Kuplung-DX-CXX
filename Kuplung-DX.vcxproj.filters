@@ -38,11 +38,17 @@
     <Filter Include="Rendering\Models">
       <UniqueIdentifier>{c6d9a521-cdd5-48de-a06c-992d9856a348}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{c79a9e18-fc31-49b5-9dd9-47e102f39700}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering\Shaders">
       <UniqueIdentifier>{4b247e85-7624-4039-a597-73405b8a5098}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{9d419d0a-2b73-4cde-a66f-8185d2d758d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\GUI">
+      <UniqueIdentifier>{dc6c692e-71a5-4949-9815-8400b4a6bb5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\Shaders">
+      <UniqueIdentifier>{14d742ce-a9ae-4193-84e2-0abcb808982b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +86,15 @@
     </ClCompile>
     <ClCompile Include="Rendering\Models\Model3D.cpp">
       <Filter>Rendering\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\GUI\Grid.cpp">
+      <Filter>Models\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\Camera.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\ObjectsManager.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +138,21 @@
     </ClInclude>
     <ClInclude Include="Rendering\Models\Model3D.h">
       <Filter>Rendering\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\GUI\Grid.h">
+      <Filter>Models\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\Types.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\Camera.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ObjectsManager.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\ShaderStructures.h">
+      <Filter>Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -320,15 +350,11 @@
     <FxCompile Include="Rendering\Shaders\RenderingSimplePixelShader.hlsl">
       <Filter>Rendering\Shaders</Filter>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <MeshContentTask Include="Resources\Scene.fbx">
-      <Filter>Resources</Filter>
-    </MeshContentTask>
-  </ItemGroup>
-  <ItemGroup>
-    <ShaderGraphContentTask Include="Resources\Shader.dgsl">
-      <Filter>Resources</Filter>
-    </ShaderGraphContentTask>
+    <FxCompile Include="Models\Shaders\GridVertexShader.hlsl">
+      <Filter>Models\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Models\Shaders\GridPixelShader.hlsl">
+      <Filter>Models\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

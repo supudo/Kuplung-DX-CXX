@@ -17,7 +17,6 @@ namespace Kuplung_DX
             std::unique_ptr<ObjectCoordinate> RotateX, RotateY, RotateZ;
             std::unique_ptr<ObjectCoordinate> RotateCenterX, RotateCenterY, RotateCenterZ;
 
-            DirectX::XMFLOAT4X4 MatrixProjection;
             DirectX::XMFLOAT4X4 MatrixCamera;
             DirectX::XMFLOAT3 CameraPosition;
         private:

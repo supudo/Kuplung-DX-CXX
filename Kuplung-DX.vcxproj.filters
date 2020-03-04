@@ -50,6 +50,9 @@
     <Filter Include="Models\Shaders">
       <UniqueIdentifier>{14d742ce-a9ae-4193-84e2-0abcb808982b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Settings">
+      <UniqueIdentifier>{caa9ad06-3726-4743-a9ab-2cc2302be06f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -95,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="Rendering\ObjectsManager.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Models\GuiObject.cpp">
+      <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings\Settings.cpp">
+      <Filter>Settings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="Models\ShaderStructures.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Models\GuiObject.h">
+      <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings\Settings.h">
+      <Filter>Settings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,9 +9,10 @@
 
 #include "Common\DeviceResources.h"
 #include "Kuplung_DXMain.h"
-#include "Models\Shape.h"
-#include "Utilities\CXXUtils.h"
-#include "Importers\FileModelManager.h"
+#include <Models\Shape.h>
+#include <Models\GuiObject.h>
+#include <Utilities\CXXUtils.h>
+#include <Importers\FileModelManager.h>
 
 namespace Kuplung_DX
 {
@@ -64,6 +65,8 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 
 		Platform::Collections::Vector<Kuplung_DX::Models::Shape^>^ availableModels;
+		Platform::Collections::Vector<Kuplung_DX::Models::GuiObject^>^ guiObjects;
+
 		Platform::Boolean showLogWindow;
 
 		void LogInfo(Object^ parameter, bool addToLog);
@@ -82,6 +85,7 @@ namespace Kuplung_DX
 		void logSize_KeyDown(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs^ e);
 
 		void lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e);
+		void tvGuiObjects_Tapped(Platform::Object^ sender, Windows::UI::Xaml::Input::TappedRoutedEventArgs^ e);
 	};
 }
 

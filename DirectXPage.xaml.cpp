@@ -90,6 +90,16 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball - Blender", "MaterialBallBlender.obj" });
 	this->lvModels->ItemsSource = this->availableModels;
 
+	this->guiObjects = ref new Platform::Collections::Vector<Kuplung_DX::Models::GuiObject^>();
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 0, "General", L"\xE713" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 1, "Camera", L"\xE7B3" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 2, "Camera Model", L"\xE714" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 3, "Grid", L"\xF0E2" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 4, "Scene Lights", L"\xE754" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 5, "Skybox", L"\xF16E" });
+	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 6, "Lights", L"\xEA80" });
+	this->tvGuiObjects->ItemsSource = this->guiObjects;
+
 	this->showLogWindow = true;
 
 	this->panelLog->Width = Kuplung_DX::App::LogWindowWidth;
@@ -266,7 +276,6 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 			this->ParseModelAsync(modelFile);
 		});
 	auto r = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
-
 }
 
 void Kuplung_DX::DirectXPage::ParseModelAsync(Platform::String^ modelFile) {
@@ -286,4 +295,39 @@ void Kuplung_DX::DirectXPage::DoProgress(float progress) {
 			//ctx->LogInfo(p, true);
 			ctx->txtLoading->Text = p;
 		}));
+}
+
+void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Windows::UI::Xaml::Input::TappedRoutedEventArgs^ e) {
+	auto item = (Kuplung_DX::Models::GuiObject^)this->tvGuiObjects->SelectedItem;
+	this->pnlGuiGeneral->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiCamera->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiCameraModel->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiGrid->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiSceneLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiSkybox->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	this->pnlGuiLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+	switch (item->Id)
+	{
+	case 1:
+		this->pnlGuiCamera->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	case 2:
+		this->pnlGuiCameraModel->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	case 3:
+		this->pnlGuiGrid->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	case 4:
+		this->pnlGuiSceneLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	case 5:
+		this->pnlGuiSkybox->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	case 6:
+		this->pnlGuiLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		break;
+	default:
+		this->pnlGuiGeneral->Visibility = Windows::UI::Xaml::Visibility::Visible;
+		break;
+	}
 }

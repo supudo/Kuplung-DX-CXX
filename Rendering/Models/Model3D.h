@@ -19,7 +19,7 @@ namespace Kuplung_DX
                 void CreateDeviceDependentResources();
                 void CreateWindowSizeDependentResources();
                 void ReleaseDeviceDependentResources();
-                void Render();
+                void Render(const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera);
 
                 void Update(DX::StepTimer const& timer);
                 void StartTracking();

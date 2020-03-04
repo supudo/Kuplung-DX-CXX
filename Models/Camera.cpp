@@ -41,7 +41,6 @@ void Camera::InitProperties() {
     this->RotateCenterY = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->RotateCenterZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
-    XMStoreFloat4x4(&this->MatrixProjection, DirectX::XMMatrixIdentity());
     XMStoreFloat4x4(&this->MatrixCamera, DirectX::XMMatrixIdentity());
 }
 

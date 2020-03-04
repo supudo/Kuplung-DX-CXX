@@ -14,6 +14,15 @@
         <DataTemplate x:Key="ModelsListViewTemplate" x:DataType="models:Shape">
             <TextBlock Text="{x:Bind Title}" x:Phase="1" Margin="0,5,0,5"/>
         </DataTemplate>
+        <DataTemplate x:Key="GuiControlsTemplate" x:DataType="models:GuiObject">
+            <xamlui:TreeViewItem AutomationProperties.Name="{x:Bind Title}">
+                <StackPanel Orientation="Horizontal">
+                    <FontIcon Glyph="{x:Bind Icon}" />
+                    <TextBlock Margin="0,0,10,0"/>
+                    <TextBlock Text="{x:Bind Title}"/>
+                </StackPanel>
+            </xamlui:TreeViewItem>
+        </DataTemplate>
     </Page.Resources>
 
     <SwapChainPanel x:Name="swapChainPanel">
@@ -230,8 +239,73 @@
         <Grid x:Name="panelGUI" Visibility="Visible" Width="400" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 50, 10, 0" Background="White" CornerRadius="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Scene" Grid.Row="1" x:Name="headerGUI" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
+            <TextBlock Text="GUI Controls" Grid.Row="0" x:Name="headerGUI" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
+            <StackPanel Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                        <xamlui:TreeView x:Name="tvGuiObjects" CanDragItems="False" AllowDrop="False" SelectionMode="Single" ItemTemplate="{StaticResource GuiControlsTemplate}" Tapped="tvGuiObjects_Tapped" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="10">
+                        <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="4"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Margin="10">
+                        <StackPanel x:Name="pnlGuiGeneral">
+                            <TextBlock Text="Field of view" />
+                            <Slider Minimum="-180.0" Maximum="180.0" StepFrequency="1" />
+                            <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1" Margin="0, 4, 0, 4" />
+                            <TextBlock Text="Ratio" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="W" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                <Slider Grid.Column="1" Minimum="0.0" Maximum="5.0" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="H" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                <Slider Grid.Column="1" Minimum="0.0" Maximum="5.0" />
+                            </Grid>
+                            <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
+                            <TextBlock Text="Planes" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Close" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                <Slider Grid.Column="1" Minimum="-180.0" Maximum="180.0" StepFrequency="1" />
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Far" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                <Slider Grid.Column="1" Minimum="-180.0" Maximum="180.0" StepFrequency="1" />
+                            </Grid>
+                            <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
+                        </StackPanel>
+                        <StackPanel x:Name="pnlGuiCamera" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiCameraModel" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiGrid" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiSceneLights" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiSkybox" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiLights" Visibility="Collapsed"></StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
 
         <Grid x:Name="panelLog" Width="600" Height="200" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 0, 0, 20" Background="White" CornerRadius="2" Opacity="0.9">

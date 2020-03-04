@@ -255,6 +255,7 @@
     <ClInclude Include="Common\DirectXHelper.h" />
     <ClInclude Include="Common\StepTimer.h" />
     <ClInclude Include="Models\Camera.h" />
+    <ClInclude Include="Models\GuiObject.h" />
     <ClInclude Include="Models\GUI\Grid.h" />
     <ClInclude Include="Models\ShaderStructures.h" />
     <ClInclude Include="Models\Shape.h" />
@@ -268,6 +269,7 @@
     <ClInclude Include="Sample\Sample3DSceneRenderer.h" />
     <ClInclude Include="Sample\SampleFpsTextRenderer.h" />
     <ClInclude Include="Sample\ShaderStructures.h" />
+    <ClInclude Include="Settings\Settings.h" />
     <ClInclude Include="Types\Types.h" />
     <ClInclude Include="Utilities\CXXUtils.h" />
   </ItemGroup>
@@ -284,6 +286,7 @@
       <DependentUpon>DirectXPage.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="Models\Camera.cpp" />
+    <ClCompile Include="Models\GuiObject.cpp" />
     <ClCompile Include="Models\GUI\Grid.cpp" />
     <ClCompile Include="Models\Shape.cpp" />
     <ClCompile Include="pch.cpp">
@@ -302,6 +305,7 @@
     <ClCompile Include="Rendering\ObjectsManager.cpp" />
     <ClCompile Include="Sample\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp" />
+    <ClCompile Include="Settings\Settings.cpp" />
     <ClCompile Include="Utilities\CXXUtils.cpp" />
   </ItemGroup>
   <ItemGroup>

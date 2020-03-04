@@ -1,25 +1,26 @@
 ﻿#include "pch.h"
 #include "RenderingManager.h"
 
+using namespace Kuplung_DX::Rendering;
 using namespace DirectX;
 using namespace Windows::Foundation;
 
-Kuplung_DX::Rendering::RenderingManager::RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) {
-	this->renderingSimple = std::make_unique<Kuplung_DX::Rendering::RenderingSimple>();
+RenderingManager::RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) {
+	this->renderingSimple = std::make_unique<RenderingSimple>();
 }
 
-void Kuplung_DX::Rendering::RenderingManager::Render(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models) {
+void RenderingManager::Render(const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera, const std::vector<std::unique_ptr<Models::Model3D>>& models) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
-		this->renderingSimple->Render(models);
+		this->renderingSimple->Render(matrixProjection, matrixCamera, models);
 		break;
 	default:
 		break;
 	}
 }
 
-void Kuplung_DX::Rendering::RenderingManager::Update(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, DX::StepTimer const& timer) {
+void RenderingManager::Update(const std::vector<std::unique_ptr<Models::Model3D>>& models, DX::StepTimer const& timer) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
@@ -30,7 +31,7 @@ void Kuplung_DX::Rendering::RenderingManager::Update(const std::vector<std::uniq
 	}
 }
 
-void Kuplung_DX::Rendering::RenderingManager::Rotate(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, float radians) {
+void RenderingManager::Rotate(const std::vector<std::unique_ptr<Models::Model3D>>& models, float radians) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
@@ -41,7 +42,7 @@ void Kuplung_DX::Rendering::RenderingManager::Rotate(const std::vector<std::uniq
 	}
 }
 
-void Kuplung_DX::Rendering::RenderingManager::StartTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models) {
+void RenderingManager::StartTracking(const std::vector<std::unique_ptr<Models::Model3D>>& models) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
@@ -52,7 +53,7 @@ void Kuplung_DX::Rendering::RenderingManager::StartTracking(const std::vector<st
 	}
 }
 
-void Kuplung_DX::Rendering::RenderingManager::TrackingUpdate(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models, float positionX) {
+void RenderingManager::TrackingUpdate(const std::vector<std::unique_ptr<Models::Model3D>>& models, float positionX) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
@@ -63,7 +64,7 @@ void Kuplung_DX::Rendering::RenderingManager::TrackingUpdate(const std::vector<s
 	}
 }
 
-void Kuplung_DX::Rendering::RenderingManager::StopTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models) {
+void RenderingManager::StopTracking(const std::vector<std::unique_ptr<Models::Model3D>>& models) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:
@@ -74,7 +75,7 @@ void Kuplung_DX::Rendering::RenderingManager::StopTracking(const std::vector<std
 	}
 }
 
-bool Kuplung_DX::Rendering::RenderingManager::IsTracking(const std::vector<std::unique_ptr<Kuplung_DX::Rendering::Models::Model3D>>& models) {
+bool RenderingManager::IsTracking(const std::vector<std::unique_ptr<Models::Model3D>>& models) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:

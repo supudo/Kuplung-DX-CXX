@@ -179,7 +179,7 @@ void Models::Model3D::ReleaseDeviceDependentResources() {
 	m_indexBuffer.Reset();
 }
 
-void Models::Model3D::Render() {
+void Models::Model3D::Render(const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera) {
 	// Loading is asynchronous. Only draw geometry after it's loaded.
 	if (!m_loadingComplete)
 		return;

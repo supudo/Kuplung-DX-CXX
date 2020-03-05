@@ -116,7 +116,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 		}
 	);
 
-	this->slSetting_FOV->Value = Kuplung_DX::App::Setting_FOV;
+	this->InitializeGUIControlsValues();
 }
 
 DirectXPage::~DirectXPage() {
@@ -335,6 +335,14 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 }
 
 #pragma region GUI Controls events
+void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
+	this->slSetting_FOV->Value = Kuplung_DX::App::Setting_FOV;
+	this->slSetting_RatioWidth->Value = Kuplung_DX::App::Setting_RatioWidth;
+	this->slSetting_RatioHeight->Value = Kuplung_DX::App::Setting_RatioHeight;
+	this->slSetting_PlaneClose->Value = Kuplung_DX::App::Setting_PlaneClose;
+	this->slSetting_PlaneFar->Value = Kuplung_DX::App::Setting_PlaneFar;
+}
+
 void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
 	Kuplung_DX::App::Setting_FOV = this->slSetting_FOV->Value;
 }
@@ -348,10 +356,12 @@ void Kuplung_DX::DirectXPage::slSetting_RatioHeight_ValueChanged(Platform::Objec
 }
 
 void Kuplung_DX::DirectXPage::slSetting_PlaneClose_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	Kuplung_DX::App::Setting_PlaneClose = this->slSetting_PlaneClose->Value;
+	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneFar, this->slSetting_PlaneClose->Value, 0.00001f))
+		Kuplung_DX::App::Setting_PlaneClose = this->slSetting_PlaneClose->Value;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_PlaneFar_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	Kuplung_DX::App::Setting_PlaneFar = this->slSetting_PlaneFar->Value;
+	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneClose, this->slSetting_PlaneFar->Value, 0.00001f))
+		Kuplung_DX::App::Setting_PlaneFar = this->slSetting_PlaneFar->Value;
 }
 #pragma endregion

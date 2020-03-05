@@ -259,7 +259,7 @@
                     <StackPanel Grid.Row="2" Margin="10">
                         <StackPanel x:Name="pnlGuiGeneral">
                             <TextBlock Text="Field of view" />
-                            <Slider x:Name="slSetting_FOV" Minimum="-180.0" Maximum="180.0" StepFrequency="1" ValueChanged="slSetting_FOV_ValueChanged" />
+                            <Slider x:Name="slSetting_FOV" Value="45" Minimum="-180.0" Maximum="180.0" StepFrequency="1" ValueChanged="slSetting_FOV_ValueChanged" />
                             <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1" Margin="0, 4, 0, 4" />
                             <TextBlock Text="Ratio" />
                             <Grid>
@@ -268,7 +268,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="W" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                                <Slider x:Name="slSetting_RatioWidth" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioWidth_ValueChanged" />
+                                <Slider x:Name="slSetting_RatioWidth" Value="3" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioWidth_ValueChanged" />
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -276,7 +276,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="H" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                                <Slider x:Name="slSetting_RatioHeight" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioHeight_ValueChanged" />
+                                <Slider x:Name="slSetting_RatioHeight" Value="4" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioHeight_ValueChanged" />
                             </Grid>
                             <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
                             <TextBlock Text="Planes" />
@@ -286,7 +286,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Close" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                                <Slider x:Name="slSetting_PlaneClose" Grid.Column="1" Minimum="-180.0" Maximum="180.0" StepFrequency="1" ValueChanged="slSetting_PlaneClose_ValueChanged" />
+                                <Slider x:Name="slSetting_PlaneClose" Value="1" Grid.Column="1" Minimum="1" Maximum="100" StepFrequency="1" ValueChanged="slSetting_PlaneClose_ValueChanged" />
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -294,7 +294,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="Far" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                                <Slider x:Name="slSetting_PlaneFar" Grid.Column="1" Minimum="-180.0" Maximum="180.0" StepFrequency="1" ValueChanged="slSetting_PlaneFar_ValueChanged" />
+                                <Slider x:Name="slSetting_PlaneFar" Value="1000" Grid.Column="1" Minimum="1" Maximum="1000" StepFrequency="1" ValueChanged="slSetting_PlaneFar_ValueChanged" />
                             </Grid>
                             <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
                         </StackPanel>

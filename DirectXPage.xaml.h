@@ -72,6 +72,7 @@ namespace Kuplung_DX
 		void LogInfo(Object^ parameter, bool addToLog);
 		void DoProgress(float progress);
 		void ParseModelAsync(Platform::String^ modelFile);
+		void InitializeGUIControlsValues();
 
 		void MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 		void MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);

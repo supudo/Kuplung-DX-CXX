@@ -22,11 +22,11 @@ namespace Kuplung_DX
                 unsigned short int gridSize;
 
                 bool showGrid;
-                std::unique_ptr<ObjectCoordinate> positionX, positionY, positionZ;
-                std::unique_ptr<ObjectCoordinate> scaleX, scaleY, scaleZ;
-                std::unique_ptr<ObjectCoordinate> rotateX, rotateY, rotateZ;
+                std::unique_ptr<ObjectCoordinate> PositionX, PositionY, PositionZ;
+                std::unique_ptr<ObjectCoordinate> ScaleX, ScaleY, ScaleZ;
+                std::unique_ptr<ObjectCoordinate> RotateX, RotateY, RotateZ;
 
-                DirectX::XMMATRIX matrixModel;
+                DirectX::XMMATRIX MatrixModel;
 
                 std::vector<XMFLOAT3> dataVertices;
                 std::vector<XMFLOAT3> dataColors;

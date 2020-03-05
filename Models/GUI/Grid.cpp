@@ -13,35 +13,35 @@ Grid::Grid(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_devi
 }
 
 Grid::~Grid() {
-    this->positionX.reset();
-    this->positionY.reset();
-    this->positionZ.reset();
+    this->PositionX.reset();
+    this->PositionY.reset();
+    this->PositionZ.reset();
 
-    this->scaleX.reset();
-    this->scaleY.reset();
-    this->scaleZ.reset();
+    this->ScaleX.reset();
+    this->ScaleY.reset();
+    this->ScaleZ.reset();
 
-    this->rotateX.reset();
-    this->rotateY.reset();
-    this->rotateZ.reset();
+    this->RotateX.reset();
+    this->RotateY.reset();
+    this->RotateZ.reset();
 }
 
 void Grid::InitProperties() {
     this->showGrid = true;
 
-    this->positionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
-    this->positionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
-    this->positionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
-    this->scaleX = std::make_unique<ObjectCoordinate>(false, 1.0f);
-    this->scaleY = std::make_unique<ObjectCoordinate>(false, 1.0f);
-    this->scaleZ = std::make_unique<ObjectCoordinate>(false, 1.0f);
+    this->ScaleX = std::make_unique<ObjectCoordinate>(false, 1.0f);
+    this->ScaleY = std::make_unique<ObjectCoordinate>(false, 1.0f);
+    this->ScaleZ = std::make_unique<ObjectCoordinate>(false, 1.0f);
 
-    this->rotateX = std::make_unique<ObjectCoordinate>(false, 0.0f);
-    this->rotateY = std::make_unique<ObjectCoordinate>(false, 0.0f);
-    this->rotateZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateX = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateY = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
-    this->matrixModel = DirectX::XMMatrixIdentity();
+    this->MatrixModel = XMMatrixIdentity();
 }
 
 void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
@@ -60,72 +60,72 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 
 	// +
 	for (float z = perLines; z > 0; z--) {
-		this->dataVertices.push_back(DirectX::XMFLOAT3(-perLines * unitSize, 0.0, -z * unitSize));
-		this->dataVertices.push_back(DirectX::XMFLOAT3(perLines * unitSize, 0.0, -z * unitSize));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, 0.0, -z * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, -z * unitSize));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(indiceCounter++);
 		this->dataIndices.push_back(indiceCounter++);
 	}
 
 	// X
-	this->dataVertices.push_back(DirectX::XMFLOAT3(-perLines * unitSize, 0.0, 0.0));
-	this->dataVertices.push_back(DirectX::XMFLOAT3(perLines * unitSize, 0.0, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(1.0, 0.0, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(1.0, 0.0, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, 0.0, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, 0.0));
+	this->dataColors.push_back(XMFLOAT3(1.0, 0.0, 0.0));
+	this->dataColors.push_back(XMFLOAT3(1.0, 0.0, 0.0));
 	this->dataIndices.push_back(indiceCounter++);
 	this->dataIndices.push_back(indiceCounter++);
 	// X
 
 	for (float z = 1.0; z <= perLines; z++) {
-		this->dataVertices.push_back(DirectX::XMFLOAT3(-perLines * unitSize, 0.0, z * unitSize));
-		this->dataVertices.push_back(DirectX::XMFLOAT3(perLines * unitSize, 0.0, z * unitSize));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, 0.0, z * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, z * unitSize));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(indiceCounter++);
 		this->dataIndices.push_back(indiceCounter++);
 	}
 
 	// -
 	for (float x = perLines; x > 0; x--) {
-		this->dataVertices.push_back(DirectX::XMFLOAT3(-x * unitSize, 0.0, -perLines * unitSize));
-		this->dataVertices.push_back(DirectX::XMFLOAT3(-x * unitSize, 0.0, perLines * unitSize));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, 0.0, -perLines * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, 0.0, perLines * unitSize));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(indiceCounter++);
 		this->dataIndices.push_back(indiceCounter++);
 	}
 
 	// Z
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, 0.0, perLines * unitSize));
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, 0.0, -perLines * unitSize));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 0.0, 1.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 0.0, 1.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
+	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
+	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
 	this->dataIndices.push_back(indiceCounter++);
 	this->dataIndices.push_back(indiceCounter++);
 	// Z
 
 	for (float x = 1.0; x <= perLines; x++) {
-		this->dataVertices.push_back(DirectX::XMFLOAT3(x * unitSize, 0.0, -perLines * unitSize));
-		this->dataVertices.push_back(DirectX::XMFLOAT3(x * unitSize, 0.0, perLines * unitSize));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataColors.push_back(DirectX::XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, -perLines * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, perLines * unitSize));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(indiceCounter++);
 		this->dataIndices.push_back(indiceCounter++);
 	}
 
 	// Y
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, -perLines * unitSize, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 1.0, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataIndices.push_back(indiceCounter++);
 	this->dataIndices.push_back(indiceCounter++);
 
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(DirectX::XMFLOAT3(0.0, -perLines * unitSize, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataColors.push_back(DirectX::XMFLOAT3(0.0, 1.0, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataIndices.push_back(indiceCounter++);
 	this->dataIndices.push_back(indiceCounter++);
 
@@ -133,25 +133,42 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 	CreateWindowSizeDependentResources();
 }
 
-void Grid::Render(const DirectX::XMFLOAT4X4& matrixProjection, const DirectX::XMFLOAT4X4& matrixCamera) {
-	if (!m_loadingComplete)
+void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCamera) {
+	if (!this->m_loadingComplete)
 		return;
-	auto context = m_deviceResources->GetD3DDeviceContext();
-	context->UpdateSubresource1(m_constantBuffer.Get(), 0, NULL, &m_constantBufferData, 0, 0, 0);
+
+	this->m_constantBufferData.projection = matrixProjection;
+	this->m_constantBufferData.view = matrixCamera;
+
+	this->MatrixModel = XMMatrixIdentity();
+	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
+	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
+	this->MatrixModel = XMMatrixRotationX(this->RotateX->point);
+	this->MatrixModel = XMMatrixRotationY(this->RotateY->point);
+	this->MatrixModel = XMMatrixRotationZ(this->RotateZ->point);
+	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
+	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+
+	//XMMATRIX mvpMatrix = XMMatrixMultiply(XMLoadFloat4x4(&matrixProjection), XMLoadFloat4x4(&matrixCamera));
+	//mvpMatrix = XMMatrixMultiply(mvpMatrix, this->MatrixModel);
+	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
+
+	auto context = this->m_deviceResources->GetD3DDeviceContext();
+	context->UpdateSubresource1(this->m_constantBuffer.Get(), 0, NULL, &this->m_constantBufferData, 0, 0, 0);
 	UINT stride = sizeof(VertexPositionColor);
 	UINT offset = 0;
-	context->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
-	context->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
+	context->IASetVertexBuffers(0, 1, this->m_vertexBuffer.GetAddressOf(), &stride, &offset);
+	context->IASetIndexBuffer(this->m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	context->IASetInputLayout(m_inputLayout.Get());
-	context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
-	context->VSSetConstantBuffers1(0, 1, m_constantBuffer.GetAddressOf(), nullptr, nullptr);
-	context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
-	context->DrawIndexed(m_indexCount, 0, 0);
+	context->IASetInputLayout(this->m_inputLayout.Get());
+	context->VSSetShader(this->m_vertexShader.Get(), nullptr, 0);
+	context->VSSetConstantBuffers1(0, 1, this->m_constantBuffer.GetAddressOf(), nullptr, nullptr);
+	context->PSSetShader(this->m_pixelShader.Get(), nullptr, 0);
+	context->DrawIndexed(this->m_indexCount, 0, 0);
 }
 
 void Grid::CreateWindowSizeDependentResources() {
-	Size outputSize = m_deviceResources->GetOutputSize();
+	Size outputSize = this->m_deviceResources->GetOutputSize();
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
 
@@ -159,17 +176,17 @@ void Grid::CreateWindowSizeDependentResources() {
 		fovAngleY *= 2.0f;
 
 	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(fovAngleY, aspectRatio, 0.01f, 100.0f);
-	XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
+	XMFLOAT4X4 orientation = this->m_deviceResources->GetOrientationTransform3D();
 	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
 
-	XMStoreFloat4x4(&m_constantBufferData.projection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));
+	XMStoreFloat4x4(&this->m_constantBufferData.projection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));
 
 	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
 	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
+	XMStoreFloat4x4(&this->m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
+	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
 }
 
 void Grid::CreateDeviceDependentResources() {

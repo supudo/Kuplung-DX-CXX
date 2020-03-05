@@ -17,9 +17,10 @@ namespace Kuplung_DX
 
 			DirectX::XMFLOAT4X4 MatrixProjection;
 			DirectX::XMFLOAT4X4 MatrixCamera;
+
+			std::unique_ptr<Kuplung_DX::Models::Camera> CompCamera;
 		private:
 			std::shared_ptr<DX::DeviceResources> m_deviceResources;
-			std::unique_ptr<Kuplung_DX::Models::Camera> compCamera;
 			std::unique_ptr<Kuplung_DX::Models::GUI::Grid> compGrid;
 		};
 	}

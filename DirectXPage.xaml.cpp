@@ -344,6 +344,16 @@ void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 	this->slGridSize->Value = Kuplung_DX::App::GridSize;
 	this->slGridUnitSize->Value = Kuplung_DX::App::GridUnitSize;
 	this->chkShowGrid->IsChecked = Kuplung_DX::App::ShowGrid;
+
+	this->slLAMEyeX->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[0];
+	this->slLAMEyeY->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[1];
+	this->slLAMEyeZ->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[2];
+	this->slLAMCenterX->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[0];
+	this->slLAMCenterY->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[1];
+	this->slLAMCenterZ->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[2];
+	this->slLAMUpX->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
+	this->slLAMUpY->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
+	this->slLAMUpZ->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
 }
 
 void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
@@ -379,5 +389,76 @@ void Kuplung_DX::DirectXPage::slGridUnitSize_PointerCaptureLost(Platform::Object
 void Kuplung_DX::DirectXPage::chkShowGrid_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	Kuplung_DX::App::ShowGrid = this->chkShowGrid->IsChecked->Value;
 }
-#pragma endregion
 
+void Kuplung_DX::DirectXPage::slLAMEyeX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye = {
+		(float)this->slLAMEyeX->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[1],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[2],
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMEyeY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[0],
+		(float)this->slLAMEyeY->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[2]
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMEyeZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[0],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[1],
+		(float)this->slLAMEyeZ->Value
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMCenterX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center = {
+		(float)this->slLAMCenterX->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[1],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[2]
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMCenterY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[0],
+		(float)this->slLAMCenterY->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[2]
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMCenterZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[0],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Center[1],
+		(float)this->slLAMCenterZ->Value
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMUpX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up = {
+		(float)this->slLAMUpX->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[1],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[2],
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMUpY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0],
+		(float)this->slLAMUpY->Value,
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[2]
+	};
+}
+
+void Kuplung_DX::DirectXPage::slLAMUpZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up = {
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0],
+		this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[1],
+		(float)this->slLAMUpZ->Value
+	};
+}
+#pragma endregion

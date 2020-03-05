@@ -18,7 +18,7 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 	// Rendering
 	this->m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(this->m_deviceResources));
-	this->m_objectsManager = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(this->m_deviceResources));
+	this->ManagerObjects = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(this->m_deviceResources));
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
@@ -30,7 +30,7 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 Kuplung_DXMain::~Kuplung_DXMain() {
 	this->m_renderingManager.reset();
-	this->m_objectsManager.reset();
+	this->ManagerObjects.reset();
 	this->m_deviceResources->RegisterDeviceNotify(nullptr);
 }
 
@@ -135,8 +135,8 @@ bool Kuplung_DXMain::Render()  {
 	if (Kuplung_DX::App::ViewFPSCounter)
 		this->m_fpsTextRenderer->Render();
 
-	this->m_objectsManager->Render();
-	this->m_renderingManager->Render(this->m_objectsManager->MatrixProjection, this->m_objectsManager->MatrixCamera, this->models3D);
+	this->ManagerObjects->Render();
+	this->m_renderingManager->Render(this->ManagerObjects->MatrixProjection, this->ManagerObjects->MatrixCamera, this->models3D);
 
 	return true;
 }

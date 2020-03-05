@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "ObjectsManager.h"
+#include "..\Common\DirectXHelper.h"
 
 using namespace Kuplung_DX::Rendering;
 

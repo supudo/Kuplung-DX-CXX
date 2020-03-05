@@ -115,6 +115,8 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 			this->DoProgress(progress);
 		}
 	);
+
+	this->slSetting_FOV->Value = Kuplung_DX::App::Setting_FOV;
 }
 
 DirectXPage::~DirectXPage() {
@@ -331,3 +333,25 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 		break;
 	}
 }
+
+#pragma region GUI Controls events
+void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	Kuplung_DX::App::Setting_FOV = this->slSetting_FOV->Value;
+}
+
+void Kuplung_DX::DirectXPage::slSetting_RatioWidth_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	Kuplung_DX::App::Setting_RatioWidth = this->slSetting_RatioWidth->Value;
+}
+
+void Kuplung_DX::DirectXPage::slSetting_RatioHeight_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	Kuplung_DX::App::Setting_RatioHeight = this->slSetting_RatioHeight->Value;
+}
+
+void Kuplung_DX::DirectXPage::slSetting_PlaneClose_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	Kuplung_DX::App::Setting_PlaneClose = this->slSetting_PlaneClose->Value;
+}
+
+void Kuplung_DX::DirectXPage::slSetting_PlaneFar_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	Kuplung_DX::App::Setting_PlaneFar = this->slSetting_PlaneFar->Value;
+}
+#pragma endregion

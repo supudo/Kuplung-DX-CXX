@@ -269,7 +269,6 @@
     <ClInclude Include="Sample\Sample3DSceneRenderer.h" />
     <ClInclude Include="Sample\SampleFpsTextRenderer.h" />
     <ClInclude Include="Sample\ShaderStructures.h" />
-    <ClInclude Include="Settings\Settings.h" />
     <ClInclude Include="Types\Types.h" />
     <ClInclude Include="Utilities\CXXUtils.h" />
   </ItemGroup>
@@ -305,7 +304,6 @@
     <ClCompile Include="Rendering\ObjectsManager.cpp" />
     <ClCompile Include="Sample\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp" />
-    <ClCompile Include="Settings\Settings.cpp" />
     <ClCompile Include="Utilities\CXXUtils.cpp" />
   </ItemGroup>
   <ItemGroup>

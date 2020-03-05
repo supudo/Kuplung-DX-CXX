@@ -7,8 +7,7 @@ using namespace Kuplung_DX::Models::GUI;
 using namespace DirectX;
 using namespace Windows::Foundation;
 
-Grid::Grid(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources), gridSizeVertex(10) {
-    this->gridSize = 10;
+Grid::Grid(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources) {
     this->InitProperties();
 }
 
@@ -29,8 +28,6 @@ Grid::~Grid() {
 }
 
 void Grid::InitProperties() {
-    this->showGrid = true;
-
     this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
@@ -46,19 +43,16 @@ void Grid::InitProperties() {
     this->MatrixModel = XMMatrixIdentity();
 }
 
-void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
-	this->gridSize = gridSize % 2 == 0 ? gridSize + 1 : gridSize;
-	this->gridSizeVertex = this->gridSize;
-
-	if (this->gridSizeVertex % 2 == 0)
-		this->gridSizeVertex += 1;
+void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
+	this->gridSize = gridSize;
+	this->gridUnitSize = unitSize;
 
 	this->dataVertices.clear();
 	this->dataColors.clear();
 	this->dataIndices.clear();
 
 	this->m_indexCount = 0;
-	const float perLines = (float)std::ceil(this->gridSizeVertex / 2);
+	const float perLines = (float)std::ceil(this->gridSize / 2);
 
 	// +
 	for (float z = perLines; z > 0; z--) {
@@ -131,10 +125,14 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 	//this->dataIndices.push_back(this->m_indexCount++);
 	//this->dataIndices.push_back(this->m_indexCount++);
 
-	CreateDeviceDependentResources();
+	this->CreateDeviceDependentResources();
 }
 
 void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCamera) {
+	if (this->gridSize != Kuplung_DX::App::GridSize) {
+		this->m_loadingComplete = false;
+		this->InitBuffers(Kuplung_DX::App::GridSize, Kuplung_DX::App::GridUnitSize);
+	}
 	if (!this->m_loadingComplete)
 		return;
 

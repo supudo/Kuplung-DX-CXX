@@ -300,7 +300,13 @@
                         </StackPanel>
                         <StackPanel x:Name="pnlGuiCamera" Visibility="Collapsed"></StackPanel>
                         <StackPanel x:Name="pnlGuiCameraModel" Visibility="Collapsed"></StackPanel>
-                        <StackPanel x:Name="pnlGuiGrid" Visibility="Collapsed"></StackPanel>
+                        <StackPanel x:Name="pnlGuiGrid" Visibility="Collapsed">
+                            <TextBlock Text="Grid Size" />
+                            <Slider x:Name="slGridSize" Value="10" Minimum="0" Maximum="100" StepFrequency="2" PointerCaptureLost="slGridSize_PointerCaptureLost" />
+                            <Slider x:Name="slGridUnitSize" Value="1" Minimum="1" Maximum="10" StepFrequency="1" PointerCaptureLost="slGridUnitSize_PointerCaptureLost" />
+                            <TextBlock Text="Show Grid" />
+                            <CheckBox x:Name="chkShowGrid" Click="chkShowGrid_Click" />
+                        </StackPanel>
                         <StackPanel x:Name="pnlGuiSceneLights" Visibility="Collapsed"></StackPanel>
                         <StackPanel x:Name="pnlGuiSkybox" Visibility="Collapsed"></StackPanel>
                         <StackPanel x:Name="pnlGuiLights" Visibility="Collapsed"></StackPanel>

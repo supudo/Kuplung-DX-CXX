@@ -34,7 +34,8 @@ namespace Kuplung_DX {
 		static property float Setting_PlaneClose;
 		static property float Setting_PlaneFar;
 		static property int GridSize;
-		static property float GridUnitSize;
+		static property int GridUnitSize;
+		static property bool ShowGrid;
 		static property bool ShowZAxis;
 
 	private:

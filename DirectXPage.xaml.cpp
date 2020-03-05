@@ -311,22 +311,22 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 	switch (item->Id)
 	{
 	case 1:
-		this->pnlGuiCamera->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiCamera->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	case 2:
-		this->pnlGuiCameraModel->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiCameraModel->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	case 3:
-		this->pnlGuiGrid->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiGrid->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	case 4:
-		this->pnlGuiSceneLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiSceneLights->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	case 5:
-		this->pnlGuiSkybox->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiSkybox->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	case 6:
-		this->pnlGuiLights->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+		this->pnlGuiLights->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	default:
 		this->pnlGuiGeneral->Visibility = Windows::UI::Xaml::Visibility::Visible;
@@ -341,6 +341,9 @@ void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 	this->slSetting_RatioHeight->Value = Kuplung_DX::App::Setting_RatioHeight;
 	this->slSetting_PlaneClose->Value = Kuplung_DX::App::Setting_PlaneClose;
 	this->slSetting_PlaneFar->Value = Kuplung_DX::App::Setting_PlaneFar;
+	this->slGridSize->Value = Kuplung_DX::App::GridSize;
+	this->slGridUnitSize->Value = Kuplung_DX::App::GridUnitSize;
+	this->chkShowGrid->IsChecked = Kuplung_DX::App::ShowGrid;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
@@ -364,4 +367,17 @@ void Kuplung_DX::DirectXPage::slSetting_PlaneFar_ValueChanged(Platform::Object^ 
 	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneClose, (float)this->slSetting_PlaneFar->Value, 0.00001f))
 		Kuplung_DX::App::Setting_PlaneFar = (float)this->slSetting_PlaneFar->Value;
 }
+
+void Kuplung_DX::DirectXPage::slGridSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
+	Kuplung_DX::App::GridSize = (int)this->slGridSize->Value;
+}
+
+void Kuplung_DX::DirectXPage::slGridUnitSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
+	Kuplung_DX::App::GridUnitSize = (int)this->slGridUnitSize->Value;
+}
+
+void Kuplung_DX::DirectXPage::chkShowGrid_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::ShowGrid = this->chkShowGrid->IsChecked->Value;
+}
 #pragma endregion
+

@@ -16,12 +16,10 @@ namespace Kuplung_DX
             public:
                 Grid(const std::shared_ptr<DX::DeviceResources>& deviceResources);
                 ~Grid();
-                void InitBuffers(const int& gridSize, const float& unitSize);
+                void InitBuffers(const int& gridSize, const int& unitSize);
                 void InitProperties();
                 void Render(const DirectX::XMFLOAT4X4& matrixProjection, const DirectX::XMFLOAT4X4& matrixCamera);
-                unsigned short int gridSize;
 
-                bool showGrid;
                 std::unique_ptr<ObjectCoordinate> PositionX, PositionY, PositionZ;
                 std::unique_ptr<ObjectCoordinate> ScaleX, ScaleY, ScaleZ;
                 std::unique_ptr<ObjectCoordinate> RotateX, RotateY, RotateZ;
@@ -35,7 +33,7 @@ namespace Kuplung_DX
             private:
                 std::shared_ptr<DX::DeviceResources> m_deviceResources;
 
-                int gridSizeVertex;
+                int gridSize, gridUnitSize;
                 bool m_loadingComplete;
                 uint32 m_indexCount;
 

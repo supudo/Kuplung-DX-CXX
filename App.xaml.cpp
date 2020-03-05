@@ -134,7 +134,8 @@ void App::KuplungInitializeSettings() {
 	this->Setting_PlaneClose = 0.1f;
 	this->Setting_PlaneFar = 100.0f;
 	this->GridSize = 10;
-	this->GridUnitSize = 10;
+	this->GridUnitSize = 1;
+	this->ShowGrid = true;
 	this->ShowZAxis = true;
 }
 

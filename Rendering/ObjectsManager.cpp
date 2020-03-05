@@ -32,5 +32,7 @@ void ObjectsManager::Render() {
 	XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtRH(this->compCamera->EyeSettings->View_Eye, this->compCamera->EyeSettings->View_Center, this->compCamera->EyeSettings->View_Up)));
 
 	this->compCamera->Render();
-	this->compGrid->Render(this->MatrixProjection, this->MatrixCamera);
+	
+	if (Kuplung_DX::App::ShowGrid)
+		this->compGrid->Render(this->MatrixProjection, this->MatrixCamera);
 }

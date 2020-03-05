@@ -51,7 +51,6 @@ namespace Kuplung_DX
                 Kuplung_DX::Rendering::ModelViewProjectionConstantBuffer m_constantBufferData;
 
                 void CreateDeviceDependentResources();
-                void CreateWindowSizeDependentResources();
                 void ReleaseDeviceDependentResources();
             };
         }

@@ -344,24 +344,24 @@ void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 }
 
 void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	Kuplung_DX::App::Setting_FOV = this->slSetting_FOV->Value;
+	Kuplung_DX::App::Setting_FOV = (float)this->slSetting_FOV->Value;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_RatioWidth_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	Kuplung_DX::App::Setting_RatioWidth = this->slSetting_RatioWidth->Value;
+	Kuplung_DX::App::Setting_RatioWidth = (float)this->slSetting_RatioWidth->Value;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_RatioHeight_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	Kuplung_DX::App::Setting_RatioHeight = this->slSetting_RatioHeight->Value;
+	Kuplung_DX::App::Setting_RatioHeight = (float)this->slSetting_RatioHeight->Value;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_PlaneClose_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneFar, this->slSetting_PlaneClose->Value, 0.00001f))
-		Kuplung_DX::App::Setting_PlaneClose = this->slSetting_PlaneClose->Value;
+	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneFar, (float)this->slSetting_PlaneClose->Value, 0.00001f))
+		Kuplung_DX::App::Setting_PlaneClose = (float)this->slSetting_PlaneClose->Value;
 }
 
 void Kuplung_DX::DirectXPage::slSetting_PlaneFar_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
-	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneClose, this->slSetting_PlaneFar->Value, 0.00001f))
-		Kuplung_DX::App::Setting_PlaneFar = this->slSetting_PlaneFar->Value;
+	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneClose, (float)this->slSetting_PlaneFar->Value, 0.00001f))
+		Kuplung_DX::App::Setting_PlaneFar = (float)this->slSetting_PlaneFar->Value;
 }
 #pragma endregion

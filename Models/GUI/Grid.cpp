@@ -24,6 +24,8 @@ Grid::~Grid() {
     this->RotateX.reset();
     this->RotateY.reset();
     this->RotateZ.reset();
+
+	this->ReleaseDeviceDependentResources();
 }
 
 void Grid::InitProperties() {
@@ -55,7 +57,7 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 	this->dataColors.clear();
 	this->dataIndices.clear();
 
-	uint32 indiceCounter = 0;
+	this->m_indexCount = 0;
 	const float perLines = (float)std::ceil(this->gridSizeVertex / 2);
 
 	// +
@@ -64,8 +66,8 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, -z * unitSize));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataIndices.push_back(indiceCounter++);
-		this->dataIndices.push_back(indiceCounter++);
+		this->dataIndices.push_back(this->m_indexCount++);
+		this->dataIndices.push_back(this->m_indexCount++);
 	}
 
 	// X
@@ -73,8 +75,8 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 	this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, 0.0));
 	this->dataColors.push_back(XMFLOAT3(1.0, 0.0, 0.0));
 	this->dataColors.push_back(XMFLOAT3(1.0, 0.0, 0.0));
-	this->dataIndices.push_back(indiceCounter++);
-	this->dataIndices.push_back(indiceCounter++);
+	this->dataIndices.push_back(this->m_indexCount++);
+	this->dataIndices.push_back(this->m_indexCount++);
 	// X
 
 	for (float z = 1.0; z <= perLines; z++) {
@@ -82,8 +84,8 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, z * unitSize));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataIndices.push_back(indiceCounter++);
-		this->dataIndices.push_back(indiceCounter++);
+		this->dataIndices.push_back(this->m_indexCount++);
+		this->dataIndices.push_back(this->m_indexCount++);
 	}
 
 	// -
@@ -92,45 +94,44 @@ void Grid::InitBuffers(const int& gridSize, const float& unitSize) {
 		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, 0.0, perLines * unitSize));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataIndices.push_back(indiceCounter++);
-		this->dataIndices.push_back(indiceCounter++);
+		this->dataIndices.push_back(this->m_indexCount++);
+		this->dataIndices.push_back(this->m_indexCount++);
 	}
 
-	// Z
-	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
-	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
-	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
-	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
-	this->dataIndices.push_back(indiceCounter++);
-	this->dataIndices.push_back(indiceCounter++);
-	// Z
+	//// Z
+	//this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
+	//this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
+	//this->dataIndices.push_back(this->m_indexCount++);
+	//this->dataIndices.push_back(this->m_indexCount++);
+	//// Z
 
-	for (float x = 1.0; x <= perLines; x++) {
-		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, -perLines * unitSize));
-		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, perLines * unitSize));
-		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
-		this->dataIndices.push_back(indiceCounter++);
-		this->dataIndices.push_back(indiceCounter++);
-	}
+	//for (float x = 1.0; x <= perLines; x++) {
+	//	this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, -perLines * unitSize));
+	//	this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, perLines * unitSize));
+	//	this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+	//	this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
+	//	this->dataIndices.push_back(this->m_indexCount++);
+	//	this->dataIndices.push_back(this->m_indexCount++);
+	//}
 
-	// Y
-	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
-	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataIndices.push_back(indiceCounter++);
-	this->dataIndices.push_back(indiceCounter++);
+	//// Y
+	//this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
+	//this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	//this->dataIndices.push_back(this->m_indexCount++);
+	//this->dataIndices.push_back(this->m_indexCount++);
 
-	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
-	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
-	this->dataIndices.push_back(indiceCounter++);
-	this->dataIndices.push_back(indiceCounter++);
+	//this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
+	//this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	//this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
+	//this->dataIndices.push_back(this->m_indexCount++);
+	//this->dataIndices.push_back(this->m_indexCount++);
 
 	CreateDeviceDependentResources();
-	CreateWindowSizeDependentResources();
 }
 
 void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCamera) {
@@ -149,8 +150,6 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
 	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
 
-	//XMMATRIX mvpMatrix = XMMatrixMultiply(XMLoadFloat4x4(&matrixProjection), XMLoadFloat4x4(&matrixCamera));
-	//mvpMatrix = XMMatrixMultiply(mvpMatrix, this->MatrixModel);
 	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();
@@ -167,28 +166,6 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	context->DrawIndexed(this->m_indexCount, 0, 0);
 }
 
-void Grid::CreateWindowSizeDependentResources() {
-	Size outputSize = this->m_deviceResources->GetOutputSize();
-	float aspectRatio = outputSize.Width / outputSize.Height;
-	float fovAngleY = 70.0f * XM_PI / 180.0f;
-
-	if (aspectRatio < 1.0f)
-		fovAngleY *= 2.0f;
-
-	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(fovAngleY, aspectRatio, 0.01f, 100.0f);
-	XMFLOAT4X4 orientation = this->m_deviceResources->GetOrientationTransform3D();
-	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
-
-	XMStoreFloat4x4(&this->m_constantBufferData.projection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));
-
-	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
-	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
-
-	XMStoreFloat4x4(&this->m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
-}
-
 void Grid::CreateDeviceDependentResources() {
 	auto loadVSTask = DX::ReadDataAsync(L"GridVertexShader.cso");
 	auto loadPSTask = DX::ReadDataAsync(L"GridPixelShader.cso");
@@ -196,11 +173,11 @@ void Grid::CreateDeviceDependentResources() {
 	// After the vertex shader file is loaded, create the shader and input layout.
 	auto createVSTask = loadVSTask.then([this](const std::vector<byte>& fileData) {
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateVertexShader(
+			this->m_deviceResources->GetD3DDevice()->CreateVertexShader(
 				&fileData[0],
 				fileData.size(),
 				nullptr,
-				&m_vertexShader
+				&this->m_vertexShader
 			)
 		);
 
@@ -210,12 +187,12 @@ void Grid::CreateDeviceDependentResources() {
 		};
 
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateInputLayout(
+			this->m_deviceResources->GetD3DDevice()->CreateInputLayout(
 				vertexDesc,
 				ARRAYSIZE(vertexDesc),
 				&fileData[0],
 				fileData.size(),
-				&m_inputLayout
+				&this->m_inputLayout
 			)
 		);
 		});
@@ -223,20 +200,20 @@ void Grid::CreateDeviceDependentResources() {
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createPSTask = loadPSTask.then([this](const std::vector<byte>& fileData) {
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreatePixelShader(
+			this->m_deviceResources->GetD3DDevice()->CreatePixelShader(
 				&fileData[0],
 				fileData.size(),
 				nullptr,
-				&m_pixelShader
+				&this->m_pixelShader
 			)
 		);
 
 		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ModelViewProjectionConstantBuffer), D3D11_BIND_CONSTANT_BUFFER);
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateBuffer(
+			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&constantBufferDesc,
 				nullptr,
-				&m_constantBuffer
+				&this->m_constantBuffer
 			)
 		);
 		});
@@ -257,10 +234,10 @@ void Grid::CreateDeviceDependentResources() {
 		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelVertices.size());
 		CD3D11_BUFFER_DESC vertexBufferDesc(s, D3D11_BIND_VERTEX_BUFFER);
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateBuffer(
+			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&vertexBufferDesc,
 				&vertexBufferData,
-				&m_vertexBuffer
+				&this->m_vertexBuffer
 			)
 		);
 
@@ -272,26 +249,26 @@ void Grid::CreateDeviceDependentResources() {
 		indexBufferData.SysMemSlicePitch = 0;
 		CD3D11_BUFFER_DESC indexBufferDesc(sizeof(unsigned int) * static_cast<UINT>(this->dataIndices.size()), D3D11_BIND_INDEX_BUFFER);
 		DX::ThrowIfFailed(
-			m_deviceResources->GetD3DDevice()->CreateBuffer(
+			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&indexBufferDesc,
 				&indexBufferData,
-				&m_indexBuffer
+				&this->m_indexBuffer
 			)
 		);
 		});
 
 	// Once the cube is loaded, the object is ready to be rendered.
 	createCubeTask.then([this]() {
-		m_loadingComplete = true;
+		this->m_loadingComplete = true;
 		});
 }
 
 void Grid::ReleaseDeviceDependentResources() {
-	m_loadingComplete = false;
-	m_vertexShader.Reset();
-	m_inputLayout.Reset();
-	m_pixelShader.Reset();
-	m_constantBuffer.Reset();
-	m_vertexBuffer.Reset();
-	m_indexBuffer.Reset();
+	this->m_loadingComplete = false;
+	this->m_vertexShader.Reset();
+	this->m_inputLayout.Reset();
+	this->m_pixelShader.Reset();
+	this->m_constantBuffer.Reset();
+	this->m_vertexBuffer.Reset();
+	this->m_indexBuffer.Reset();
 }

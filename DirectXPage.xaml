@@ -237,14 +237,14 @@
             <ListView Grid.Row="1" x:Name="lvModels" ItemTemplate="{StaticResource ModelsListViewTemplate}" SelectionChanged="lvModels_SelectionChanged" />
         </Grid>
 
-        <Grid x:Name="panelGUI" Visibility="Visible" Width="400" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 50, 10, 0" Background="White" CornerRadius="2">
+        <Grid x:Name="panelGUI" Visibility="Visible" Width="400" Height="700" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0, 20, 10, 0" Background="White" CornerRadius="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="GUI Controls" Grid.Row="0" x:Name="headerGUI" Margin="20,12,0,12" Style="{StaticResource BaseTextBlockStyle}"/>
-            <Button Content="Reset values" Grid.Row="1" HorizontalAlignment="Stretch" Margin="4" Background="DarkRed" Foreground="White" Click="ButtonResetValuesGuiControls_Click" />
+            <Button Content="Reset values" Grid.Row="1" x:Name="btnResetGuiValues" HorizontalAlignment="Stretch" Margin="4" Background="DarkRed" Foreground="White" Click="ButtonResetValuesGuiControls_Click" />
             <Grid Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -258,118 +258,198 @@
                     <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="4"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Margin="10">
-                    <StackPanel x:Name="pnlGuiGeneral">
-                        <TextBlock Text="Field of view" />
-                        <Slider x:Name="slSetting_FOV" Value="45" Minimum="0.1" Maximum="180.0" StepFrequency="0.5" ValueChanged="slSetting_FOV_ValueChanged" />
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1" Margin="0, 4, 0, 4" />
-                        <TextBlock Text="Ratio" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="W" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider x:Name="slSetting_RatioWidth" Value="3" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioWidth_ValueChanged" />
-                        </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="H" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider x:Name="slSetting_RatioHeight" Value="4" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioHeight_ValueChanged" />
-                        </Grid>
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
-                        <TextBlock Text="Planes" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Close" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider x:Name="slSetting_PlaneClose" Value="1" Grid.Column="1" Minimum="1" Maximum="100" StepFrequency="1" ValueChanged="slSetting_PlaneClose_ValueChanged" />
-                        </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Far" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider x:Name="slSetting_PlaneFar" Value="1000" Grid.Column="1" Minimum="1" Maximum="1000" StepFrequency="1" ValueChanged="slSetting_PlaneFar_ValueChanged" />
-                        </Grid>
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
-                    </StackPanel>
-                    <StackPanel x:Name="pnlGuiCamera" Visibility="Collapsed">
-                        <TextBlock Text="Look-At Matrix" Foreground="Crimson" />
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
-                        <TextBlock Text="Eye" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMEyeX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeX_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMEyeY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeY_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMEyeZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeZ_ValueChanged" />
-                        </Grid>
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
-                        <TextBlock Text="Center" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMCenterX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterX_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMCenterY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterY_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMCenterZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterZ_ValueChanged" />
-                        </Grid>
-                        <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
-                        <TextBlock Text="Up" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMUpX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpX_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMUpY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpY_ValueChanged" />
-                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
-                            <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMUpZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpZ_ValueChanged" />
-                        </Grid>
-                    </StackPanel>
-                    <StackPanel x:Name="pnlGuiCameraModel" Visibility="Collapsed"></StackPanel>
-                    <StackPanel x:Name="pnlGuiGrid" Visibility="Collapsed">
-                        <TextBlock Text="Grid Size" />
-                        <Slider x:Name="slGridSize" Value="10" Minimum="0" Maximum="100" StepFrequency="2" PointerCaptureLost="slGridSize_PointerCaptureLost" />
-                        <Slider x:Name="slGridUnitSize" Value="1" Minimum="1" Maximum="10" StepFrequency="1" PointerCaptureLost="slGridUnitSize_PointerCaptureLost" />
-                        <TextBlock Text="Show Grid" />
-                        <CheckBox x:Name="chkShowGrid" Click="chkShowGrid_Click" />
-                    </StackPanel>
-                    <StackPanel x:Name="pnlGuiSceneLights" Visibility="Collapsed"></StackPanel>
-                    <StackPanel x:Name="pnlGuiSkybox" Visibility="Collapsed"></StackPanel>
-                    <StackPanel x:Name="pnlGuiLights" Visibility="Collapsed"></StackPanel>
+                    <ScrollViewer x:Name="svGUIControlsPanels" ZoomMode="Enabled" IsVerticalScrollChainingEnabled="True" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Visible" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Visible">
+                        <StackPanel>
+                            <StackPanel x:Name="pnlGuiGeneral">
+                                <TextBlock Text="Field of view" />
+                                <Slider x:Name="slSetting_FOV" Value="45" Minimum="0.1" Maximum="180.0" StepFrequency="0.5" ValueChanged="slSetting_FOV_ValueChanged" />
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1" Margin="0, 4, 0, 4" />
+                                <TextBlock Text="Ratio" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="W" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider x:Name="slSetting_RatioWidth" Value="3" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioWidth_ValueChanged" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="H" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider x:Name="slSetting_RatioHeight" Value="4" Grid.Column="1" Minimum="0.0" Maximum="5.0" ValueChanged="slSetting_RatioHeight_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
+                                <TextBlock Text="Planes" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Close" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider x:Name="slSetting_PlaneClose" Value="1" Grid.Column="1" Minimum="1" Maximum="100" StepFrequency="1" ValueChanged="slSetting_PlaneClose_ValueChanged" />
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Far" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider x:Name="slSetting_PlaneFar" Value="1000" Grid.Column="1" Minimum="1" Maximum="1000" StepFrequency="1" ValueChanged="slSetting_PlaneFar_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlGuiCamera" Visibility="Collapsed" >
+                                <TextBlock Text="Look-At Matrix" Foreground="Crimson" />
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Red" Height="1"/>
+                                <TextBlock Text="Eye" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMEyeX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMEyeY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMEyeZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMEyeZ_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Center" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMCenterX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMCenterY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMCenterZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMCenterZ_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Up" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slLAMUpX" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slLAMUpY" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slLAMUpZ" Value="0" Minimum="0" Maximum="100" StepFrequency="0.1" ValueChanged="slLAMUpZ_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Position" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slCameraPositionX" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slCameraPositionX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slCameraPositionY" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slCameraPositionY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slCameraPositionZ" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slCameraPositionZ_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Rotate around axis" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slCameraRotateX" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slCameraRotateY" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slCameraRotateZ" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateZ_ValueChanged" />
+                                </Grid>
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Rotate around center" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slCameraRotateCenterX" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateCenterX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slCameraRotateCenterY" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateCenterY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slCameraRotateCenterZ" Value="0" Minimum="0" Maximum="360" StepFrequency="1" ValueChanged="slCameraRotateCenterZ_ValueChanged" />
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlGuiCameraModel" Visibility="Collapsed"></StackPanel>
+                            <StackPanel x:Name="pnlGuiGrid" Visibility="Collapsed">
+                                <TextBlock Text="Grid Size" />
+                                <Slider x:Name="slGridSize" Value="10" Minimum="0" Maximum="100" StepFrequency="2" PointerCaptureLost="slGridSize_PointerCaptureLost" />
+                                <Slider x:Name="slGridUnitSize" Value="1" Minimum="1" Maximum="10" StepFrequency="1" PointerCaptureLost="slGridUnitSize_PointerCaptureLost" />
+                                <TextBlock Text="Show Grid" />
+                                <CheckBox x:Name="chkShowGrid" Click="chkShowGrid_Click" />
+                                <Rectangle HorizontalAlignment="Stretch" Fill="Gray" Height="1"/>
+                                <TextBlock Text="Position" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="0" x:Name="slGridPositionX" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slGridPositionX_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Y" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="1" x:Name="slGridPositionY" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slGridPositionY_ValueChanged" />
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Z" Padding="10, 0, 10, 0" VerticalAlignment="Center" />
+                                    <Slider Grid.Column="1" Grid.Row="2" x:Name="slGridPositionZ" Value="0" Minimum="-30" Maximum="30" StepFrequency="0.05" ValueChanged="slGridPositionZ_ValueChanged" />
+                                </Grid>
+                            </StackPanel>
+                            <StackPanel x:Name="pnlGuiSceneLights" Visibility="Collapsed"></StackPanel>
+                            <StackPanel x:Name="pnlGuiSkybox" Visibility="Collapsed"></StackPanel>
+                            <StackPanel x:Name="pnlGuiLights" Visibility="Collapsed"></StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </StackPanel>
             </Grid>
         </Grid>

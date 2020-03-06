@@ -38,18 +38,18 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	currentDisplayInformation->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDpiChanged);
 	currentDisplayInformation->OrientationChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnOrientationChanged);
 	DisplayInformation::DisplayContentsInvalidated += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectXPage::OnDisplayContentsInvalidated);
-	swapChainPanel->CompositionScaleChanged += ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
-	swapChainPanel->SizeChanged += ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
+	this->swapChainPanel->CompositionScaleChanged += ref new TypedEventHandler<SwapChainPanel^, Object^>(this, &DirectXPage::OnCompositionScaleChanged);
+	this->swapChainPanel->SizeChanged += ref new SizeChangedEventHandler(this, &DirectXPage::OnSwapChainPanelSizeChanged);
 
 	// At this point we have access to the device. 
 	// We can create the device-dependent resources.
-	m_deviceResources = std::make_shared<DX::DeviceResources>();
-	m_deviceResources->SetSwapChainPanel(swapChainPanel);
+	this->m_deviceResources = std::make_shared<DX::DeviceResources>();
+	this->m_deviceResources->SetSwapChainPanel(this->swapChainPanel);
 
 	// Register our SwapChainPanel to get independent input pointer events
 	auto workItemHandler = ref new WorkItemHandler([this](IAsyncAction^) {
 		// The CoreIndependentInputSource will raise pointer events for the specified device types on whichever thread it's created on.
-		m_coreInput = swapChainPanel->CreateCoreIndependentInputSource(
+		m_coreInput = this->swapChainPanel->CreateCoreIndependentInputSource(
 			Windows::UI::Core::CoreInputDeviceTypes::Mouse |
 			Windows::UI::Core::CoreInputDeviceTypes::Touch |
 			Windows::UI::Core::CoreInputDeviceTypes::Pen
@@ -65,10 +65,10 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 		});
 
 	// Run task on a dedicated high priority background thread.
-	m_inputLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
+	this->m_inputLoopWorker = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
 
-	m_main = std::unique_ptr<Kuplung_DXMain>(new Kuplung_DXMain(m_deviceResources));
-	m_main->StartRenderLoop();
+	this->m_main = std::unique_ptr<Kuplung_DXMain>(new Kuplung_DXMain(this->m_deviceResources));
+	this->m_main->StartRenderLoop();
 
 	this->availableModels = ref new Platform::Collections::Vector<Kuplung_DX::Models::Shape^>();
 	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Triangle", "triangle.obj" });
@@ -212,11 +212,11 @@ void DirectXPage::AddToLog(Platform::String^ message) {
 
 #pragma region MainMenu
 void Kuplung_DX::DirectXPage::MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	panelGUI->Visibility = panelGUI->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
+	this->panelGUI->Visibility = panelGUI->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
 }
 
 void Kuplung_DX::DirectXPage::MenuSceneControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	panelModels->Visibility = panelModels->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
+	this->panelModels->Visibility = panelModels->Visibility == Windows::UI::Xaml::Visibility::Visible ? Windows::UI::Xaml::Visibility::Collapsed : Windows::UI::Xaml::Visibility::Visible;
 }
 
 void Kuplung_DX::DirectXPage::MenuCube_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -332,20 +332,22 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 		this->pnlGuiGeneral->Visibility = Windows::UI::Xaml::Visibility::Visible;
 		break;
 	}
+	this->svGUIControlsPanels->Height = Kuplung_DX::App::GUI_ControlsPanelsHeight - this->headerGUI->ActualHeight - this->btnResetGuiValues->ActualHeight - this->tvGuiObjects->ActualHeight - 80;
 }
 
 #pragma region GUI Controls events
 void Kuplung_DX::DirectXPage::ButtonResetValuesGuiControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	Kuplung_DX::App::Setting_FOV = 45.0;
-	Kuplung_DX::App::Setting_RatioWidth = 4.0;
-	Kuplung_DX::App::Setting_RatioHeight = 3.0;
-	Kuplung_DX::App::Setting_PlaneClose = 0.1;
-	Kuplung_DX::App::Setting_PlaneFar = 100;
+	Kuplung_DX::App::Setting_FOV = 45.0f;
+	Kuplung_DX::App::Setting_RatioWidth = 4.0f;
+	Kuplung_DX::App::Setting_RatioHeight = 3.0f;
+	Kuplung_DX::App::Setting_PlaneClose = 0.1f;
+	Kuplung_DX::App::Setting_PlaneFar = 100.0f;
 	Kuplung_DX::App::GridSize = 30;
 	Kuplung_DX::App::GridUnitSize = 1;
 	Kuplung_DX::App::ShowGrid = true;
 
 	this->m_main->ManagerObjects->CompCamera->InitProperties();
+	this->m_main->ManagerObjects->CompGrid->InitProperties();
 
 	this->InitializeGUIControlsValues();
 }
@@ -356,9 +358,6 @@ void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 	this->slSetting_RatioHeight->Value = Kuplung_DX::App::Setting_RatioHeight;
 	this->slSetting_PlaneClose->Value = Kuplung_DX::App::Setting_PlaneClose;
 	this->slSetting_PlaneFar->Value = Kuplung_DX::App::Setting_PlaneFar;
-	this->slGridSize->Value = Kuplung_DX::App::GridSize;
-	this->slGridUnitSize->Value = Kuplung_DX::App::GridUnitSize;
-	this->chkShowGrid->IsChecked = Kuplung_DX::App::ShowGrid;
 
 	this->slLAMEyeX->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[0];
 	this->slLAMEyeY->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye[1];
@@ -369,8 +368,25 @@ void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 	this->slLAMUpX->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
 	this->slLAMUpY->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
 	this->slLAMUpZ->Value = this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Up[0];
+	this->slCameraPositionX->Value = this->m_main->ManagerObjects->CompCamera->PositionX->point;
+	this->slCameraPositionY->Value = this->m_main->ManagerObjects->CompCamera->PositionY->point;
+	this->slCameraPositionZ->Value = this->m_main->ManagerObjects->CompCamera->PositionZ->point;
+	this->slCameraRotateX->Value = this->m_main->ManagerObjects->CompCamera->RotateX->point;
+	this->slCameraRotateY->Value = this->m_main->ManagerObjects->CompCamera->RotateY->point;
+	this->slCameraRotateZ->Value = this->m_main->ManagerObjects->CompCamera->RotateZ->point;
+	this->slCameraRotateCenterX->Value = this->m_main->ManagerObjects->CompCamera->RotateCenterX->point;
+	this->slCameraRotateCenterY->Value = this->m_main->ManagerObjects->CompCamera->RotateCenterY->point;
+	this->slCameraRotateCenterZ->Value = this->m_main->ManagerObjects->CompCamera->RotateCenterZ->point;
+
+	this->slGridSize->Value = Kuplung_DX::App::GridSize;
+	this->slGridUnitSize->Value = Kuplung_DX::App::GridUnitSize;
+	this->chkShowGrid->IsChecked = Kuplung_DX::App::ShowGrid;
+	this->slGridPositionX->Value = this->m_main->ManagerObjects->CompGrid->PositionX->point;
+	this->slGridPositionY->Value = this->m_main->ManagerObjects->CompGrid->PositionY->point;
+	this->slGridPositionZ->Value = this->m_main->ManagerObjects->CompGrid->PositionZ->point;
 }
 
+#pragma region General
 void Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
 	Kuplung_DX::App::Setting_FOV = (float)this->slSetting_FOV->Value;
 }
@@ -392,19 +408,9 @@ void Kuplung_DX::DirectXPage::slSetting_PlaneFar_ValueChanged(Platform::Object^ 
 	if (!XMScalarNearEqual(Kuplung_DX::App::Setting_PlaneClose, (float)this->slSetting_PlaneFar->Value, 0.00001f))
 		Kuplung_DX::App::Setting_PlaneFar = (float)this->slSetting_PlaneFar->Value;
 }
+#pragma endregion
 
-void Kuplung_DX::DirectXPage::slGridSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
-	Kuplung_DX::App::GridSize = (int)this->slGridSize->Value;
-}
-
-void Kuplung_DX::DirectXPage::slGridUnitSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
-	Kuplung_DX::App::GridUnitSize = (int)this->slGridUnitSize->Value;
-}
-
-void Kuplung_DX::DirectXPage::chkShowGrid_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	Kuplung_DX::App::ShowGrid = this->chkShowGrid->IsChecked->Value;
-}
-
+#pragma region Camera
 void Kuplung_DX::DirectXPage::slLAMEyeX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
 	this->m_main->ManagerObjects->CompCamera->EyeSettings->View_Eye = {
 		(float)this->slLAMEyeX->Value,
@@ -476,4 +482,67 @@ void Kuplung_DX::DirectXPage::slLAMUpZ_ValueChanged(Platform::Object^ sender, Wi
 		(float)this->slLAMUpZ->Value
 	};
 }
+
+void Kuplung_DX::DirectXPage::slCameraPositionX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->PositionX->point = (float)this->slCameraPositionX->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraPositionY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->PositionY->point = (float)this->slCameraPositionY->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraPositionZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->PositionZ->point = (float)this->slCameraPositionZ->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateX->point = (float)this->slCameraRotateX->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateY->point = (float)this->slCameraRotateY->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateZ->point = (float)this->slCameraRotateZ->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateCenterX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateCenterX->point = (float)this->slCameraRotateCenterX->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateCenterY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateCenterY->point = (float)this->slCameraRotateCenterY->Value;
+}
+
+void Kuplung_DX::DirectXPage::slCameraRotateCenterZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompCamera->RotateCenterZ->point = (float)this->slCameraRotateCenterZ->Value;
+}
+#pragma endregion
+
+#pragma region Grid
+void Kuplung_DX::DirectXPage::slGridSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
+	Kuplung_DX::App::GridSize = (int)this->slGridSize->Value;
+}
+
+void Kuplung_DX::DirectXPage::slGridUnitSize_PointerCaptureLost(Platform::Object^ sender, Windows::UI::Xaml::Input::PointerRoutedEventArgs^ e) {
+	Kuplung_DX::App::GridUnitSize = (int)this->slGridUnitSize->Value;
+}
+
+void Kuplung_DX::DirectXPage::chkShowGrid_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::ShowGrid = this->chkShowGrid->IsChecked->Value;
+}
+
+void Kuplung_DX::DirectXPage::slGridPositionX_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompGrid->PositionX->point = (float)this->slGridPositionX->Value;
+}
+
+void Kuplung_DX::DirectXPage::slGridPositionY_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompGrid->PositionY->point = (float)this->slGridPositionY->Value;
+}
+
+void Kuplung_DX::DirectXPage::slGridPositionZ_ValueChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventArgs^ e) {
+	this->m_main->ManagerObjects->CompGrid->PositionZ->point = (float)this->slGridPositionZ->Value;
+}
+#pragma endregion
 #pragma endregion

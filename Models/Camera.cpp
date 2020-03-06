@@ -29,13 +29,21 @@ void Camera::InitProperties() {
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
+    this->EyeSettings->View_Eye = { 0.6f, 0.4f, 1.5f, 0.0f };
+    this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
+    this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
+
+    //this->EyeSettings->View_Eye = { 0.0f, 0.0f, 10.0f, 0.0f };
+    //this->EyeSettings->View_Center = { 0.0f, 0.0f, 0.0f, 0.0f };
+    //this->EyeSettings->View_Up = { 0.0f, -1.0f, 0.0f, 0.0f };
+
     this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
-    this->PositionZ = std::make_unique<ObjectCoordinate>(false, -16.0f);
+    this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
-    this->RotateX = std::make_unique<ObjectCoordinate>(false, 160.0f);
+    this->RotateX = std::make_unique<ObjectCoordinate>(false, 122.0f);
     this->RotateY = std::make_unique<ObjectCoordinate>(false, 140.0f);
-    this->RotateZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateZ = std::make_unique<ObjectCoordinate>(false, 74.0f);
 
     this->RotateCenterX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->RotateCenterY = std::make_unique<ObjectCoordinate>(false, 0.0f);
@@ -45,16 +53,15 @@ void Camera::InitProperties() {
 }
 
 void Camera::Render() {
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixLookAtLH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtLH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up)));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point))));
+    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateX->point)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateY->point)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateZ->point)));
 
-    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point))));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(XMConvertToRadians(this->RotateCenterX->point)));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(XMConvertToRadians(this->RotateCenterY->point)));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(XMConvertToRadians(this->RotateCenterZ->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateCenterX->point), XMConvertToRadians(this->RotateCenterY->point), XMConvertToRadians(this->RotateCenterZ->point))));
 
     this->CameraPosition = DirectX::XMFLOAT3(this->MatrixCamera(3, 0), this->MatrixCamera(3, 1), this->MatrixCamera(3, 2));
 }

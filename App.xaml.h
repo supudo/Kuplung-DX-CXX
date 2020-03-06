@@ -28,6 +28,8 @@ namespace Kuplung_DX {
 
 		static property uint32 RenderingMethod;
 
+		static property float GUI_ControlsPanelsHeight;
+
 		static property float Setting_FOV;
 		static property float Setting_RatioWidth;
 		static property float Setting_RatioHeight;

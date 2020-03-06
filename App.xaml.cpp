@@ -120,6 +120,8 @@ void App::KuplungInitializeSettings() {
 	this->ApplicationPath = Windows::ApplicationModel::Package::Current->InstalledLocation->Path;
 	this->ApplicationPath += "\\Assets";
 
+	this->GUI_ControlsPanelsHeight = 700;
+
 	this->ViewSampleScene = false;
 	this->ViewFPSCounter = false;
 

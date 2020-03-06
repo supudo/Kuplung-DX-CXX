@@ -16,41 +16,8 @@ Models::Model3D::Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResou
 
 void Models::Model3D::InitModel3D(const Kuplung_DX::Models::MeshModel& model) {
 	this->MeshModel = model;
+	this->MatrixModel = XMMatrixIdentity();
 	CreateDeviceDependentResources();
-	CreateWindowSizeDependentResources();
-}
-
-// Initializes view parameters when the window size changes.
-void Models::Model3D::CreateWindowSizeDependentResources() {
-	Size outputSize = m_deviceResources->GetOutputSize();
-	float aspectRatio = outputSize.Width / outputSize.Height;
-	float fovAngleY = 70.0f * XM_PI / 180.0f;
-
-	// This is a simple example of change that can be made when the app is in
-	// portrait or snapped view.
-	if (aspectRatio < 1.0f)
-		fovAngleY *= 2.0f;
-
-	// Note that the OrientationTransform3D matrix is post-multiplied here
-	// in order to correctly orient the scene to match the display orientation.
-	// This post-multiplication step is required for any draw calls that are
-	// made to the swap chain render target. For draw calls to other targets,
-	// this transform should not be applied.
-
-	// This sample makes use of a right-handed coordinate system using row-major matrices.
-	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(fovAngleY, aspectRatio, 0.01f, 100.0f);
-	XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
-	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
-
-	XMStoreFloat4x4(&m_constantBufferData.projection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));
-
-	// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
-	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
-	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
-
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-	//XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(45)));
 }
 
 void Models::Model3D::CreateDeviceDependentResources() {
@@ -119,20 +86,20 @@ void Models::Model3D::CreateDeviceDependentResources() {
 			XMFLOAT3(1.0f, 1.0f, 1.0f),
 		};
 
-		static std::vector<VertexPositionColor> modelVertices;
+		static std::vector<VertexPositionColor> modelData;
 		for (int i = 0; i < (int)this->MeshModel.vertices.size(); i++) {
 			XMFLOAT3 v = this->MeshModel.vertices[i];
 			XMFLOAT3 c = this->MeshModel.ModelMaterial.DiffuseColor;
 			int ri = rand() % 8;
 			c = randomColors[ri];
-			modelVertices.push_back({ v, c });
+			modelData.push_back({ v, c });
 		}
 
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-		vertexBufferData.pSysMem = modelVertices.data();
+		vertexBufferData.pSysMem = modelData.data();
 		vertexBufferData.SysMemPitch = 0;
 		vertexBufferData.SysMemSlicePitch = 0;
-		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelVertices.size());
+		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelData.size());
 		CD3D11_BUFFER_DESC vertexBufferDesc(s, D3D11_BIND_VERTEX_BUFFER);
 		DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
@@ -165,79 +132,76 @@ void Models::Model3D::CreateDeviceDependentResources() {
 
 	// Once the cube is loaded, the object is ready to be rendered.
 	createCubeTask.then([this]() {
-		m_loadingComplete = true;
+		this->m_loadingComplete = true;
 		});
 }
 
 void Models::Model3D::ReleaseDeviceDependentResources() {
-	m_loadingComplete = false;
-	m_vertexShader.Reset();
-	m_inputLayout.Reset();
-	m_pixelShader.Reset();
-	m_constantBuffer.Reset();
-	m_vertexBuffer.Reset();
-	m_indexBuffer.Reset();
+	this->m_loadingComplete = false;
+	this->m_vertexShader.Reset();
+	this->m_inputLayout.Reset();
+	this->m_pixelShader.Reset();
+	this->m_constantBuffer.Reset();
+	this->m_vertexBuffer.Reset();
+	this->m_indexBuffer.Reset();
 }
 
 void Models::Model3D::Render(const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera) {
-	// Loading is asynchronous. Only draw geometry after it's loaded.
-	if (!m_loadingComplete)
+	if (!this->m_loadingComplete)
 		return;
 
-	auto context = m_deviceResources->GetD3DDeviceContext();
+	this->m_constantBufferData.projection = matrixProjection;
+	this->m_constantBufferData.view = matrixCamera;
 
-	// Prepare the constant buffer to send it to the graphics device.
-	context->UpdateSubresource1(m_constantBuffer.Get(), 0, NULL, &m_constantBufferData, 0, 0, 0);
+	this->MatrixModel = XMMatrixIdentity();
+	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
+	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
+	this->MatrixModel = XMMatrixRotationX(this->RotateX->point);
+	this->MatrixModel = XMMatrixRotationY(this->RotateY->point);
+	this->MatrixModel = XMMatrixRotationZ(this->RotateZ->point);
+	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
+	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
 
-	// Each vertex is one instance of the VertexPositionColor struct.
+	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
+
+	auto context = this->m_deviceResources->GetD3DDeviceContext();
+	context->UpdateSubresource1(this->m_constantBuffer.Get(), 0, NULL, &this->m_constantBufferData, 0, 0, 0);
 	UINT stride = sizeof(VertexPositionColor);
 	UINT offset = 0;
-	context->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
-
-	// Each index is one 16-bit unsigned integer (short).
-	context->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
-
+	context->IASetVertexBuffers(0, 1, this->m_vertexBuffer.GetAddressOf(), &stride, &offset);
+	context->IASetIndexBuffer(this->m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	context->IASetInputLayout(m_inputLayout.Get());
-
-	// Attach our vertex shader.
-	context->VSSetShader(m_vertexShader.Get(), nullptr, 0);
-
-	// Send the constant buffer to the graphics device.
-	context->VSSetConstantBuffers1(0, 1, m_constantBuffer.GetAddressOf(), nullptr, nullptr);
-
-	// Attach our pixel shader.
-	context->PSSetShader(m_pixelShader.Get(), nullptr, 0);
-
-	// Draw the objects.
-	context->DrawIndexed(m_indexCount, 0, 0);
+	context->IASetInputLayout(this->m_inputLayout.Get());
+	context->VSSetShader(this->m_vertexShader.Get(), nullptr, 0);
+	context->VSSetConstantBuffers1(0, 1, this->m_constantBuffer.GetAddressOf(), nullptr, nullptr);
+	context->PSSetShader(this->m_pixelShader.Get(), nullptr, 0);
+	context->DrawIndexed(this->m_indexCount, 0, 0);
 }
 
 void Models::Model3D::Update(DX::StepTimer const& timer) {
-	if (!m_tracking) {
-		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
+	if (!this->m_tracking) {
+		float radiansPerSecond = XMConvertToRadians(this->m_degreesPerSecond);
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
-
 		this->Rotate(radians);
 	}
 }
 
 void Models::Model3D::Rotate(float radians) {
-	XMStoreFloat4x4(&m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
+	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
 }
 
 void Models::Model3D::StartTracking() {
-	m_tracking = true;
+	this->m_tracking = true;
 }
 
 void Models::Model3D::TrackingUpdate(float positionX) {
-	if (m_tracking) {
-		float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
+	if (this->m_tracking) {
+		float radians = XM_2PI * 2.0f * positionX / this->m_deviceResources->GetOutputSize().Width;
 		this->Rotate(radians);
 	}
 }
 
 void Models::Model3D::StopTracking() {
-	m_tracking = false;
+	this->m_tracking = false;
 }

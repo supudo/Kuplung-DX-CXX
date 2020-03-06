@@ -136,7 +136,7 @@ bool Kuplung_DXMain::Render()  {
 		this->m_fpsTextRenderer->Render();
 
 	this->ManagerObjects->Render();
-	this->m_renderingManager->Render(this->ManagerObjects->MatrixProjection, this->ManagerObjects->MatrixCamera, this->models3D);
+	this->m_renderingManager->Render(this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera, this->models3D);
 
 	return true;
 }

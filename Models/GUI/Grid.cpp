@@ -156,7 +156,7 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, this->m_vertexBuffer.GetAddressOf(), &stride, &offset);
 	context->IASetIndexBuffer(this->m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 	context->IASetInputLayout(this->m_inputLayout.Get());
 	context->VSSetShader(this->m_vertexShader.Get(), nullptr, 0);
 	context->VSSetConstantBuffers1(0, 1, this->m_constantBuffer.GetAddressOf(), nullptr, nullptr);

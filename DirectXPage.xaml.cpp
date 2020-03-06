@@ -121,18 +121,18 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 
 DirectXPage::~DirectXPage() {
 	// Stop rendering and processing events on destruction.
-	m_main->StopRenderLoop();
-	m_coreInput->Dispatcher->StopProcessEvents();
+	this->m_main->StopRenderLoop();
+	this->m_coreInput->Dispatcher->StopProcessEvents();
 	this->managerParsers.reset();
 }
 
 // Saves the current state of the app for suspend and terminate events.
 void DirectXPage::SaveInternalState(IPropertySet^ state) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->Trim();
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
+	this->m_deviceResources->Trim();
 
 	// Stop rendering when the app is suspended.
-	m_main->StopRenderLoop();
+	this->m_main->StopRenderLoop();
 
 	// Put code to save app state here.
 }
@@ -142,68 +142,68 @@ void DirectXPage::LoadInternalState(IPropertySet^ state) {
 	// Put code to load app state here.
 
 	// Start rendering when the app is resumed.
-	m_main->StartRenderLoop();
+	this->m_main->StartRenderLoop();
 }
 
 // Window event handlers.
 
 void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEventArgs^ args) {
-	m_windowVisible = args->Visible;
-	if (m_windowVisible)
-		m_main->StartRenderLoop();
+	this->m_windowVisible = args->Visible;
+	if (this->m_windowVisible)
+		this->m_main->StartRenderLoop();
 	else
-		m_main->StopRenderLoop();
+		this->m_main->StopRenderLoop();
 }
 
 // DisplayInformation event handlers.
 
 void DirectXPage::OnDpiChanged(DisplayInformation^ sender, Object^ args) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
 	// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
 	// if it is being scaled for high resolution devices. Once the DPI is set on DeviceResources,
 	// you should always retrieve it using the GetDpi method.
 	// See DeviceResources.cpp for more details.
-	m_deviceResources->SetDpi(sender->LogicalDpi);
-	m_main->CreateWindowSizeDependentResources();
+	this->m_deviceResources->SetDpi(sender->LogicalDpi);
+	this->m_main->CreateWindowSizeDependentResources();
 }
 
 void DirectXPage::OnOrientationChanged(DisplayInformation^ sender, Object^ args) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
-	m_main->CreateWindowSizeDependentResources();
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
+	this->m_deviceResources->SetCurrentOrientation(sender->CurrentOrientation);
+	this->m_main->CreateWindowSizeDependentResources();
 }
 
 void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Object^ args) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->ValidateDevice();
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
+	this->m_deviceResources->ValidateDevice();
 }
 
 void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e) {
 	// When the pointer is pressed begin tracking the pointer movement.
-	m_main->StartTracking();
+	this->m_main->StartTracking();
 }
 
 void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 	// Update the pointer tracking code.
-	if (m_main->IsTracking())
-		m_main->TrackingUpdate(e->CurrentPoint->Position.X);
+	if (this->m_main->IsTracking())
+		this->m_main->TrackingUpdate(e->CurrentPoint->Position.X);
 }
 
 void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
 	// Stop tracking pointer movement when the pointer is released.
-	m_main->StopTracking();
+	this->m_main->StopTracking();
 }
 
 void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->SetCompositionScale(sender->CompositionScaleX, sender->CompositionScaleY);
-	m_main->CreateWindowSizeDependentResources();
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
+	this->m_deviceResources->SetCompositionScale(sender->CompositionScaleX, sender->CompositionScaleY);
+	this->m_main->CreateWindowSizeDependentResources();
 }
 
 void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventArgs^ e) {
-	critical_section::scoped_lock lock(m_main->GetCriticalSection());
-	m_deviceResources->SetLogicalSize(e->NewSize);
-	m_main->CreateWindowSizeDependentResources();
+	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
+	this->m_deviceResources->SetLogicalSize(e->NewSize);
+	this->m_main->CreateWindowSizeDependentResources();
 }
 
 void DirectXPage::AddToLog(Platform::String^ message) {

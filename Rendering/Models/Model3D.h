@@ -1,7 +1,10 @@
 ﻿#pragma once
 
+#include <Types\Types.h>
 #include <Models\ModelObject.h>
 #include <Rendering\ShaderStructures.h>
+
+using namespace Kuplung_DX::Types;
 
 namespace Kuplung_DX
 {
@@ -17,7 +20,6 @@ namespace Kuplung_DX
                 void InitModel3D(const Kuplung_DX::Models::MeshModel& model);
 
                 void CreateDeviceDependentResources();
-                void CreateWindowSizeDependentResources();
                 void ReleaseDeviceDependentResources();
                 void Render(const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera);
 
@@ -28,6 +30,11 @@ namespace Kuplung_DX
                 bool IsTracking() { return m_tracking; }
                 void Rotate(float radians);
 
+                std::unique_ptr<ObjectCoordinate> PositionX, PositionY, PositionZ;
+                std::unique_ptr<ObjectCoordinate> ScaleX, ScaleY, ScaleZ;
+                std::unique_ptr<ObjectCoordinate> RotateX, RotateY, RotateZ;
+
+                DirectX::XMMATRIX MatrixModel;
                 Kuplung_DX::Models::MeshModel MeshModel;
 
             private:

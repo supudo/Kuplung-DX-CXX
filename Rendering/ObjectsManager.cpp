@@ -29,10 +29,10 @@ void ObjectsManager::Render() {
 	XMFLOAT4X4 orientation = this->m_deviceResources->GetOrientationTransform3D();
 	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
 	XMStoreFloat4x4(&this->MatrixProjection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));
-	XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtRH(this->CompCamera->EyeSettings->View_Eye, this->CompCamera->EyeSettings->View_Center, this->CompCamera->EyeSettings->View_Up)));
+	XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtLH(this->CompCamera->EyeSettings->View_Eye, this->CompCamera->EyeSettings->View_Center, this->CompCamera->EyeSettings->View_Up)));
 
 	this->CompCamera->Render();
 	
 	if (Kuplung_DX::App::ShowGrid)
-		this->compGrid->Render(this->MatrixProjection, this->MatrixCamera);
+		this->compGrid->Render(this->MatrixProjection, this->CompCamera->MatrixCamera);
 }

@@ -47,17 +47,17 @@ void Camera::InitProperties() {
 void Camera::Render() {
     XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtRH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up)));
 
-    //this->matrixCamera = glm::translate(this->matrixCamera, glm::vec3(this->positionX->point, this->positionY->point, this->positionZ->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
 
-    //this->matrixCamera = glm::translate(this->matrixCamera, glm::vec3(0, 0, 0));
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateX->point), glm::vec3(1, 0, 0));
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateY->point), glm::vec3(0, 1, 0));
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateZ->point), glm::vec3(0, 0, 1));
-    //this->matrixCamera = glm::translate(this->matrixCamera, glm::vec3(0, 0, 0));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(0, 0, 0));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(this->RotateX->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(this->RotateY->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(this->RotateZ->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(0, 0, 0));
 
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateCenterX->point), glm::vec3(1, 0, 0));
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateCenterY->point), glm::vec3(0, 1, 0));
-    //this->matrixCamera = glm::rotate(this->matrixCamera, glm::radians(this->rotateCenterZ->point), glm::vec3(0, 0, 1));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(this->RotateCenterX->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(this->RotateCenterY->point));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(this->RotateCenterZ->point));
 
     this->CameraPosition = DirectX::XMFLOAT3(this->MatrixCamera(3, 0), this->MatrixCamera(3, 1), this->MatrixCamera(3, 2));
 }

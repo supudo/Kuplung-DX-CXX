@@ -335,6 +335,21 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 }
 
 #pragma region GUI Controls events
+void Kuplung_DX::DirectXPage::ButtonResetValuesGuiControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::Setting_FOV = 45.0;
+	Kuplung_DX::App::Setting_RatioWidth = 4.0;
+	Kuplung_DX::App::Setting_RatioHeight = 3.0;
+	Kuplung_DX::App::Setting_PlaneClose = 0.1;
+	Kuplung_DX::App::Setting_PlaneFar = 100;
+	Kuplung_DX::App::GridSize = 30;
+	Kuplung_DX::App::GridUnitSize = 1;
+	Kuplung_DX::App::ShowGrid = true;
+
+	this->m_main->ManagerObjects->CompCamera->InitProperties();
+
+	this->InitializeGUIControlsValues();
+}
+
 void Kuplung_DX::DirectXPage::InitializeGUIControlsValues() {
 	this->slSetting_FOV->Value = Kuplung_DX::App::Setting_FOV;
 	this->slSetting_RatioWidth->Value = Kuplung_DX::App::Setting_RatioWidth;

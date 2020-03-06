@@ -45,19 +45,16 @@ void Camera::InitProperties() {
 }
 
 void Camera::Render() {
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtRH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixLookAtLH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up));
 
     XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(0, 0, 0));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(this->RotateX->point));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(this->RotateY->point));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(this->RotateZ->point));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranslation(0, 0, 0));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point))));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(this->RotateCenterX->point));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(this->RotateCenterY->point));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(this->RotateCenterZ->point));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point))));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationX(XMConvertToRadians(this->RotateCenterX->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationY(XMConvertToRadians(this->RotateCenterY->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixRotationZ(XMConvertToRadians(this->RotateCenterZ->point)));
 
     this->CameraPosition = DirectX::XMFLOAT3(this->MatrixCamera(3, 0), this->MatrixCamera(3, 1), this->MatrixCamera(3, 2));
 }

@@ -141,11 +141,7 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 
 	this->MatrixModel = XMMatrixIdentity();
 	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
-	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
-	this->MatrixModel = XMMatrixRotationX(this->RotateX->point);
-	this->MatrixModel = XMMatrixRotationY(this->RotateY->point);
-	this->MatrixModel = XMMatrixRotationZ(this->RotateZ->point);
-	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
+	this->MatrixModel = XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point)));
 	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
 
 	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);

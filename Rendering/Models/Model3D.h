@@ -18,6 +18,7 @@ namespace Kuplung_DX
                 Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResources);
 
                 void InitModel3D(const Kuplung_DX::Models::MeshModel& model);
+                void InitProperties();
 
                 void CreateDeviceDependentResources();
                 void ReleaseDeviceDependentResources();

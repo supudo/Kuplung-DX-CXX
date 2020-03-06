@@ -18,9 +18,51 @@ void Models::Model3D::InitModel3D(const Kuplung_DX::Models::MeshModel& model) {
 	this->MeshModel = model;
 	this->MatrixModel = XMMatrixIdentity();
 	CreateDeviceDependentResources();
+	this->InitProperties();
+}
+
+void Models::Model3D::InitProperties() {
+	this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
+	this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
+	this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
+
+	this->ScaleX = std::make_unique<ObjectCoordinate>(false, 1.0f);
+	this->ScaleY = std::make_unique<ObjectCoordinate>(false, 1.0f);
+	this->ScaleZ = std::make_unique<ObjectCoordinate>(false, 1.0f);
+
+	this->RotateX = std::make_unique<ObjectCoordinate>(false, 0.0f);
+	this->RotateY = std::make_unique<ObjectCoordinate>(false, 0.0f);
+	this->RotateZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 }
 
 void Models::Model3D::CreateDeviceDependentResources() {
+	//Size outputSize = this->m_deviceResources->GetOutputSize();
+	//float aspectRatio = outputSize.Width / outputSize.Height;
+	//float fovAngleY = 70.0f * XM_PI / 180.0f;
+
+	//if (aspectRatio < 1.0f)
+	//	fovAngleY *= 2.0f;
+
+	//XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(
+	//	fovAngleY,
+	//	aspectRatio,
+	//	0.01f,
+	//	100.0f
+	//);
+	//XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
+	//XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
+
+	//XMStoreFloat4x4(
+	//	&this->m_constantBufferData.projection,
+	//	XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
+	//);
+
+	//static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
+	//static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
+	//static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
+
+	//XMStoreFloat4x4(&this->m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
+
 	// Load shaders asynchronously.
 	auto loadVSTask = DX::ReadDataAsync(L"RenderingSimpleVertexShader.cso");
 	auto loadPSTask = DX::ReadDataAsync(L"RenderingSimplePixelShader.cso");
@@ -161,7 +203,6 @@ void Models::Model3D::Render(const DirectX::XMFLOAT4X4 matrixProjection, const D
 	this->MatrixModel = XMMatrixRotationZ(this->RotateZ->point);
 	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
 	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
-
 	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();

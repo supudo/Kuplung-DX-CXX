@@ -1,10 +1,10 @@
 ﻿#include "pch.h"
 #include "ObjectsManager.h"
-#include "..\Common\DirectXHelper.h"
+#include <DX\DirectXHelper.h>
 
 using namespace Kuplung_DX::Rendering;
 
-ObjectsManager::ObjectsManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources) {
+ObjectsManager::ObjectsManager(const std::shared_ptr<Kuplung_DX::DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources) {
 	XMStoreFloat4x4(&this->MatrixProjection, DirectX::XMMatrixIdentity());
 
 	this->CompCamera = std::make_unique<Kuplung_DX::Models::Camera>();

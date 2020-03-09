@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "Camera.h"
-#include "..\Common\DirectXHelper.h"
+#include <DX\DirectXHelper.h>
 
 using namespace Kuplung_DX::Models;
 

@@ -1,12 +1,12 @@
 ﻿#include "pch.h"
 #include "Model3D.h"
-#include "Common\DirectXHelper.h"
+#include <DX\DirectXHelper.h>
 
 using namespace Kuplung_DX::Rendering;
 using namespace DirectX;
 using namespace Windows::Foundation;
 
-Models::Model3D::Model3D(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
+Models::Model3D::Model3D(const std::shared_ptr<Kuplung_DX::DX::DeviceResources>& deviceResources) :
 	m_deviceResources(deviceResources),
 	m_loadingComplete(false),
 	m_degreesPerSecond(45),
@@ -64,12 +64,12 @@ void Models::Model3D::CreateDeviceDependentResources() {
 	//XMStoreFloat4x4(&this->m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
 
 	// Load shaders asynchronously.
-	auto loadVSTask = DX::ReadDataAsync(L"RenderingSimpleVertexShader.cso");
-	auto loadPSTask = DX::ReadDataAsync(L"RenderingSimplePixelShader.cso");
+	auto loadVSTask = Kuplung_DX::DX::ReadDataAsync(L"RenderingSimpleVertexShader.cso");
+	auto loadPSTask = Kuplung_DX::DX::ReadDataAsync(L"RenderingSimplePixelShader.cso");
 
 	// After the vertex shader file is loaded, create the shader and input layout.
 	auto createVSTask = loadVSTask.then([this](const std::vector<byte>& fileData) {
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateVertexShader(
 				&fileData[0],
 				fileData.size(),
@@ -83,7 +83,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateInputLayout(
 				vertexDesc,
 				ARRAYSIZE(vertexDesc),
@@ -96,7 +96,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 
 	// After the pixel shader file is loaded, create the shader and constant buffer.
 	auto createPSTask = loadPSTask.then([this](const std::vector<byte>& fileData) {
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreatePixelShader(
 				&fileData[0],
 				fileData.size(),
@@ -106,7 +106,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		);
 
 		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ModelViewProjectionConstantBuffer), D3D11_BIND_CONSTANT_BUFFER);
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&constantBufferDesc,
 				nullptr,
@@ -143,7 +143,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		vertexBufferData.SysMemSlicePitch = 0;
 		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelData.size());
 		CD3D11_BUFFER_DESC vertexBufferDesc(s, D3D11_BIND_VERTEX_BUFFER);
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&vertexBufferDesc,
 				&vertexBufferData,
@@ -163,7 +163,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		indexBufferData.SysMemPitch = 0;
 		indexBufferData.SysMemSlicePitch = 0;
 		CD3D11_BUFFER_DESC indexBufferDesc(sizeof(unsigned int) * static_cast<UINT>(modelIndices.size()), D3D11_BIND_INDEX_BUFFER);
-		DX::ThrowIfFailed(
+		Kuplung_DX::DX::ThrowIfFailed(
 			m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&indexBufferDesc,
 				&indexBufferData,
@@ -219,7 +219,7 @@ void Models::Model3D::Render(const DirectX::XMFLOAT4X4 matrixProjection, const D
 	context->DrawIndexed(this->m_indexCount, 0, 0);
 }
 
-void Models::Model3D::Update(DX::StepTimer const& timer) {
+void Models::Model3D::Update(Kuplung_DX::DX::StepTimer const& timer) {
 	if (!this->m_tracking) {
 		float radiansPerSecond = XMConvertToRadians(this->m_degreesPerSecond);
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;

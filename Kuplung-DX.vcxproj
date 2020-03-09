@@ -244,16 +244,17 @@
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="Common\DeviceResources.h" />
+    <ClInclude Include="DX\DeviceResources.h" />
+    <ClInclude Include="DX\DirectXHelper.h" />
+    <ClInclude Include="DX\StepTimer.h" />
     <ClInclude Include="Importers\FileModelManager.h" />
     <ClInclude Include="Importers\ObjParser.h" />
     <ClInclude Include="Importers\ParserUtils.h" />
+    <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Kuplung_DXMain.h" />
     <ClInclude Include="DirectXPage.xaml.h">
       <DependentUpon>DirectXPage.xaml</DependentUpon>
     </ClInclude>
-    <ClInclude Include="Common\DirectXHelper.h" />
-    <ClInclude Include="Common\StepTimer.h" />
     <ClInclude Include="Models\Camera.h" />
     <ClInclude Include="Models\GuiObject.h" />
     <ClInclude Include="Models\GUI\Grid.h" />
@@ -276,10 +277,11 @@
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
-    <ClCompile Include="Common\DeviceResources.cpp" />
+    <ClCompile Include="DX\DeviceResources.cpp" />
     <ClCompile Include="Importers\FileModelManager.cpp" />
     <ClCompile Include="Importers\ObjParser.cpp" />
     <ClCompile Include="Importers\ParserUtils.cpp" />
+    <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Kuplung_DXMain.cpp" />
     <ClCompile Include="DirectXPage.xaml.cpp">
       <DependentUpon>DirectXPage.xaml</DependentUpon>

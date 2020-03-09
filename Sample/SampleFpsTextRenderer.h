@@ -1,8 +1,8 @@
 ﻿#pragma once
 
 #include <string>
-#include "..\Common\DeviceResources.h"
-#include "..\Common\StepTimer.h"
+#include <DX\DeviceResources.h>
+#include <DX\StepTimer.h>
 
 namespace Kuplung_DX
 {

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#include "Common\DeviceResources.h"
-#include "Sample\ShaderStructures.h"
-#include "Common\StepTimer.h"
+#include <DX/DeviceResources.h>
+#include <Sample/ShaderStructures.h>
+#include <DX/StepTimer.h>
 
-#include "Models\ModelObject.h"
-#include "Rendering\RenderingSimple.h"
+#include <Models/ModelObject.h>
+#include <Rendering/RenderingSimple.h>
 
 namespace Kuplung_DX
 {

@@ -7,7 +7,7 @@
 
 #include "DirectXPage.g.h"
 
-#include "Common\DeviceResources.h"
+#include <DX\DeviceResources.h>
 #include "Kuplung_DXMain.h"
 #include <Models\Shape.h>
 #include <Models\GuiObject.h>

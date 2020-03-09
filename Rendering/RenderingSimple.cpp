@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "RenderingSimple.h"
 
+using namespace Kuplung_DX;
 using namespace Kuplung_DX::Rendering;
 
 RenderingSimple::RenderingSimple() {

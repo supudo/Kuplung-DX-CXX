@@ -1,25 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Common">
-      <UniqueIdentifier>f37b1ea4-7737-4e3c-82a1-acfc693b9433</UniqueIdentifier>
-    </Filter>
     <Filter Include="Assets">
       <UniqueIdentifier>3f2661a3-7a77-404f-8f9e-80d732f3ad7b</UniqueIdentifier>
       <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png</Extensions>
     </Filter>
-    <ClInclude Include="Common\DirectXHelper.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\StepTimer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\DeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClCompile Include="Common\DeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <Filter Include="Models">
       <UniqueIdentifier>{5b5c6e54-91dc-4f33-ae43-8da76a7d1514}</UniqueIdentifier>
     </Filter>
@@ -61,6 +46,12 @@
     </Filter>
     <Filter Include="Resources\Objects\Shapes">
       <UniqueIdentifier>{0f9fef9e-8fb8-4866-be20-c17e00cedf02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{ecc582ec-d028-442f-954e-6a7156c8d3dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX">
+      <UniqueIdentifier>f37b1ea4-7737-4e3c-82a1-acfc693b9433</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="Models\GuiObject.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DX\DeviceResources.cpp">
+      <Filter>DX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +168,18 @@
     </ClInclude>
     <ClInclude Include="Models\GuiObject.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\InputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\DirectXHelper.h">
+      <Filter>DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\StepTimer.h">
+      <Filter>DX</Filter>
+    </ClInclude>
+    <ClInclude Include="DX\DeviceResources.h">
+      <Filter>DX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

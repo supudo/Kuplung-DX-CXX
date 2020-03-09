@@ -1,8 +1,9 @@
 ﻿#include "pch.h"
 #include "Grid.h"
-#include "Common\DirectXHelper.h"
+#include <DX\DirectXHelper.h>
 #include <Models\ShaderStructures.h>
 
+using namespace Kuplung_DX;
 using namespace Kuplung_DX::Models::GUI;
 using namespace DirectX;
 using namespace Windows::Foundation;

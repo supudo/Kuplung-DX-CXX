@@ -5,7 +5,7 @@ using namespace Kuplung_DX::Rendering;
 using namespace DirectX;
 using namespace Windows::Foundation;
 
-RenderingManager::RenderingManager(const std::shared_ptr<DX::DeviceResources>& deviceResources) {
+RenderingManager::RenderingManager(const std::shared_ptr<Kuplung_DX::DX::DeviceResources>& deviceResources) {
 	this->renderingSimple = std::make_unique<RenderingSimple>();
 }
 
@@ -20,7 +20,7 @@ void RenderingManager::Render(const DirectX::XMFLOAT4X4 matrixProjection, const 
 	}
 }
 
-void RenderingManager::Update(const std::vector<std::unique_ptr<Models::Model3D>>& models, DX::StepTimer const& timer) {
+void RenderingManager::Update(const std::vector<std::unique_ptr<Models::Model3D>>& models, Kuplung_DX::DX::StepTimer const& timer) {
 	switch (Kuplung_DX::App::RenderingMethod)
 	{
 	case 1:

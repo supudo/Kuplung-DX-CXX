@@ -1,10 +1,13 @@
 ﻿#include "pch.h"
 #include "Kuplung_DXMain.h"
-#include "Common\DirectXHelper.h"
+#include <DX\DirectXHelper.h>
 
 using namespace Kuplung_DX;
+using namespace DirectX;
+using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 using namespace Windows::System::Threading;
+using namespace Windows::UI::Xaml;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
@@ -19,6 +22,8 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 	// Rendering
 	this->m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(this->m_deviceResources));
 	this->ManagerObjects = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(this->m_deviceResources));
+
+	this->m_inputManager = ref new Kuplung_DX::Input::InputManager(Window::Current->CoreWindow, m_deviceResources->GetSwapChainPanel()->Dispatcher);
 
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:

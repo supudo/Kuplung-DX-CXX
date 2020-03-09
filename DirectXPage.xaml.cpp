@@ -71,23 +71,23 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->m_main->StartRenderLoop();
 
 	this->availableModels = ref new Platform::Collections::Vector<Kuplung_DX::Models::Shape^>();
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Triangle", "triangle.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cone", "cone.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cube", "cube.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cylinder", "cylinder.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Grid", "grid.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Ico Sphere", "ico_sphere.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane", "plane.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Torus", "torus.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Tube", "tube.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "UV Sphere", "uv_sphere.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Monkey Head", "monkey_head.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Epcot", "epcot.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Brick Wall", "brick_wall.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects", "plane_objects.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects - Large Plane", "plane_objects_large.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball", "MaterialBall.obj" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball - Blender", "MaterialBallBlender.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Triangle", "triangle.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cone", "cone.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cube", "cube.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cylinder", "cylinder.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Grid", "grid.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Ico Sphere", "ico_sphere.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane", "plane.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Torus", "torus.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Tube", "tube.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "UV Sphere", "uv_sphere.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Monkey Head", "monkey_head.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Epcot", "epcot.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Brick Wall", "brick_wall.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects", "plane_objects.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects - Large Plane", "plane_objects_large.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball", "MaterialBall.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball - Blender", "MaterialBallBlender.objk" });
 	this->lvModels->ItemsSource = this->availableModels;
 
 	this->guiObjects = ref new Platform::Collections::Vector<Kuplung_DX::Models::GuiObject^>();
@@ -272,7 +272,7 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 	this->grdLoading->Width = Window::Current->CoreWindow->Bounds.Width;
 	this->grdLoading->Height = Window::Current->CoreWindow->Bounds.Height;
 	Kuplung_DX::Models::Shape^ m = this->availableModels->GetAt(lvModels->SelectedIndex);
-	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\Objects\\Shapes\\" + m->Filename;
+	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\..\\Resources\\Objects\\Shapes\\" + m->Filename;
 	this->LogInfo("Opening " + modelFile + " ... ", true);
 	auto workItemHandler = ref new WorkItemHandler([this, modelFile](IAsyncAction^) {
 			this->ParseModelAsync(modelFile);

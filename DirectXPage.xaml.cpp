@@ -32,6 +32,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	CoreWindow^ window = Window::Current->CoreWindow;
 
 	window->VisibilityChanged += ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXPage::OnVisibilityChanged);
+	CoreWindow::GetForCurrentThread()->Dispatcher->AcceleratorKeyActivated += ref new TypedEventHandler<CoreDispatcher^, AcceleratorKeyEventArgs^>(this, &DirectXPage::OnAcceleratorKeyActivated);
 
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
@@ -118,6 +119,8 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	);
 
 	this->InitializeGUIControlsValues();
+
+	this->KeyPressed_LeftAlt = false;
 }
 
 DirectXPage::~DirectXPage() {
@@ -154,6 +157,12 @@ void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEvent
 		this->m_main->StartRenderLoop();
 	else
 		this->m_main->StopRenderLoop();
+}
+
+void DirectXPage::OnAcceleratorKeyActivated(CoreDispatcher^ sender, AcceleratorKeyEventArgs^ args) {
+	this->KeyPressed_LeftAlt = false;
+	if (args->EventType == CoreAcceleratorKeyEventType::SystemKeyDown && args->VirtualKey == Windows::System::VirtualKey::Menu)
+		this->KeyPressed_LeftAlt = args->KeyStatus.IsMenuKeyDown;
 }
 
 // DisplayInformation event handlers.
@@ -198,15 +207,20 @@ void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
 void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {
 	PointerPoint^ point = e->CurrentPoint;
 	int d = point->Properties->MouseWheelDelta / WHEEL_DELTA;
-	if (d < 0)
-		Kuplung_DX::App::Setting_FOV += 4;
-	else if (d > 0)
-		Kuplung_DX::App::Setting_FOV -= 4;
 
-	if (Kuplung_DX::App::Setting_FOV > 180)
-		Kuplung_DX::App::Setting_FOV = 180;
-	if (Kuplung_DX::App::Setting_FOV < -180)
-		Kuplung_DX::App::Setting_FOV = -180;
+	if (this->KeyPressed_LeftAlt) {
+		if (d < 0)
+			Kuplung_DX::App::Setting_FOV += 4;
+		else if (d > 0)
+			Kuplung_DX::App::Setting_FOV -= 4;
+
+		if (Kuplung_DX::App::Setting_FOV > 180)
+			Kuplung_DX::App::Setting_FOV = 180;
+		if (Kuplung_DX::App::Setting_FOV < -180)
+			Kuplung_DX::App::Setting_FOV = -180;
+	}
+	else
+		this->m_main->ManagerObjects->CompCamera->PositionZ->point += d;
 }
 
 void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args) {

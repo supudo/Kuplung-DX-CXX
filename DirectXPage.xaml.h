@@ -34,10 +34,11 @@ namespace Kuplung_DX
 
 	private:
 		// XAML low-level rendering event handler.
-		void OnRendering(Platform::Object^ sender, Platform::Object^ args);
+		// void OnRendering(Platform::Object^ sender, Platform::Object^ args);
 
 		// Window event handlers.
 		void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
+		void OnAcceleratorKeyActivated(Windows::UI::Core::CoreDispatcher^ sender, Windows::UI::Core::AcceleratorKeyEventArgs^ args);
 
 		// DisplayInformation event handlers.
 		void OnDpiChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
@@ -62,6 +63,8 @@ namespace Kuplung_DX
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
+
+		bool KeyPressed_LeftAlt;
 
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 

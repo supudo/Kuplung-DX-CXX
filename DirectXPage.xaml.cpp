@@ -106,7 +106,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->guiObjects->Append(ref new Kuplung_DX::Models::GuiObject{ 6, "Lights", L"\xEA80" });
 	this->tvGuiObjects->ItemsSource = this->guiObjects;
 
-	this->showLogWindow = true;
+	this->showLogWindow = false;
 
 	this->panelLog->Width = Kuplung_DX::App::LogWindowWidth;
 	this->panelLog->Height = Kuplung_DX::App::LogWindowHeight;
@@ -295,7 +295,7 @@ void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {
 			Kuplung_DX::App::Setting_FOV = -180;
 	}
 	else
-		this->m_main->ManagerObjects->CompCamera->PositionZ->point += d;
+		this->m_main->ManagerObjects->CompCamera->PositionY->point += d;
 }
 
 void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args) {

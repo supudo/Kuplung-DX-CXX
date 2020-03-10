@@ -137,15 +137,15 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	if (!this->m_loadingComplete)
 		return;
 
-	this->m_constantBufferData.projection = matrixProjection;
-	this->m_constantBufferData.view = matrixCamera;
-
 	this->MatrixModel = XMMatrixIdentity();
 	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
 	this->MatrixModel = XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point)));
 	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
 
-	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
+	XMMATRIX mvpMatrix = XMMatrixMultiply(XMLoadFloat4x4(&matrixProjection), XMLoadFloat4x4(&matrixCamera));
+	mvpMatrix = XMMatrixMultiply(mvpMatrix, this->MatrixModel);
+
+	XMStoreFloat4x4(&this->m_constantBufferData.mvp, mvpMatrix);
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();
 	context->UpdateSubresource1(this->m_constantBuffer.Get(), 0, NULL, &this->m_constantBufferData, 0, 0, 0);
@@ -203,7 +203,7 @@ void Grid::CreateDeviceDependentResources() {
 			)
 		);
 
-		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(ModelViewProjectionConstantBuffer), D3D11_BIND_CONSTANT_BUFFER);
+		CD3D11_BUFFER_DESC constantBufferDesc(sizeof(GridConstantBuffer), D3D11_BIND_CONSTANT_BUFFER);
 		DX::ThrowIfFailed(
 			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&constantBufferDesc,

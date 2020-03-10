@@ -33,10 +33,6 @@ void Camera::InitProperties() {
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
-    //this->EyeSettings->View_Eye = { 0.0f, 0.0f, 10.0f, 0.0f };
-    //this->EyeSettings->View_Center = { 0.0f, 0.0f, 0.0f, 0.0f };
-    //this->EyeSettings->View_Up = { 0.0f, -1.0f, 0.0f, 0.0f };
-
     this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);

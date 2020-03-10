@@ -12,6 +12,12 @@ namespace Kuplung_DX
 			DirectX::XMFLOAT4X4 projection;
 		};
 
+		// Constant buffer used for Grid
+		struct GridConstantBuffer
+		{
+			DirectX::XMFLOAT4X4 mvp;
+		};
+
 		// Used to send per-vertex data to the vertex shader.
 		struct VertexPositionColor
 		{

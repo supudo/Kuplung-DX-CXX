@@ -21,7 +21,7 @@ ObjectsManager::~ObjectsManager() {
 
 void ObjectsManager::Render() {
 	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovLH(
-		(Kuplung_DX::App::Setting_FOV / 360.0f) * XM_2PI,
+		XMConvertToRadians(Kuplung_DX::App::Setting_FOV),
 		Kuplung_DX::App::Setting_RatioWidth / Kuplung_DX::App::Setting_RatioHeight,
 		Kuplung_DX::App::Setting_PlaneClose,
 		Kuplung_DX::App::Setting_PlaneFar

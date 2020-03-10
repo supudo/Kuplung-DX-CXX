@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <Types\Types.h>
-#include <Rendering\ShaderStructures.h>
+#include <Models\ShaderStructures.h>
 
 using namespace Kuplung_DX::Types;
 
@@ -46,7 +46,7 @@ namespace Kuplung_DX
 
                 Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 
-                Kuplung_DX::Rendering::ModelViewProjectionConstantBuffer m_constantBufferData;
+                Kuplung_DX::Models::GridConstantBuffer m_constantBufferData;
 
                 void CreateDeviceDependentResources();
                 void ReleaseDeviceDependentResources();

@@ -38,6 +38,8 @@ namespace Kuplung_DX
 
 		// Window event handlers.
 		void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
+		void OnKeyDown(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
+		void OnKeyUp(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
 		void OnAcceleratorKeyActivated(Windows::UI::Core::CoreDispatcher^ sender, Windows::UI::Core::AcceleratorKeyEventArgs^ args);
 
 		// DisplayInformation event handlers.
@@ -64,7 +66,9 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
 
-		bool KeyPressed_LeftAlt;
+		bool KeyPressed_Alt;
+		bool KeyPressed_Ctrl;
+		bool KeyPressed_Shift;
 
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 

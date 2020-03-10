@@ -8,6 +8,7 @@
 #include <ppltasks.h>
 
 using namespace Kuplung_DX;
+using namespace Kuplung_DX::Utilities;
 
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -32,6 +33,8 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	CoreWindow^ window = Window::Current->CoreWindow;
 
 	window->VisibilityChanged += ref new TypedEventHandler<CoreWindow^, VisibilityChangedEventArgs^>(this, &DirectXPage::OnVisibilityChanged);
+	window->KeyDown += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow^, Windows::UI::Core::KeyEventArgs^>(this, &DirectXPage::OnKeyDown);
+	window->KeyUp += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow^, Windows::UI::Core::KeyEventArgs^>(this, &DirectXPage::OnKeyUp);
 	CoreWindow::GetForCurrentThread()->Dispatcher->AcceleratorKeyActivated += ref new TypedEventHandler<CoreDispatcher^, AcceleratorKeyEventArgs^>(this, &DirectXPage::OnAcceleratorKeyActivated);
 
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
@@ -120,7 +123,9 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 
 	this->InitializeGUIControlsValues();
 
-	this->KeyPressed_LeftAlt = false;
+	this->KeyPressed_Alt = false;
+	this->KeyPressed_Ctrl = false;
+	this->KeyPressed_Shift = false;
 }
 
 DirectXPage::~DirectXPage() {
@@ -159,10 +164,27 @@ void DirectXPage::OnVisibilityChanged(CoreWindow^ sender, VisibilityChangedEvent
 		this->m_main->StopRenderLoop();
 }
 
+void DirectXPage::OnKeyDown(CoreWindow^ window, KeyEventArgs^ args) {
+	this->KeyPressed_Ctrl = false;
+	this->KeyPressed_Shift = false;
+
+	Windows::System::VirtualKey key = args->VirtualKey;
+
+	if (key == Windows::System::VirtualKey::Control)
+		this->KeyPressed_Ctrl = args->KeyStatus.WasKeyDown;
+	if (key == Windows::System::VirtualKey::Shift)
+		this->KeyPressed_Shift = args->KeyStatus.WasKeyDown;
+}
+
+void DirectXPage::OnKeyUp(CoreWindow^ window, KeyEventArgs^ args) {
+	this->KeyPressed_Ctrl = false;
+	this->KeyPressed_Shift = false;
+}
+
 void DirectXPage::OnAcceleratorKeyActivated(CoreDispatcher^ sender, AcceleratorKeyEventArgs^ args) {
-	this->KeyPressed_LeftAlt = false;
+	this->KeyPressed_Alt = false;
 	if (args->EventType == CoreAcceleratorKeyEventType::SystemKeyDown && args->VirtualKey == Windows::System::VirtualKey::Menu)
-		this->KeyPressed_LeftAlt = args->KeyStatus.IsMenuKeyDown;
+		this->KeyPressed_Alt = args->KeyStatus.IsMenuKeyDown;
 }
 
 // DisplayInformation event handlers.
@@ -197,6 +219,17 @@ void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 	// Update the pointer tracking code.
 	if (this->m_main->IsTracking())
 		this->m_main->TrackingUpdate(e->CurrentPoint->Position.X);
+
+	if (this->KeyPressed_Shift) {
+		if (e->CurrentPoint->Position.X < 0)
+			this->m_main->ManagerObjects->CompCamera->PositionY->point += 0.1f;
+		else if (e->CurrentPoint->Position.X > 0)
+			this->m_main->ManagerObjects->CompCamera->PositionY->point -= 0.1f;
+		else if (e->CurrentPoint->Position.Y > 0)
+			this->m_main->ManagerObjects->CompCamera->PositionX->point += 0.1f;
+		else if (e->CurrentPoint->Position.Y < 0)
+			this->m_main->ManagerObjects->CompCamera->PositionX->point -= 0.1f;
+	}
 }
 
 void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
@@ -208,7 +241,7 @@ void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {
 	PointerPoint^ point = e->CurrentPoint;
 	int d = point->Properties->MouseWheelDelta / WHEEL_DELTA;
 
-	if (this->KeyPressed_LeftAlt) {
+	if (this->KeyPressed_Alt) {
 		if (d < 0)
 			Kuplung_DX::App::Setting_FOV += 4;
 		else if (d > 0)
@@ -304,7 +337,7 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 	Platform::String^ modelFile = Kuplung_DX::App::ApplicationPath + "\\..\\Resources\\Objects\\Shapes\\" + m->Filename;
 	this->LogInfo("Opening " + modelFile + " ... ", true);
 	auto workItemHandler = ref new WorkItemHandler([this, modelFile](IAsyncAction^) {
-			this->ParseModelAsync(modelFile);
+		this->ParseModelAsync(modelFile);
 		});
 	auto r = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
 }

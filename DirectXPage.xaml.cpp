@@ -59,6 +59,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 		m_coreInput->PointerPressed += ref new TypedEventHandler<Object^, PointerEventArgs^>(this, &DirectXPage::OnPointerPressed);
 		m_coreInput->PointerMoved += ref new TypedEventHandler<Object^, PointerEventArgs^>(this, &DirectXPage::OnPointerMoved);
 		m_coreInput->PointerReleased += ref new TypedEventHandler<Object^, PointerEventArgs^>(this, &DirectXPage::OnPointerReleased);
+		m_coreInput->PointerWheelChanged += ref new TypedEventHandler<Object^, PointerEventArgs^>(this, &DirectXPage::OnPointerWheelChanged);
 
 		// Begin processing input messages as they're delivered.
 		m_coreInput->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessUntilQuit);
@@ -192,6 +193,20 @@ void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
 	// Stop tracking pointer movement when the pointer is released.
 	this->m_main->StopTracking();
+}
+
+void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {
+	PointerPoint^ point = e->CurrentPoint;
+	int d = point->Properties->MouseWheelDelta / WHEEL_DELTA;
+	if (d < 0)
+		Kuplung_DX::App::Setting_FOV += 4;
+	else if (d > 0)
+		Kuplung_DX::App::Setting_FOV -= 4;
+
+	if (Kuplung_DX::App::Setting_FOV > 180)
+		Kuplung_DX::App::Setting_FOV = 180;
+	if (Kuplung_DX::App::Setting_FOV < -180)
+		Kuplung_DX::App::Setting_FOV = -180;
 }
 
 void DirectXPage::OnCompositionScaleChanged(SwapChainPanel^ sender, Object^ args) {

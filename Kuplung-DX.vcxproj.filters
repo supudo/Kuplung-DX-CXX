@@ -47,11 +47,11 @@
     <Filter Include="Resources\Objects\Shapes">
       <UniqueIdentifier>{0f9fef9e-8fb8-4866-be20-c17e00cedf02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{ecc582ec-d028-442f-954e-6a7156c8d3dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DX">
       <UniqueIdentifier>f37b1ea4-7737-4e3c-82a1-acfc693b9433</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectXTK">
+      <UniqueIdentifier>{b9e36da4-0ba2-42ab-bd09-1a28fbbd2c32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +101,6 @@
     </ClCompile>
     <ClCompile Include="Models\GuiObject.cpp">
       <Filter>Models</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\InputManager.cpp">
-      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="DX\DeviceResources.cpp">
       <Filter>DX</Filter>
@@ -168,9 +165,6 @@
     </ClInclude>
     <ClInclude Include="Models\GuiObject.h">
       <Filter>Models</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\InputManager.h">
-      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="DX\DirectXHelper.h">
       <Filter>DX</Filter>

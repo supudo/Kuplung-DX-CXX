@@ -250,7 +250,6 @@
     <ClInclude Include="Importers\FileModelManager.h" />
     <ClInclude Include="Importers\ObjParser.h" />
     <ClInclude Include="Importers\ParserUtils.h" />
-    <ClInclude Include="Input\InputManager.h" />
     <ClInclude Include="Kuplung_DXMain.h" />
     <ClInclude Include="DirectXPage.xaml.h">
       <DependentUpon>DirectXPage.xaml</DependentUpon>
@@ -281,7 +280,6 @@
     <ClCompile Include="Importers\FileModelManager.cpp" />
     <ClCompile Include="Importers\ObjParser.cpp" />
     <ClCompile Include="Importers\ParserUtils.cpp" />
-    <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Kuplung_DXMain.cpp" />
     <ClCompile Include="DirectXPage.xaml.cpp">
       <DependentUpon>DirectXPage.xaml</DependentUpon>
@@ -477,6 +475,7 @@
     <Import Project="$(VSINSTALLDIR)\Common7\IDE\Extensions\Microsoft\VsGraphics\ShaderGraphContentTask.targets" />
     <Import Project="packages\Microsoft.UI.Xaml.2.3.200213001\build\native\Microsoft.UI.Xaml.targets" Condition="Exists('packages\Microsoft.UI.Xaml.2.3.200213001\build\native\Microsoft.UI.Xaml.targets')" />
     <Import Project="packages\boost.1.71.0.0\build\boost.targets" Condition="Exists('packages\boost.1.71.0.0\build\boost.targets')" />
+    <Import Project="packages\directxtk_uwp.2020.2.24.4\build\native\directxtk_uwp.targets" Condition="Exists('packages\directxtk_uwp.2020.2.24.4\build\native\directxtk_uwp.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -484,5 +483,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\Microsoft.UI.Xaml.2.3.200213001\build\native\Microsoft.UI.Xaml.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.UI.Xaml.2.3.200213001\build\native\Microsoft.UI.Xaml.targets'))" />
     <Error Condition="!Exists('packages\boost.1.71.0.0\build\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\boost.1.71.0.0\build\boost.targets'))" />
+    <Error Condition="!Exists('packages\directxtk_uwp.2020.2.24.4\build\native\directxtk_uwp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_uwp.2020.2.24.4\build\native\directxtk_uwp.targets'))" />
   </Target>
 </Project>

@@ -50,9 +50,6 @@
     <Filter Include="DX">
       <UniqueIdentifier>f37b1ea4-7737-4e3c-82a1-acfc693b9433</UniqueIdentifier>
     </Filter>
-    <Filter Include="DirectXTK">
-      <UniqueIdentifier>{b9e36da4-0ba2-42ab-bd09-1a28fbbd2c32}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />

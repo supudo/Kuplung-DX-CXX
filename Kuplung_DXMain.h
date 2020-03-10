@@ -8,7 +8,6 @@
 #include <Rendering\ObjectsManager.h>
 #include <Models\Shape.h>
 #include <Rendering\Models\Model3D.h>
-#include <Input\InputManager.h>
 #include <DX\DeviceResources.h>
 
 // Renders Direct2D and 3D content on the screen.
@@ -52,7 +51,6 @@ namespace Kuplung_DX
 
 		Windows::Foundation::IAsyncAction^ m_renderLoopWorker;
 		Concurrency::critical_section m_criticalSection;
-		Kuplung_DX::Input::InputManager^ m_inputManager;
 
 		// Rendering loop timer.
 		DX::StepTimer m_timer;

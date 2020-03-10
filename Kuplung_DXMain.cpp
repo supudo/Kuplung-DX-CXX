@@ -23,8 +23,6 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 	this->m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(this->m_deviceResources));
 	this->ManagerObjects = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(this->m_deviceResources));
 
-	this->m_inputManager = ref new Kuplung_DX::Input::InputManager(Window::Current->CoreWindow, m_deviceResources->GetSwapChainPanel()->Dispatcher);
-
 	// TODO: Change the timer settings if you want something other than the default variable timestep mode.
 	// e.g. for 60 FPS fixed timestep update logic, call:
 	/*

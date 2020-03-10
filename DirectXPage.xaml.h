@@ -41,6 +41,8 @@ namespace Kuplung_DX
 		void OnKeyDown(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
 		void OnKeyUp(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::KeyEventArgs^ args);
 		void OnAcceleratorKeyActivated(Windows::UI::Core::CoreDispatcher^ sender, Windows::UI::Core::AcceleratorKeyEventArgs^ args);
+		void OnMouseMoved(Windows::Devices::Input::MouseDevice^ mouseDevice, Windows::Devices::Input::MouseEventArgs^ args);
+		Windows::Foundation::Numerics::float2 pointerDelta;
 
 		// DisplayInformation event handlers.
 		void OnDpiChanged(Windows::Graphics::Display::DisplayInformation^ sender, Platform::Object^ args);
@@ -66,9 +68,8 @@ namespace Kuplung_DX
 		std::unique_ptr<Kuplung_DXMain> m_main; 
 		bool m_windowVisible;
 
-		bool KeyPressed_Alt;
-		bool KeyPressed_Ctrl;
-		bool KeyPressed_Shift;
+		bool KeyPressed_Alt, KeyPressed_Ctrl, KeyPressed_Shift;
+		bool MousePressed_Left, MousePressed_Middle, MousePressed_Right;
 
 		std::unique_ptr<Kuplung_DX::Importers::FileModelManager> managerParsers;
 

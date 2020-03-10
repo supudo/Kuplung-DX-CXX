@@ -36,6 +36,7 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	window->KeyDown += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow^, Windows::UI::Core::KeyEventArgs^>(this, &DirectXPage::OnKeyDown);
 	window->KeyUp += ref new Windows::Foundation::TypedEventHandler<Windows::UI::Core::CoreWindow^, Windows::UI::Core::KeyEventArgs^>(this, &DirectXPage::OnKeyUp);
 	CoreWindow::GetForCurrentThread()->Dispatcher->AcceleratorKeyActivated += ref new TypedEventHandler<CoreDispatcher^, AcceleratorKeyEventArgs^>(this, &DirectXPage::OnAcceleratorKeyActivated);
+	Windows::Devices::Input::MouseDevice::GetForCurrentView()->MouseMoved += ref new TypedEventHandler<Windows::Devices::Input::MouseDevice^, Windows::Devices::Input::MouseEventArgs^>(this, &DirectXPage::OnMouseMoved);
 
 	DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
 
@@ -126,6 +127,12 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->KeyPressed_Alt = false;
 	this->KeyPressed_Ctrl = false;
 	this->KeyPressed_Shift = false;
+	this->MousePressed_Left = false;
+	this->MousePressed_Middle = false;
+	this->MousePressed_Right = false;
+
+	this->pointerDelta.x = 0.0f;
+	this->pointerDelta.y = 0.0f;
 }
 
 DirectXPage::~DirectXPage() {
@@ -181,6 +188,11 @@ void DirectXPage::OnKeyUp(CoreWindow^ window, KeyEventArgs^ args) {
 	this->KeyPressed_Shift = false;
 }
 
+void DirectXPage::OnMouseMoved(Windows::Devices::Input::MouseDevice^ mouseDevice, Windows::Devices::Input::MouseEventArgs^ args) {
+	this->pointerDelta.x = static_cast<float>(args->MouseDelta.X);
+	this->pointerDelta.y = static_cast<float>(args->MouseDelta.Y);
+}
+
 void DirectXPage::OnAcceleratorKeyActivated(CoreDispatcher^ sender, AcceleratorKeyEventArgs^ args) {
 	this->KeyPressed_Alt = false;
 	if (args->EventType == CoreAcceleratorKeyEventType::SystemKeyDown && args->VirtualKey == Windows::System::VirtualKey::Menu)
@@ -211,30 +223,60 @@ void DirectXPage::OnDisplayContentsInvalidated(DisplayInformation^ sender, Objec
 }
 
 void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e) {
-	// When the pointer is pressed begin tracking the pointer movement.
 	this->m_main->StartTracking();
+
+	this->MousePressed_Left = false;
+	this->MousePressed_Middle = false;
+	this->MousePressed_Right = false;
+
+	PointerPoint^ p = e->CurrentPoint;
+	PointerPointProperties^ pp = p->Properties;
+	this->MousePressed_Left = pp->IsLeftButtonPressed;
+	this->MousePressed_Middle = pp->IsMiddleButtonPressed;
+	this->MousePressed_Right = pp->IsRightButtonPressed;
 }
 
 void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
-	// Update the pointer tracking code.
 	if (this->m_main->IsTracking())
 		this->m_main->TrackingUpdate(e->CurrentPoint->Position.X);
 
+	if (this->MousePressed_Middle) {
+		if (e->CurrentPoint->Position.X > 0)
+			this->m_main->ManagerObjects->CompCamera->RotateX->point += this->pointerDelta.y;
+		if (e->CurrentPoint->Position.X < 0)
+			this->m_main->ManagerObjects->CompCamera->RotateX->point += this->pointerDelta.y;
+		if (this->m_main->ManagerObjects->CompCamera->RotateX->point > 360.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateX->point = 0.0f;
+		if (this->m_main->ManagerObjects->CompCamera->RotateX->point < 0.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateX->point = 360.0f;
+
+		if (e->CurrentPoint->Position.Y < 0)
+			this->m_main->ManagerObjects->CompCamera->RotateY->point += this->pointerDelta.x;
+		if (e->CurrentPoint->Position.Y > 0)
+			this->m_main->ManagerObjects->CompCamera->RotateY->point += this->pointerDelta.x;
+		if (this->m_main->ManagerObjects->CompCamera->RotateY->point > 360.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateY->point = 0.0f;
+		if (this->m_main->ManagerObjects->CompCamera->RotateY->point < 0.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateY->point = 360.0f;
+	}
+
 	if (this->KeyPressed_Shift) {
 		if (e->CurrentPoint->Position.X < 0)
-			this->m_main->ManagerObjects->CompCamera->PositionY->point += 0.1f;
-		else if (e->CurrentPoint->Position.X > 0)
-			this->m_main->ManagerObjects->CompCamera->PositionY->point -= 0.1f;
-		else if (e->CurrentPoint->Position.Y > 0)
 			this->m_main->ManagerObjects->CompCamera->PositionX->point += 0.1f;
-		else if (e->CurrentPoint->Position.Y < 0)
+		else if (e->CurrentPoint->Position.X > 0)
 			this->m_main->ManagerObjects->CompCamera->PositionX->point -= 0.1f;
+		else if (e->CurrentPoint->Position.Y > 0)
+			this->m_main->ManagerObjects->CompCamera->PositionY->point += 0.1f;
+		else if (e->CurrentPoint->Position.Y < 0)
+			this->m_main->ManagerObjects->CompCamera->PositionY->point -= 0.1f;
 	}
 }
 
 void DirectXPage::OnPointerReleased(Object^ sender, PointerEventArgs^ e) {
-	// Stop tracking pointer movement when the pointer is released.
 	this->m_main->StopTracking();
+	this->MousePressed_Left = false;
+	this->MousePressed_Middle = false;
+	this->MousePressed_Right = false;
 }
 
 void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {

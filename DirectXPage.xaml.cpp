@@ -259,7 +259,27 @@ void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 			this->m_main->ManagerObjects->CompCamera->RotateY->point = 360.0f;
 	}
 
-	if (this->KeyPressed_Shift) {
+	if (this->KeyPressed_Alt && this->MousePressed_Left) {
+		if (e->CurrentPoint->Position.X > 0)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterX->point += this->pointerDelta.y;
+		if (e->CurrentPoint->Position.X < 0)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterX->point += this->pointerDelta.y;
+		if (this->m_main->ManagerObjects->CompCamera->RotateCenterX->point > 360.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterX->point = 0.0f;
+		if (this->m_main->ManagerObjects->CompCamera->RotateCenterX->point < 0.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterX->point = 360.0f;
+
+		if (e->CurrentPoint->Position.Y < 0)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterY->point += this->pointerDelta.x;
+		if (e->CurrentPoint->Position.Y > 0)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterY->point += this->pointerDelta.x;
+		if (this->m_main->ManagerObjects->CompCamera->RotateCenterY->point > 360.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterY->point = 0.0f;
+		if (this->m_main->ManagerObjects->CompCamera->RotateCenterY->point < 0.0f)
+			this->m_main->ManagerObjects->CompCamera->RotateCenterY->point = 360.0f;
+	}
+
+	if (this->KeyPressed_Ctrl && this->MousePressed_Left) {
 		if (e->CurrentPoint->Position.X < 0)
 			this->m_main->ManagerObjects->CompCamera->PositionX->point += 0.1f;
 		else if (e->CurrentPoint->Position.X > 0)

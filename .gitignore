@@ -161,3 +161,6 @@ Debug/
 Desktop - Release/
 ipch/
 Generated Files/
+
+!Resources/Objects/Gui/*.obj
+!Resources/Objects/Shapes/*.obj

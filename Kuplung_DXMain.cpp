@@ -134,7 +134,7 @@ bool Kuplung_DXMain::Render()  {
 
 	// Render the scene objects.
 	if (Kuplung_DX::App::ViewSampleScene)
-		this->m_sampleSceneRenderer->Render();
+		this->m_sampleSceneRenderer->Render(true, this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera);
 	if (Kuplung_DX::App::ViewFPSCounter)
 		this->m_fpsTextRenderer->Render();
 

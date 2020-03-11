@@ -187,148 +187,73 @@
     <None Include="Resources\Objects\GUI\x_minus.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\x_minus.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
     <None Include="Resources\Objects\GUI\x_plus.mtl">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
-    <None Include="Resources\Objects\GUI\x_plus.objk">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
     <None Include="Resources\Objects\GUI\y_minus.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\y_minus.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
     <None Include="Resources\Objects\GUI\y_plus.mtl">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
-    <None Include="Resources\Objects\GUI\y_plus.objk">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
     <None Include="Resources\Objects\GUI\z_minus.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\z_minus.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
     <None Include="Resources\Objects\GUI\z_plus.mtl">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
-    <None Include="Resources\Objects\GUI\z_plus.objk">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
     <None Include="Resources\Objects\GUI\camera.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\camera.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
     <None Include="Resources\Objects\GUI\light_directional.mtl">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
-    <None Include="Resources\Objects\GUI\light_directional.objk">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
     <None Include="Resources\Objects\GUI\light_point.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\light_point.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
     <None Include="Resources\Objects\GUI\light_spot.mtl">
       <Filter>Resources\Objects\GUI</Filter>
     </None>
-    <None Include="Resources\Objects\GUI\light_spot.objk">
-      <Filter>Resources\Objects\GUI</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\epcot.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\grid.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\grid.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\ico_sphere.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\ico_sphere.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\MaterialBall.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\MaterialBall.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\MaterialBallBlender.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\MaterialBallBlender.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\monkey_head.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\monkey_head.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\plane.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\plane.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\plane_objects.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\plane_objects.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\plane_objects_large.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\plane_objects_large.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\torus.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\torus.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\triangle.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\triangle.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\tube.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\tube.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\uv_sphere.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\uv_sphere.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\brick_wall.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\brick_wall.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\cone.mtl">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
-    <None Include="Resources\Objects\Shapes\cone.objk">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
     <None Include="Resources\Objects\Shapes\cube.mtl">
@@ -337,13 +262,88 @@
     <None Include="Resources\Objects\Shapes\cylinder.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\cylinder.objk">
-      <Filter>Resources\Objects\Shapes</Filter>
-    </None>
     <None Include="Resources\Objects\Shapes\epcot.mtl">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
-    <None Include="Resources\Objects\Shapes\cube.objk">
+    <None Include="Resources\Objects\GUI\camera.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\light_directional.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\light_point.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\light_spot.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\x_minus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\x_plus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\y_minus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\y_plus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\z_minus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\GUI\z_plus.obj">
+      <Filter>Resources\Objects\GUI</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\brick_wall.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\cone.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\cube.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\cylinder.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\epcot.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\grid.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\ico_sphere.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\MaterialBall.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\MaterialBallBlender.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\monkey_head.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\plane.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\plane_objects.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\plane_objects_large.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\torus.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\triangle.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\tube.obj">
+      <Filter>Resources\Objects\Shapes</Filter>
+    </None>
+    <None Include="Resources\Objects\Shapes\uv_sphere.obj">
       <Filter>Resources\Objects\Shapes</Filter>
     </None>
   </ItemGroup>

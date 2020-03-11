@@ -17,7 +17,7 @@ namespace Kuplung_DX
 			void CreateWindowSizeDependentResources();
 			void ReleaseDeviceDependentResources();
 			void Update(DX::StepTimer const& timer);
-			void Render();
+			void Render(bool useKuplungMatrix, const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera);
 			void StartTracking();
 			void TrackingUpdate(float positionX);
 			void StopTracking();

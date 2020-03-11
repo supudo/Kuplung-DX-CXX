@@ -29,7 +29,7 @@ void Camera::InitProperties() {
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
-    this->EyeSettings->View_Eye = { 0.6f, 0.4f, 1.5f, 0.0f };
+    this->EyeSettings->View_Eye = { 10.6f, 10.4f, 11.5f, 0.0f };
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
@@ -53,9 +53,12 @@ void Camera::Render() {
 
     XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateX->point)));
-    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateY->point)));
-    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateZ->point)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationX(this->RotateX->point)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationY(this->RotateY->point)));
+    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationZ(this->RotateZ->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationX(XMConvertToRadians(this->RotateX->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateY->point)));
+    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationZ(XMConvertToRadians(this->RotateZ->point)));
 
     //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateCenterX->point), XMConvertToRadians(this->RotateCenterY->point), XMConvertToRadians(this->RotateCenterZ->point))));
 

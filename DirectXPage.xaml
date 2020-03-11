@@ -228,7 +228,7 @@
             </xamlui:MenuBarItem>
         </xamlui:MenuBar>
 
-        <Grid x:Name="panelModels" Visibility="Visible" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 50, 0, 0" Background="White" CornerRadius="2">
+        <Grid x:Name="panelModels" Visibility="Collapsed" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10, 50, 0, 0" Background="White" CornerRadius="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="400"/>

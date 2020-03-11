@@ -130,11 +130,11 @@ void App::KuplungInitializeSettings() {
 
 	this->RenderingMethod = 1;
 
-	this->Setting_FOV = 45.0;
+	this->Setting_FOV = 70.0;
 	this->Setting_RatioWidth = 4.0f;
 	this->Setting_RatioHeight = 3.0f;
 	this->Setting_PlaneClose = 0.1f;
-	this->Setting_PlaneFar = 100.0f;
+	this->Setting_PlaneFar = 1000.0f;
 	this->GridSize = 30;
 	this->GridUnitSize = 1;
 	this->ShowGrid = true;

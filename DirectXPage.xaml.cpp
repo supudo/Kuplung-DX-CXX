@@ -199,8 +199,7 @@ void DirectXPage::OnAcceleratorKeyActivated(CoreDispatcher^ sender, AcceleratorK
 		this->KeyPressed_Alt = args->KeyStatus.IsMenuKeyDown;
 }
 
-// DisplayInformation event handlers.
-
+#pragma region Events
 void DirectXPage::OnDpiChanged(DisplayInformation^ sender, Object^ args) {
 	critical_section::scoped_lock lock(this->m_main->GetCriticalSection());
 	// Note: The value for LogicalDpi retrieved here may not match the effective DPI of the app
@@ -309,10 +308,7 @@ void DirectXPage::OnSwapChainPanelSizeChanged(Object^ sender, SizeChangedEventAr
 	this->m_deviceResources->SetLogicalSize(e->NewSize);
 	this->m_main->CreateWindowSizeDependentResources();
 }
-
-void DirectXPage::AddToLog(Platform::String^ message) {
-	LogMessage += message;
-}
+#pragma endregion
 
 #pragma region MainMenu
 void Kuplung_DX::DirectXPage::MenuGUIControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -340,6 +336,11 @@ void Kuplung_DX::DirectXPage::MenuNew_Click(Platform::Object^ sender, Windows::U
 	this->m_main->ClearModels();
 }
 #pragma endregion
+
+#pragma region Log
+void DirectXPage::AddToLog(Platform::String^ message) {
+	LogMessage += message;
+}
 
 void DirectXPage::LogInfo(Object^ parameter, bool addToLog) {
 	auto paraString = parameter->ToString();
@@ -370,7 +371,9 @@ void Kuplung_DX::DirectXPage::LogWindowResize_Click(Platform::Object^ sender, Wi
 	this->svLog->Width = w;
 	this->svLog->Height = h - 40;
 }
+#pragma endregion
 
+#pragma region Dialogs
 void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender, Windows::UI::Xaml::Controls::SelectionChangedEventArgs^ e) {
 	this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Visible;
 	this->grdLoading->Width = Window::Current->CoreWindow->Bounds.Width;
@@ -382,25 +385,6 @@ void Kuplung_DX::DirectXPage::lvModels_SelectionChanged(Platform::Object^ sender
 		this->ParseModelAsync(modelFile);
 		});
 	auto r = ThreadPool::RunAsync(workItemHandler, WorkItemPriority::High, WorkItemOptions::TimeSliced);
-}
-
-void Kuplung_DX::DirectXPage::ParseModelAsync(Platform::String^ modelFile) {
-	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
-	this->pnlLoading->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, mms]
-		{
-			this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
-			this->m_main->AddModels(mms);
-		}));
-}
-
-void Kuplung_DX::DirectXPage::DoProgress(float progress) {
-	Kuplung_DX::DirectXPage^ ctx = this;
-	Platform::String^ p = Kuplung_DX::Utilities::CXXUtils::StringToPlatformString(Kuplung_DX::Utilities::CXXUtils::StringFormat("Processing ... %0.2f%%", progress));
-	Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([ctx, p]()
-		{
-			//ctx->LogInfo(p, true);
-			ctx->txtLoading->Text = p;
-		}));
 }
 
 void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Windows::UI::Xaml::Input::TappedRoutedEventArgs^ e) {
@@ -438,6 +422,28 @@ void Kuplung_DX::DirectXPage::tvGuiObjects_Tapped(Platform::Object^ sender, Wind
 	}
 	this->svGUIControlsPanels->Height = Kuplung_DX::App::GUI_ControlsPanelsHeight - this->headerGUI->ActualHeight - this->btnResetGuiValues->ActualHeight - this->tvGuiObjects->ActualHeight - 80;
 }
+#pragma endregion
+
+#pragma region Parsing
+void Kuplung_DX::DirectXPage::ParseModelAsync(Platform::String^ modelFile) {
+	std::vector<Kuplung_DX::Models::MeshModel> mms = this->managerParsers->parse(Kuplung_DX::Utilities::CXXUtils::PlatformStringToString(modelFile), std::vector<std::string>());
+	this->pnlLoading->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([this, mms]
+		{
+			this->pnlLoading->Visibility = Windows::UI::Xaml::Visibility::Collapsed;
+			this->m_main->AddModels(mms);
+		}));
+}
+
+void Kuplung_DX::DirectXPage::DoProgress(float progress) {
+	Kuplung_DX::DirectXPage^ ctx = this;
+	Platform::String^ p = Kuplung_DX::Utilities::CXXUtils::StringToPlatformString(Kuplung_DX::Utilities::CXXUtils::StringFormat("Processing ... %0.2f%%", progress));
+	Windows::ApplicationModel::Core::CoreApplication::MainView->CoreWindow->Dispatcher->RunAsync(Windows::UI::Core::CoreDispatcherPriority::Normal, ref new Windows::UI::Core::DispatchedHandler([ctx, p]()
+		{
+			//ctx->LogInfo(p, true);
+			ctx->txtLoading->Text = p;
+		}));
+}
+#pragma endregion
 
 #pragma region GUI Controls events
 void Kuplung_DX::DirectXPage::ButtonResetValuesGuiControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {

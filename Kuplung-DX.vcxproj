@@ -271,6 +271,7 @@
     <ClInclude Include="Sample\ShaderStructures.h" />
     <ClInclude Include="Types\Types.h" />
     <ClInclude Include="Utilities\CXXUtils.h" />
+    <ClInclude Include="Utilities\MathUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.xaml.cpp">
@@ -305,6 +306,7 @@
     <ClCompile Include="Sample\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Sample\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Utilities\CXXUtils.cpp" />
+    <ClCompile Include="Utilities\MathUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

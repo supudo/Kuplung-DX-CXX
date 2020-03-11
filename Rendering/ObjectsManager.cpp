@@ -3,6 +3,7 @@
 #include <DX\DirectXHelper.h>
 
 using namespace Kuplung_DX::Rendering;
+using namespace Windows::Foundation;
 
 ObjectsManager::ObjectsManager(const std::shared_ptr<Kuplung_DX::DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources) {
 	XMStoreFloat4x4(&this->MatrixProjection, DirectX::XMMatrixIdentity());
@@ -20,12 +21,12 @@ ObjectsManager::~ObjectsManager() {
 }
 
 void ObjectsManager::Render() {
-	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(Kuplung_DX::App::Setting_FOV),
-		Kuplung_DX::App::Setting_RatioWidth / Kuplung_DX::App::Setting_RatioHeight,
-		Kuplung_DX::App::Setting_PlaneClose,
-		Kuplung_DX::App::Setting_PlaneFar
-	);
+	Size outputSize = m_deviceResources->GetOutputSize();
+	float aspectRatio = outputSize.Width / outputSize.Height;
+	if (aspectRatio < 1.0f)
+		Kuplung_DX::App::Setting_FOV *= 2.0f;
+
+	XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(XMConvertToRadians(Kuplung_DX::App::Setting_FOV), aspectRatio, Kuplung_DX::App::Setting_PlaneClose, Kuplung_DX::App::Setting_PlaneFar);
 	XMFLOAT4X4 orientation = this->m_deviceResources->GetOrientationTransform3D();
 	XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
 	XMStoreFloat4x4(&this->MatrixProjection, XMMatrixTranspose(perspectiveMatrix * orientationMatrix));

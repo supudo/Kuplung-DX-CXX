@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Camera.h"
 #include <DX\DirectXHelper.h>
+#include <Utilities/MathUtils.h>
 
 using namespace Kuplung_DX::Models;
 
@@ -29,17 +30,13 @@ void Camera::InitProperties() {
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
-    this->EyeSettings->View_Eye = { 10.6f, 10.4f, 11.5f, 0.0f };
-    this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
-    this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };
-
     this->PositionX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionY = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->PositionZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
-    this->RotateX = std::make_unique<ObjectCoordinate>(false, 122.0f);
-    this->RotateY = std::make_unique<ObjectCoordinate>(false, 140.0f);
-    this->RotateZ = std::make_unique<ObjectCoordinate>(false, 74.0f);
+    this->RotateX = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateY = std::make_unique<ObjectCoordinate>(false, 0.0f);
+    this->RotateZ = std::make_unique<ObjectCoordinate>(false, 0.0f);
 
     this->RotateCenterX = std::make_unique<ObjectCoordinate>(false, 0.0f);
     this->RotateCenterY = std::make_unique<ObjectCoordinate>(false, 0.0f);
@@ -49,18 +46,23 @@ void Camera::InitProperties() {
 }
 
 void Camera::Render() {
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixLookAtLH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up)));
+    XMMATRIX mtxLookAt = XMMatrixTranspose(XMMatrixLookAtRH(this->EyeSettings->View_Eye, this->EyeSettings->View_Center, this->EyeSettings->View_Up));
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point));
+    XMMATRIX mtxTransform = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+    
+    XMMATRIX rcX = XMMatrixRotationX(XMConvertToRadians(this->RotateCenterX->point));
+    XMMATRIX rcY = XMMatrixRotationY(XMConvertToRadians(this->RotateCenterY->point));
+    XMMATRIX rcZ = XMMatrixRotationZ(XMConvertToRadians(this->RotateCenterZ->point));
+    XMMATRIX mtxRotateCenter = rcX * rcY * rcZ;
 
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationX(this->RotateX->point)));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationY(this->RotateY->point)));
-    XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationZ(this->RotateZ->point)));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationX(XMConvertToRadians(this->RotateX->point)));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationY(XMConvertToRadians(this->RotateY->point)));
-    //XMStoreFloat4x4(&this->MatrixCamera, XMLoadFloat4x4(&this->MatrixCamera) * XMMatrixRotationZ(XMConvertToRadians(this->RotateZ->point)));
+    XMMATRIX mC = XMMatrixTranslation(0, 0, 0);
+    XMMATRIX rX = XMMatrixRotationX(XMConvertToRadians(this->RotateX->point));
+    XMMATRIX rY = XMMatrixRotationY(XMConvertToRadians(this->RotateY->point));
+    XMMATRIX rZ = XMMatrixRotationZ(XMConvertToRadians(this->RotateZ->point));
+    XMMATRIX mtxRotate = mC * rX * rY * rZ;
 
-    //XMStoreFloat4x4(&this->MatrixCamera, XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateCenterX->point), XMConvertToRadians(this->RotateCenterY->point), XMConvertToRadians(this->RotateCenterZ->point))));
+    XMStoreFloat4x4(&this->MatrixCamera, mtxLookAt * mtxTransform * mtxRotateCenter * mtxRotate);
 
+    //Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(this->MatrixCamera);
     this->CameraPosition = DirectX::XMFLOAT3(this->MatrixCamera(3, 0), this->MatrixCamera(3, 1), this->MatrixCamera(3, 2));
 }

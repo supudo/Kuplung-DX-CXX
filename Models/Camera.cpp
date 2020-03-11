@@ -25,7 +25,8 @@ Camera::~Camera() {
 
 void Camera::InitProperties() {
     this->EyeSettings = std::make_unique<ObjectEye>();
-    
+
+    // Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
     this->EyeSettings->View_Eye = { 0.0f, 0.7f, 1.5f, 0.0f };
     this->EyeSettings->View_Center = { 0.0f, -0.1f, 0.0f, 0.0f };
     this->EyeSettings->View_Up = { 0.0f, 1.0f, 0.0f, 0.0f };

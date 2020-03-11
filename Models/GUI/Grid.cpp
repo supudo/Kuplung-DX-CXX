@@ -140,12 +140,15 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	this->m_constantBufferData.projection = matrixProjection;
 	this->m_constantBufferData.view = matrixCamera;
 
-	this->MatrixModel = XMMatrixIdentity();
-	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
-	this->MatrixModel = XMMatrixTranspose(XMMatrixRotationRollPitchYaw(XMConvertToRadians(this->RotateX->point), XMConvertToRadians(this->RotateY->point), XMConvertToRadians(this->RotateZ->point)));
-	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+	XMMATRIX mtxTransform = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+	XMMATRIX rcX = XMMatrixRotationX(XMConvertToRadians(this->RotateX->point));
+	XMMATRIX rcY = XMMatrixRotationY(XMConvertToRadians(this->RotateY->point));
+	XMMATRIX rcZ = XMMatrixRotationZ(XMConvertToRadians(this->RotateZ->point));
+	XMMATRIX mtxRotate = rcX * rcY * rcZ;
+	XMMATRIX mtxScale = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
+	this->MatrixModel = mtxTransform * mtxRotate * mtxScale;
 
-	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
+	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(this->MatrixModel));
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();
 	context->UpdateSubresource1(this->m_constantBuffer.Get(), 0, NULL, &this->m_constantBufferData, 0, 0, 0);

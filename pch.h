@@ -16,3 +16,6 @@
 #include <collection.h>
 #include "App.xaml.h"
 //#include <collection.h>
+
+#include <Utilities/CXXUtils.h>
+#include <Utilities/MathUtils.h>

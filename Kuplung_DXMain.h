@@ -3,6 +3,7 @@
 #include <DX\StepTimer.h>
 #include <DX\DeviceResources.h>
 #include <Sample\Sample3DSceneRenderer.h>
+#include <Sample\SampleLines.h>
 #include <Sample\SampleFpsTextRenderer.h>
 #include <Rendering\RenderingManager.h>
 #include <Rendering\ObjectsManager.h>
@@ -46,6 +47,7 @@ namespace Kuplung_DX
 
 		// TODO: Replace with your own content renderers.
 		std::unique_ptr<Sample::Sample3DSceneRenderer> m_sampleSceneRenderer;
+		std::unique_ptr<Sample::SampleLines> m_sampleLines;
 		std::unique_ptr<Sample::SampleFpsTextRenderer> m_fpsTextRenderer;
 		std::unique_ptr<Rendering::RenderingManager> m_renderingManager;
 

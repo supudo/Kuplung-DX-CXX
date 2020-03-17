@@ -64,6 +64,8 @@ void Camera::Render() {
 
     XMStoreFloat4x4(&this->MatrixCamera, mtxLookAt * mtxTransform * mtxRotateCenter * mtxRotate);
 
+    //XMStoreFloat4x4(&this->MatrixCamera, mtxLookAt);
+
     //Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(this->MatrixCamera);
     this->CameraPosition = DirectX::XMFLOAT3(this->MatrixCamera(3, 0), this->MatrixCamera(3, 1), this->MatrixCamera(3, 2));
 }

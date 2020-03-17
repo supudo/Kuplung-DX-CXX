@@ -123,6 +123,7 @@ void App::KuplungInitializeSettings() {
 	this->GUI_ControlsPanelsHeight = 700;
 
 	this->ViewSampleScene = false;
+	this->ViewSampleLines = true;
 	this->ViewFPSCounter = false;
 
 	this->LogWindowWidth = 800;
@@ -133,11 +134,11 @@ void App::KuplungInitializeSettings() {
 	this->Setting_FOV = 70.0;
 	this->Setting_RatioWidth = 4.0f;
 	this->Setting_RatioHeight = 3.0f;
-	this->Setting_PlaneClose = 0.1f;
+	this->Setting_PlaneClose = 0.01f;
 	this->Setting_PlaneFar = 100.0f;
 	this->GridSize = 30;
 	this->GridUnitSize = 1;
-	this->ShowGrid = true;
+	this->ShowGrid = false;
 	this->ShowZAxis = true;
 }
 

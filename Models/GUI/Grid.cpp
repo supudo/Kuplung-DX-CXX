@@ -57,8 +57,8 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 
 	// +
 	for (float z = perLines; z > 0; z--) {
-		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, 0.0, -z * unitSize));
-		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, -z * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, -z * unitSize, 0.0));
+		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, -z * unitSize, 0.0));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(this->m_indexCount++);
@@ -75,8 +75,8 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 	// X
 
 	for (float z = 1.0; z <= perLines; z++) {
-		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, 0.0, z * unitSize));
-		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, 0.0, z * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(-perLines * unitSize, z * unitSize, 0.0));
+		this->dataVertices.push_back(XMFLOAT3(perLines * unitSize, z * unitSize, 0.0));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(this->m_indexCount++);
@@ -85,8 +85,8 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 
 	// -
 	for (float x = perLines; x > 0; x--) {
-		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, 0.0, -perLines * unitSize));
-		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, 0.0, perLines * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, -perLines * unitSize, 0.0));
+		this->dataVertices.push_back(XMFLOAT3(-x * unitSize, perLines * unitSize, 0.0));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(this->m_indexCount++);
@@ -94,8 +94,8 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 	}
 
 	// Z
-	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
-	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
+	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
 	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
 	this->dataColors.push_back(XMFLOAT3(0.0, 0.0, 1.0));
 	this->dataIndices.push_back(this->m_indexCount++);
@@ -103,8 +103,8 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 	// Z
 
 	for (float x = 1.0; x <= perLines; x++) {
-		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, -perLines * unitSize));
-		this->dataVertices.push_back(XMFLOAT3(x * unitSize, 0.0, perLines * unitSize));
+		this->dataVertices.push_back(XMFLOAT3(x * unitSize, -perLines * unitSize, 0.0));
+		this->dataVertices.push_back(XMFLOAT3(x * unitSize, perLines * unitSize, 0.0));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataColors.push_back(XMFLOAT3(0.7f, 0.7f, 0.7f));
 		this->dataIndices.push_back(this->m_indexCount++);
@@ -112,19 +112,22 @@ void Grid::InitBuffers(const int& gridSize, const int& unitSize) {
 	}
 
 	// Y
-	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
 	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataIndices.push_back(this->m_indexCount++);
 	this->dataIndices.push_back(this->m_indexCount++);
 
-	this->dataVertices.push_back(XMFLOAT3(0.0, perLines * unitSize, 0.0));
-	this->dataVertices.push_back(XMFLOAT3(0.0, -perLines * unitSize, 0.0));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, perLines * unitSize));
+	this->dataVertices.push_back(XMFLOAT3(0.0, 0.0, -perLines * unitSize));
 	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataColors.push_back(XMFLOAT3(0.0, 1.0, 0.0));
 	this->dataIndices.push_back(this->m_indexCount++);
 	this->dataIndices.push_back(this->m_indexCount++);
+
+	Kuplung_DX::Utilities::MathUtils::PrettyPrintDataArray(this->dataVertices);
+	Kuplung_DX::Utilities::MathUtils::PrettyPrintDataIndices(this->dataIndices);
 
 	this->CreateDeviceDependentResources();
 }
@@ -147,7 +150,6 @@ void Grid::Render(const XMFLOAT4X4& matrixProjection, const XMFLOAT4X4& matrixCa
 	XMMATRIX mtxRotate = rcX * rcY * rcZ;
 	XMMATRIX mtxScale = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
 	this->MatrixModel = mtxTransform * mtxRotate * mtxScale;
-
 	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(this->MatrixModel));
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();
@@ -217,7 +219,7 @@ void Grid::CreateDeviceDependentResources() {
 		});
 
 	// Once both shaders are loaded, create the mesh.
-	auto createCubeTask = (createPSTask && createVSTask).then([this]() {
+	auto createModelTask = (createPSTask && createVSTask).then([this]() {
 		static std::vector<VertexPositionColor> modelVertices;
 		for (int i = 0; i < (int)this->dataVertices.size(); i++) {
 			XMFLOAT3 v = this->dataVertices[i];
@@ -226,11 +228,10 @@ void Grid::CreateDeviceDependentResources() {
 		}
 
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
-		vertexBufferData.pSysMem = modelVertices.data();
+		vertexBufferData.pSysMem = &modelVertices[0];
 		vertexBufferData.SysMemPitch = 0;
 		vertexBufferData.SysMemSlicePitch = 0;
-		uint32 s = sizeof(VertexPositionColor) * static_cast<UINT>(modelVertices.size());
-		CD3D11_BUFFER_DESC vertexBufferDesc(s, D3D11_BIND_VERTEX_BUFFER);
+		CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(VertexPositionColor) * static_cast<UINT>(modelVertices.size()), D3D11_BIND_VERTEX_BUFFER);
 		DX::ThrowIfFailed(
 			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&vertexBufferDesc,
@@ -242,10 +243,10 @@ void Grid::CreateDeviceDependentResources() {
 		this->m_indexCount = (int)this->dataIndices.size();
 
 		D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
-		indexBufferData.pSysMem = this->dataIndices.data();
+		indexBufferData.pSysMem = &this->dataIndices[0];
 		indexBufferData.SysMemPitch = 0;
 		indexBufferData.SysMemSlicePitch = 0;
-		CD3D11_BUFFER_DESC indexBufferDesc(sizeof(UINT) * static_cast<UINT>(this->dataIndices.size()), D3D11_BIND_INDEX_BUFFER);
+		CD3D11_BUFFER_DESC indexBufferDesc(static_cast<UINT>(this->dataIndices.size()) * sizeof(UINT), D3D11_BIND_INDEX_BUFFER);
 		DX::ThrowIfFailed(
 			this->m_deviceResources->GetD3DDevice()->CreateBuffer(
 				&indexBufferDesc,
@@ -256,7 +257,7 @@ void Grid::CreateDeviceDependentResources() {
 		});
 
 	// Once the cube is loaded, the object is ready to be rendered.
-	createCubeTask.then([this]() {
+	createModelTask.then([this]() {
 		this->m_loadingComplete = true;
 		});
 }

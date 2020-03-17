@@ -36,33 +36,6 @@ void Models::Model3D::InitProperties() {
 }
 
 void Models::Model3D::CreateDeviceDependentResources() {
-	//Size outputSize = this->m_deviceResources->GetOutputSize();
-	//float aspectRatio = outputSize.Width / outputSize.Height;
-	//float fovAngleY = 70.0f * XM_PI / 180.0f;
-
-	//if (aspectRatio < 1.0f)
-	//	fovAngleY *= 2.0f;
-
-	//XMMATRIX perspectiveMatrix = XMMatrixPerspectiveFovRH(
-	//	fovAngleY,
-	//	aspectRatio,
-	//	0.01f,
-	//	100.0f
-	//);
-	//XMFLOAT4X4 orientation = m_deviceResources->GetOrientationTransform3D();
-	//XMMATRIX orientationMatrix = XMLoadFloat4x4(&orientation);
-
-	//XMStoreFloat4x4(
-	//	&this->m_constantBufferData.projection,
-	//	XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
-	//);
-
-	//static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-	//static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
-	//static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
-
-	//XMStoreFloat4x4(&this->m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
-
 	// Load shaders asynchronously.
 	auto loadVSTask = Kuplung_DX::DX::ReadDataAsync(L"RenderingSimpleVertexShader.cso");
 	auto loadPSTask = Kuplung_DX::DX::ReadDataAsync(L"RenderingSimplePixelShader.cso");
@@ -116,7 +89,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		});
 
 	// Once both shaders are loaded, create the mesh.
-	auto createCubeTask = (createPSTask && createVSTask).then([this]() {
+	auto createModelTask = (createPSTask && createVSTask).then([this]() {
 		static const XMFLOAT3 randomColors[] = {
 			XMFLOAT3(0.0f, 0.0f, 0.0f),
 			XMFLOAT3(0.0f, 0.0f, 1.0f),
@@ -173,7 +146,7 @@ void Models::Model3D::CreateDeviceDependentResources() {
 		});
 
 	// Once the cube is loaded, the object is ready to be rendered.
-	createCubeTask.then([this]() {
+	createModelTask.then([this]() {
 		this->m_loadingComplete = true;
 		});
 }
@@ -195,14 +168,13 @@ void Models::Model3D::Render(const DirectX::XMFLOAT4X4 matrixProjection, const D
 	this->m_constantBufferData.projection = matrixProjection;
 	this->m_constantBufferData.view = matrixCamera;
 
-	this->MatrixModel = XMMatrixIdentity();
-	this->MatrixModel = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
-	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
-	this->MatrixModel = XMMatrixRotationX(this->RotateX->point);
-	this->MatrixModel = XMMatrixRotationY(this->RotateY->point);
-	this->MatrixModel = XMMatrixRotationZ(this->RotateZ->point);
-	this->MatrixModel = XMMatrixTranslation(0, 0, 0);
-	this->MatrixModel = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+	XMMATRIX mtxTransform = XMMatrixTranslation(this->PositionX->point, this->PositionY->point, this->PositionZ->point);
+	XMMATRIX rcX = XMMatrixRotationX(XMConvertToRadians(this->RotateX->point));
+	XMMATRIX rcY = XMMatrixRotationY(XMConvertToRadians(this->RotateY->point));
+	XMMATRIX rcZ = XMMatrixRotationZ(XMConvertToRadians(this->RotateZ->point));
+	XMMATRIX mtxRotate = rcX * rcY * rcZ;
+	XMMATRIX mtxScale = XMMatrixScaling(this->ScaleX->point, this->ScaleY->point, this->ScaleZ->point);
+	this->MatrixModel = XMMatrixTranspose(mtxTransform * mtxRotate * mtxScale);
 	XMStoreFloat4x4(&this->m_constantBufferData.model, this->MatrixModel);
 
 	auto context = this->m_deviceResources->GetD3DDeviceContext();

@@ -55,6 +55,8 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 		&m_constantBufferData.projection,
 		XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
 		);
+	//Kuplung_DX::App::LogError(L"SAMPLE: ");
+	//Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(m_constantBufferData.projection);
 
 	// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
 	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
@@ -116,6 +118,21 @@ void Sample3DSceneRenderer::Render(bool useKuplungMatrix, const DirectX::XMFLOAT
 		this->m_constantBufferData.projection = matrixProjection;
 		this->m_constantBufferData.view = matrixCamera;
 	}
+
+	//XMMATRIX x = XMLoadFloat4x4(&this->m_constantBufferData.projection) * XMLoadFloat4x4(&this->m_constantBufferData.view) * XMLoadFloat4x4(&this->m_constantBufferData.model);
+	//Kuplung_DX::App::LogError(L"-------------------------------------------------------");
+	//if (useKuplungMatrix)
+	//	Kuplung_DX::App::LogError(L"KUPLUNG");
+	//else
+	//	Kuplung_DX::App::LogError(L"SAMPLE");
+	//Kuplung_DX::App::LogError(L"Projection: ");
+	//Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(m_constantBufferData.projection);
+	//Kuplung_DX::App::LogError(L"View: ");
+	//Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(m_constantBufferData.view);
+	//Kuplung_DX::App::LogError(L"Model: ");
+	//Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrix4x4(m_constantBufferData.model);
+	//Kuplung_DX::App::LogError(L"MVP: ");
+	//Kuplung_DX::Utilities::MathUtils::PrettyPrintMatrixXM(x);
 
 	auto context = m_deviceResources->GetD3DDeviceContext();
 

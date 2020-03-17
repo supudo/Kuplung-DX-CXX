@@ -77,23 +77,23 @@ DirectXPage::DirectXPage() : m_windowVisible(true), m_coreInput(nullptr) {
 	this->m_main->StartRenderLoop();
 
 	this->availableModels = ref new Platform::Collections::Vector<Kuplung_DX::Models::Shape^>();
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Triangle", "triangle.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cone", "cone.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cube", "cube.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cylinder", "cylinder.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Grid", "grid.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Ico Sphere", "ico_sphere.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane", "plane.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Torus", "torus.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Tube", "tube.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "UV Sphere", "uv_sphere.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Monkey Head", "monkey_head.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Epcot", "epcot.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Brick Wall", "brick_wall.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects", "plane_objects.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects - Large Plane", "plane_objects_large.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball", "MaterialBall.objk" });
-	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball - Blender", "MaterialBallBlender.objk" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Triangle", "triangle.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cone", "cone.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cube", "cube.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Cylinder", "cylinder.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Grid", "grid.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Ico Sphere", "ico_sphere.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane", "plane.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Torus", "torus.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Tube", "tube.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "UV Sphere", "uv_sphere.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Monkey Head", "monkey_head.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Epcot", "epcot.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Brick Wall", "brick_wall.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects", "plane_objects.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Plane Objects - Large Plane", "plane_objects_large.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball", "MaterialBall.obj" });
+	this->availableModels->Append(ref new Kuplung_DX::Models::Shape{ "Material Ball - Blender", "MaterialBallBlender.obj" });
 	this->lvModels->ItemsSource = this->availableModels;
 
 	this->guiObjects = ref new Platform::Collections::Vector<Kuplung_DX::Models::GuiObject^>();
@@ -312,6 +312,11 @@ void DirectXPage::OnPointerWheelChanged(Object^ sender, PointerEventArgs^ e) {
 			Kuplung_DX::App::Setting_FOV = 180;
 		if (Kuplung_DX::App::Setting_FOV < -180)
 			Kuplung_DX::App::Setting_FOV = -180;
+		//this->slSetting_FOV->RemoveHandler(Windows::UI::Xaml::RoutedEvent, &Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged);
+		//this->slSetting_FOV->ValueChanged = nullptr;
+		//this->slSetting_FOV->ValueChanged -= this->eventTokenSetting_FOV;
+		//this->slSetting_FOV->Value = Kuplung_DX::App::Setting_FOV;
+		//this->eventTokenSetting_FOV = this->slSetting_FOV->ValueChanged += ref new Windows::UI::Xaml::Controls::Primitives::RangeBaseValueChangedEventHandler(this, &Kuplung_DX::DirectXPage::slSetting_FOV_ValueChanged);
 	}
 	else
 		this->m_main->ManagerObjects->CompCamera->PositionY->point += d;
@@ -341,6 +346,10 @@ void Kuplung_DX::DirectXPage::MenuSceneControls_Click(Platform::Object^ sender, 
 
 void Kuplung_DX::DirectXPage::MenuCube_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
 	Kuplung_DX::App::ViewSampleScene = !Kuplung_DX::App::ViewSampleScene;
+}
+
+void Kuplung_DX::DirectXPage::MenuLines_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
+	Kuplung_DX::App::ViewSampleLines = !Kuplung_DX::App::ViewSampleLines;
 }
 
 void Kuplung_DX::DirectXPage::MenuFPSCounter_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
@@ -467,7 +476,7 @@ void Kuplung_DX::DirectXPage::DoProgress(float progress) {
 
 #pragma region GUI Controls events
 void Kuplung_DX::DirectXPage::ButtonResetValuesGuiControls_Click(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e) {
-	Kuplung_DX::App::Setting_FOV = 45.0f;
+	Kuplung_DX::App::Setting_FOV = 70.0f;
 	Kuplung_DX::App::Setting_RatioWidth = 4.0f;
 	Kuplung_DX::App::Setting_RatioHeight = 3.0f;
 	Kuplung_DX::App::Setting_PlaneClose = 0.1f;

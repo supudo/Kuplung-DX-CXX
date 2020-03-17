@@ -17,9 +17,10 @@ Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& devic
 
 	// Samples
 	this->m_sampleSceneRenderer = std::unique_ptr<Sample::Sample3DSceneRenderer>(new Sample::Sample3DSceneRenderer(this->m_deviceResources));
+	this->m_sampleLines = std::unique_ptr<Sample::SampleLines>(new Sample::SampleLines(this->m_deviceResources));
 	this->m_fpsTextRenderer = std::unique_ptr<Sample::SampleFpsTextRenderer>(new Sample::SampleFpsTextRenderer(this->m_deviceResources));
 
-	// Rendering
+	// App
 	this->m_renderingManager = std::unique_ptr<Rendering::RenderingManager>(new Rendering::RenderingManager(this->m_deviceResources));
 	this->ManagerObjects = std::unique_ptr<Rendering::ObjectsManager>(new Rendering::ObjectsManager(this->m_deviceResources));
 
@@ -40,11 +41,14 @@ Kuplung_DXMain::~Kuplung_DXMain() {
 // Updates application state when the window size changes (e.g. device orientation change)
 void Kuplung_DXMain::CreateWindowSizeDependentResources()  {
 	this->m_sampleSceneRenderer->CreateWindowSizeDependentResources();
+	this->m_sampleLines->CreateWindowSizeDependentResources();
 }
 
 void Kuplung_DXMain::StartTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		this->m_sampleSceneRenderer->StartTracking();
+	if (Kuplung_DX::App::ViewSampleLines)
+		this->m_sampleLines->StartTracking();
 
 	this->m_renderingManager->StartTracking(this->models3D);
 }
@@ -52,6 +56,8 @@ void Kuplung_DXMain::StartTracking() {
 void Kuplung_DXMain::StopTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		this->m_sampleSceneRenderer->StopTracking();
+	if (Kuplung_DX::App::ViewSampleLines)
+		this->m_sampleLines->StopTracking();
 
 	this->m_renderingManager->StopTracking(this->models3D);
 }
@@ -59,6 +65,8 @@ void Kuplung_DXMain::StopTracking() {
 bool Kuplung_DXMain::IsTracking() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		return this->m_sampleSceneRenderer->IsTracking();
+	if (Kuplung_DX::App::ViewSampleLines)
+		return this->m_sampleLines->IsTracking();
 
 	return this->m_renderingManager->IsTracking(this->models3D);
 }
@@ -95,6 +103,8 @@ void Kuplung_DXMain::Update()  {
 	this->m_timer.Tick([&]() {
 		if (Kuplung_DX::App::ViewSampleScene)
 			this->m_sampleSceneRenderer->Update(this->m_timer);
+		if (Kuplung_DX::App::ViewSampleLines)
+			this->m_sampleLines->Update(this->m_timer);
 		if (Kuplung_DX::App::ViewFPSCounter)
 			this->m_fpsTextRenderer->Update(this->m_timer);
 
@@ -106,6 +116,8 @@ void Kuplung_DXMain::Update()  {
 void Kuplung_DXMain::ProcessInput() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		this->m_sampleSceneRenderer->TrackingUpdate(this->m_pointerLocationX);
+	if (Kuplung_DX::App::ViewSampleLines)
+		this->m_sampleLines->TrackingUpdate(this->m_pointerLocationX);
 
 	this->m_renderingManager->TrackingUpdate(this->models3D, this->m_pointerLocationX);
 }
@@ -132,13 +144,16 @@ bool Kuplung_DXMain::Render()  {
 	context->ClearRenderTargetView(this->m_deviceResources->GetBackBufferRenderTargetView(), bgc);
 	context->ClearDepthStencilView(this->m_deviceResources->GetDepthStencilView(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
+	this->ManagerObjects->Render();
+
 	// Render the scene objects.
 	if (Kuplung_DX::App::ViewSampleScene)
-		this->m_sampleSceneRenderer->Render(true, this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera);
+		this->m_sampleSceneRenderer->Render(false, this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera);
+	if (Kuplung_DX::App::ViewSampleLines)
+		this->m_sampleLines->Render(false, this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera);
 	if (Kuplung_DX::App::ViewFPSCounter)
 		this->m_fpsTextRenderer->Render();
 
-	this->ManagerObjects->Render();
 	this->m_renderingManager->Render(this->ManagerObjects->MatrixProjection, this->ManagerObjects->CompCamera->MatrixCamera, this->models3D);
 
 	return true;
@@ -147,12 +162,14 @@ bool Kuplung_DXMain::Render()  {
 // Notifies renderers that device resources need to be released.
 void Kuplung_DXMain::OnDeviceLost() {
 	this->m_sampleSceneRenderer->ReleaseDeviceDependentResources();
+	this->m_sampleLines->ReleaseDeviceDependentResources();
 	this->m_fpsTextRenderer->ReleaseDeviceDependentResources();
 }
 
 // Notifies renderers that device resources may now be recreated.
 void Kuplung_DXMain::OnDeviceRestored() {
 	this->m_sampleSceneRenderer->CreateDeviceDependentResources();
+	this->m_sampleLines->CreateDeviceDependentResources();
 	this->m_fpsTextRenderer->CreateDeviceDependentResources();
 	this->CreateWindowSizeDependentResources();
 }

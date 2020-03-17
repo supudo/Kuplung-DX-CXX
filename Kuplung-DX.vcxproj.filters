@@ -105,6 +105,9 @@
     <ClCompile Include="Utilities\MathUtils.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Sample\SampleLines.cpp">
+      <Filter>Sample</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Kuplung_DXMain.h" />
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="Utilities\MathUtils.h">
       <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample\SampleLines.h">
+      <Filter>Sample</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

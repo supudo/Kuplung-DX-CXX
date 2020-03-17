@@ -11,7 +11,7 @@ using namespace Windows::UI::Xaml;
 using namespace Concurrency;
 
 // Loads and initializes application assets when the application is loaded.
-Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources), m_pointerLocationX(0.0f) {
+Kuplung_DXMain::Kuplung_DXMain(const std::shared_ptr<DX::DeviceResources>& deviceResources) : m_deviceResources(deviceResources), m_pointerLocationX(0.0f), m_pointerLocationY(0.0f) {
 	// Register to be notified if the Device is lost or recreated
 	this->m_deviceResources->RegisterDeviceNotify(this);
 
@@ -117,7 +117,7 @@ void Kuplung_DXMain::ProcessInput() {
 	if (Kuplung_DX::App::ViewSampleScene)
 		this->m_sampleSceneRenderer->TrackingUpdate(this->m_pointerLocationX);
 	if (Kuplung_DX::App::ViewSampleLines)
-		this->m_sampleLines->TrackingUpdate(this->m_pointerLocationX);
+		this->m_sampleLines->TrackingUpdate(this->m_pointerLocationX, this->m_pointerLocationY);
 
 	this->m_renderingManager->TrackingUpdate(this->models3D, this->m_pointerLocationX);
 }

@@ -21,7 +21,7 @@ namespace Kuplung_DX
 		~Kuplung_DXMain();
 		void CreateWindowSizeDependentResources();
 		void StartTracking();
-		void TrackingUpdate(float positionX) { m_pointerLocationX = positionX; }
+		void TrackingUpdate(float positionX, float positionY) { m_pointerLocationX = positionX; m_pointerLocationY = positionY; }
 		void StopTracking();
 		bool IsTracking();
 		void StartRenderLoop();
@@ -59,6 +59,7 @@ namespace Kuplung_DX
 
 		// Track current input pointer position.
 		float m_pointerLocationX;
+		float m_pointerLocationY;
 
 		std::vector<Models::MeshModel> meshModels;
 		std::vector<std::unique_ptr<Rendering::Models::Model3D>> models3D;

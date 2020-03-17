@@ -15,12 +15,12 @@ namespace Kuplung_DX {
 			void Update(DX::StepTimer const& timer);
 			void Render(bool useKuplungMatrix, const DirectX::XMFLOAT4X4 matrixProjection, const DirectX::XMFLOAT4X4 matrixCamera);
 			void StartTracking();
-			void TrackingUpdate(float positionX);
+			void TrackingUpdate(float positionX, float positionY);
 			void StopTracking();
 			bool IsTracking() { return m_tracking; }
 
 		private:
-			void Rotate(float radians);
+			void Rotate(float radiansX, float radiansY);
 
 		private:
 			std::shared_ptr<DX::DeviceResources> m_deviceResources;

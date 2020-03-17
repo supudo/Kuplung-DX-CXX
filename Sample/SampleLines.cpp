@@ -40,22 +40,26 @@ void SampleLines::Update(Kuplung_DX::DX::StepTimer const& timer) {
 		float radiansPerSecond = XMConvertToRadians(this->m_degreesPerSecond);
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
-		this->Rotate(radians);
+		this->Rotate(radians, 0);
 	}
 }
 
-void SampleLines::Rotate(float radians) {
-	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radians)));
+void SampleLines::Rotate(float radiansX, float radiansY) {
+	XMMATRIX mx = XMMatrixRotationY(radiansX);
+	XMMATRIX my = XMMatrixRotationX(radiansY);
+	XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(mx * my));
+	//XMStoreFloat4x4(&this->m_constantBufferData.model, XMMatrixTranspose(XMMatrixRotationY(radiansX)));
 }
 
 void SampleLines::StartTracking() {
 	this->m_tracking = true;
 }
 
-void SampleLines::TrackingUpdate(float positionX) {
+void SampleLines::TrackingUpdate(float positionX, float positionY) {
 	if (this->m_tracking) {
-		float radians = XM_2PI * 2.0f * positionX / this->m_deviceResources->GetOutputSize().Width;
-		this->Rotate(radians);
+		float radiansX = XM_2PI * 2.0f * positionX / this->m_deviceResources->GetOutputSize().Width;
+		float radiansY = XM_2PI * 2.0f * positionY / this->m_deviceResources->GetOutputSize().Height;
+		this->Rotate(radiansX, radiansY);
 	}
 }
 

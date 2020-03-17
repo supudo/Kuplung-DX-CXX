@@ -237,7 +237,7 @@ void DirectXPage::OnPointerPressed(Object^ sender, PointerEventArgs^ e) {
 
 void DirectXPage::OnPointerMoved(Object^ sender, PointerEventArgs^ e) {
 	if (this->m_main->IsTracking())
-		this->m_main->TrackingUpdate(e->CurrentPoint->Position.X);
+		this->m_main->TrackingUpdate(e->CurrentPoint->Position.X, e->CurrentPoint->Position.Y);
 
 	if (this->MousePressed_Middle) {
 		if (e->CurrentPoint->Position.X > 0)
